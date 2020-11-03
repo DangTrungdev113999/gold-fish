@@ -63,14 +63,14 @@ const Card = ({item}) => {
       </FlipCard>
 
       <Block row h="20%">
-        <TouchableOpacity flex={1} center middle bg="#FFAB00">
+        <TouchableOpacity flex={1} center middle bg="#797a7e">
           <Icon type="antDesign" name="edit" size={20} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity
           flex={1}
           center
           middle
-          bg="#36B37E"
+          bg="#133b5c"
           onPress={handleFavorite}>
           <Icon
             type="maturialIcons"

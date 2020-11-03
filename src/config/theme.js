@@ -2,10 +2,10 @@ import {Platform} from 'react-native';
 
 export default {
   color: {
-    primary: '#36B37E',
+    primary: '#212C3D',
     primaryLight: 'rgba(54, 179, 126, 0.2)',
     secondary: '#15408A',
-    bg: '#f1f6f9',
+    bg: '#0F1724',
 
     standard: '#0080FE',
     success: '#36B37E',

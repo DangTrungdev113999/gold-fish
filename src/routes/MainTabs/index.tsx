@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 function getTabBarVisible(route: any) {
   const routeName = route.state
     ? route.state.routes[route.state.index].name
-    : route.params?.screen || 'home_screen';
+    : route.params?.screen || 'shoes_screen';
 
   if (routeName === 'shoes_screen' || routeName === 'slippers_screen') {
     return true;

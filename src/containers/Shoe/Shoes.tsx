@@ -53,7 +53,7 @@ const DATA = [
 
 const Shoes = () => {
   return (
-    <Block flex={1} center middle m="10px 0 0" bg="bg">
+    <Block flex={1} center middle p="10px 0 0" bg="bg">
       <FlatList
         data={DATA}
         renderItem={({item}) => <Card item={item} />}

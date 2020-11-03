@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
-import {Dimensions, ScrollView, Platform} from 'react-native';
+import {Dimensions, ScrollView, Platform, StyleSheet} from 'react-native';
 import styled from 'styled-components';
 import Modal from 'react-native-modal';
+import {RNCamera} from 'react-native-camera';
 import {PERMISSIONS, RESULTS} from 'react-native-permissions';
 import {
   Block,
@@ -27,8 +28,16 @@ const windowHeight = Dimensions.get('window').height;
 
 const ImagePicker = styled(Touchable)`
   height: ${windowHeight / 3}px;
-  background-color: #f8f1f1;
+  background-color: #1d2636;
 `;
+
+const styles = StyleSheet.create({
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+});
 
 const AddShoe = () => {
   const [visible, setVisible] = useState(false);
@@ -48,8 +57,10 @@ const AddShoe = () => {
     <Block flex={1} bg="bg">
       <ScrollView>
         <ImagePicker center middle onPress={onOpen}>
-          <Icon name="image" type="fontAwesome5" size={50} />
-          <Text s2>Chọn ảnh</Text>
+          <Icon name="image" type="fontAwesome5" size={50} color="#11ECE5" />
+          <Text s2 color="#11ECE5">
+            Chọn ảnh
+          </Text>
         </ImagePicker>
         <Block p="20px">
           <Input label="Mã giầy" required placeholder="Nhập mã giầy" />
@@ -64,15 +75,22 @@ const AddShoe = () => {
       </ScrollView>
 
       <Button bg="primary" m="20px" p="10px 0" center middle>
-        <Text color="#fff">Thêm sản phẩm</Text>
+        <Text color="#11ECE5">Thêm sản phẩm</Text>
       </Button>
 
       <Modal
         isVisible={visible}
         onBackButtonPress={() => setVisible(false)}
         style={{margin: 0}}>
-        <Text>camera</Text>
-        {/* <Camera {...cameraProps} /> */}
+        <RNCamera
+          style={styles.preview}
+          googleVisionBarcodeType={
+            RNCamera.Constants.GoogleVisionBarcodeDetection.BarcodeType.QR_CODE
+          }
+          barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
+          captureAudio={false}>
+          <Block></Block>
+        </RNCamera>
       </Modal>
     </Block>
   );
