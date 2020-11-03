@@ -10,7 +10,6 @@ import Icon from '../Icon';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
 const Image = styled.Image`
   width: 100%;
   height: 100%;
@@ -26,7 +25,8 @@ const Wrapper = styled(Block)`
   margin: 10px;
 `;
 
-const Card = () => {
+const Card = ({item}) => {
+  console.log(item);
   const [favorite, setFavorite] = useState(false);
 
   const handleFavorite = () => setFavorite(!favorite);
@@ -43,23 +43,19 @@ const Card = () => {
         {/* Face Side */}
 
         <Block>
-          <Image
-            rezideMode="cover"
-            source={require('../../../assets/images/shoses.webp')}
-          />
+          <Image rezideMode="cover" source={{uri: item.img}} />
         </Block>
 
         {/* Back Side */}
 
         <Block block>
           <ImageBackground
-            rezideMode="cover"
-            source={require('../../../assets/images/shoses.webp')}
+            source={{uri: item.img}}
             resizeMode="cover"
-            blurRadius={15}>
+            blurRadius={20}>
             <Block flex={1} row center middle>
-              <Text h2 color="#fff" bold>
-                01000
+              <Text h3 color="#FFAB00" bold>
+                {item.id}
               </Text>
             </Block>
           </ImageBackground>
@@ -67,14 +63,14 @@ const Card = () => {
       </FlipCard>
 
       <Block row h="20%">
-        <TouchableOpacity flex={1} center middle bg="#ffe05d">
+        <TouchableOpacity flex={1} center middle bg="#FFAB00">
           <Icon type="antDesign" name="edit" size={20} color="#fff" />
         </TouchableOpacity>
         <TouchableOpacity
           flex={1}
           center
           middle
-          bg="#f4abc4"
+          bg="#36B37E"
           onPress={handleFavorite}>
           <Icon
             type="maturialIcons"

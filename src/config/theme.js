@@ -5,6 +5,7 @@ export default {
     primary: '#36B37E',
     primaryLight: 'rgba(54, 179, 126, 0.2)',
     secondary: '#15408A',
+    bg: '#f1f6f9',
 
     standard: '#0080FE',
     success: '#36B37E',

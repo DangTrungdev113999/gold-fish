@@ -1,97 +1,179 @@
-import React, {useState, forwardRef, useEffect} from 'react';
+import React, {useState} from 'react';
+import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components';
-import {StyleSheet} from 'react-native';
-
-import {Block, Text} from '~/components';
-import theme from '~/config/theme';
-import Button from './Button';
+import Text from './Text';
+import Loading from './Loading';
 import Icon from './Icon';
 
-const WrapperInput = styled.View`
+import theme from '~/config/theme';
+
+const Wrapper = styled.View`
+  ${({m}) => m && `margin: ${m};`}
+`;
+
+const WrapperInput = styled.View.attrs(({focus}) =>
+  focus
+    ? {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 1,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
+        elevation: 2,
+      }
+    : {},
+)`
   flex-direction: row;
   align-items: center;
-  border-width: ${StyleSheet.hairlineWidth}px;
-  /* border-color: ${({error}) =>
-    error ? theme.color.accent : theme.color.black};
-  border-radius: ${theme.typo.font}px;
-  height: ${theme.typo.base * 3}px; */
+  border: 1px solid #d9d9d9;
+  border-radius: 3px;
+  background-color: white;
+  height: 40px;
+  ${({danger}) => danger && `border-color: ${theme.color.danger};`}
+  ${({success}) => success && `border-color: ${theme.color.success};`}
+  ${({disabled}) => disabled && `background-color: ${theme.color.neutral2};`}
+  ${({m}) => m && `margin: ${m};`}
 `;
 
-const TextInput = styled.TextInput`
+const StyledTextInput = styled.TextInput.attrs({
+  placeholderTextColor: theme.color.neutral6,
+  underlineColorAndroid: 'transparent',
+  fontFamily: theme.font.primary,
+  fontSize: 15,
+})`
   flex: 1;
-  font-weight: 500;
-  /* color: ${theme.color.black}; */
+  height: 40px;
+  padding: 0 12px;
+  font-family: ${theme.font.primary};
+  color: ${theme.color.textSecondary};
+  ${({m}) => m && `margin: ${m};`}
 `;
 
-const Input = (
-  {
-    error,
-    isSecure,
-    label,
-    onFocus,
-    onBlur,
-    iconLeft,
-    iconRight,
-    style,
-    ...rest
-  },
-  ref,
-) => {
-  const [showPass, setShowPass] = useState(true);
-  const [focus, setFocus] = useState(false);
-
-  useEffect(() => {}, []);
-
-  const inputProps = {
+const TextInput = React.forwardRef(
+  (
+    {
+      m,
+      label,
+      required,
+      description,
+      disabled,
+      loading,
+      iconLeftName,
+      iconLeftType,
+      iconRight,
+      iconRightOnPress,
+      type,
+      danger,
+      success,
+      onFocus,
+      onBlur,
+      style,
+      ...rest
+    },
     ref,
-    secureTextEntry: showPass && isSecure,
-    onFocus: () => {
-      setFocus(true);
-      onFocus && onFocus();
-    },
-    onBlur: () => {
-      setFocus(false);
-      onBlur && onBlur();
-    },
-    focus,
-    ...rest,
-  };
+  ) => {
+    const [showPassword, setShowPassword] = useState(false);
+    const [focus, setFocus] = useState(false);
 
-  return (
-    <Block m={`${theme.typo.base}px 0`}>
-      {label ? (
-        <Text color={error ? theme.color.accent : theme.color.gray2}>
-          {label}
-        </Text>
-      ) : null}
-      <WrapperInput row style={style} center middle error={error}>
-        {iconLeft ? (
-          <Icon
-            name={iconLeft.name}
-            type={iconLeft.type}
-            size={iconLeft.size}
-            m="0 10px 0 5px"
-          />
-        ) : null}
-        <TextInput {...inputProps} />
-        {isSecure && (
-          <Button onPress={() => setShowPass(!showPass)}>
-            <Icon
-              type="antDesign"
-              name={showPass ? 'eye' : 'eyeo'}
-              size={25}
-              m="0 10px 0 0"
-            />
-          </Button>
-        )}
+    const wrapperInputProps = {
+      disabled,
+      danger,
+      success,
+      focus,
+      style,
+    };
+
+    const inputProps = {
+      ref,
+      editable: !disabled,
+      secureTextEntry: type === 'password' && !showPassword,
+      onFocus: () => {
+        setFocus(true);
+        onFocus && onFocus();
+      },
+      onBlur: () => {
+        setFocus(false);
+        onBlur && onBlur();
+      },
+      ...rest,
+    };
+
+    const footnoteProps = {
+      m: '2px 0 0',
+      footnote: true,
+    };
+
+    if (danger) {
+      iconRight = 'info-danger';
+      footnoteProps.color = theme.color.danger;
+    }
+
+    if (success) {
+      iconRight = 'check-success';
+      footnoteProps.color = theme.color.success;
+    }
+
+    if (
+      label ||
+      iconLeftName ||
+      iconRight ||
+      type === 'password' ||
+      description ||
+      loading
+    ) {
+      if (type === 'password') {
+        if (showPassword) {
+          iconRight = 'eye';
+        } else {
+          iconRight = 'eye-fill';
+        }
+      }
+
+      return (
+        <Wrapper m={m} focus={focus}>
+          {label ? (
+            <Text s2 m="0 0 5px">
+              {label}
+              {required ? (
+                <Text s2 color="danger">
+                  *
+                </Text>
+              ) : null}
+            </Text>
+          ) : null}
+
+          <WrapperInput {...wrapperInputProps}>
+            {iconLeftName ? (
+              <Icon
+                name={iconLeftName}
+                type={iconLeftType}
+                size={18}
+                m="0 0 0 10px"
+              />
+            ) : null}
+
+            <StyledTextInput {...inputProps} />
+
+            {iconRight && type !== 'password' && !iconRightOnPress ? (
+              <Icon name={iconRight} size={18} m="0 10px 0 0" />
+            ) : null}
+
+            {loading ? <Loading color="primary" m="0 10px 0 0" /> : null}
+          </WrapperInput>
+
+          {description ? <Text {...footnoteProps}>{description}</Text> : null}
+        </Wrapper>
+      );
+    }
+
+    return (
+      <WrapperInput m={m} {...wrapperInputProps}>
+        <StyledTextInput {...inputProps} />
       </WrapperInput>
-      {error ? (
-        <Text color="accent" size={12} left m="5px 0 0">
-          {error}
-        </Text>
-      ) : null}
-    </Block>
-  );
-};
+    );
+  },
+);
 
-export default forwardRef(Input);
+export default TextInput;

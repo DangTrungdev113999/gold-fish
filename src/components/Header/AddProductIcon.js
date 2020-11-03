@@ -1,11 +1,13 @@
 import React from 'react';
-import Block from '../Block';
 import TouchableOpacity from '../Touchable';
 import Icon from '../Icon';
 
-const AddProductIcon = () => {
+const AddProductIcon = ({navigation}) => {
+  const goToAddShoe = () => {
+    navigation.navigate('add_shoe_screen');
+  };
   return (
-    <TouchableOpacity m="0 20px 0 0">
+    <TouchableOpacity m="0 20px 0 0" onPress={goToAddShoe}>
       <Icon type="ionicons" name="add-circle-outline" size={30} color="#fff" />
     </TouchableOpacity>
   );
