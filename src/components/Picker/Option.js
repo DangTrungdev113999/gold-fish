@@ -35,7 +35,7 @@ class Option extends PureComponent {
           <Icon
             name="check"
             type="antDesign"
-            color={theme.color.primary}
+            color={theme.color.success}
             style={{position: 'absolute', right: 10}}
           />
         ) : null}

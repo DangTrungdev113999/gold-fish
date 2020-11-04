@@ -41,7 +41,9 @@ const TouchableOpacity = styled.TouchableOpacity`
     box-shadow: 3px 3px 10px ${theme.color.gray};
     elevation: 1;
   `}
-  ${({disabled, theme}) => disabled && `background-color: ${theme.color.gray};`}
+  ${({disabled, theme}) =>
+    disabled &&
+    `background-color: ${theme.color.primary};`} /* disabled && 'background-color: #070D17;'} */
 `;
 
 const Button = ({

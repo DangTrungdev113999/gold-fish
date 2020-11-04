@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components';
 import Text from './Text';
 import Loading from './Loading';
@@ -14,7 +13,7 @@ const Wrapper = styled.View`
 const WrapperInput = styled.View.attrs(({focus}) =>
   focus
     ? {
-        shadowColor: '#000',
+        shadowColor: theme.color.secondary,
         shadowOffset: {
           width: 0,
           height: 1,
@@ -46,6 +45,7 @@ const StyledTextInput = styled.TextInput.attrs({
   flex: 1;
   height: 40px;
   padding: 0 12px;
+  background-color: #f6f5f5;
   font-family: ${theme.font.primary};
   color: ${theme.color.textSecondary};
   ${({m}) => m && `margin: ${m};`}

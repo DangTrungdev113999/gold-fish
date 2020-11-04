@@ -24,16 +24,15 @@ export default function () {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: theme.color.primary,
-        inactiveTintColor: theme.color.neutral6,
+        activeTintColor: theme.color.secondary,
+        inactiveTintColor: theme.color.light,
         style: {
           borderTopWidth: 0.5,
-          borderTopColor: theme.color.neutral4,
-          height: 50,
-          paddingTop: 3,
+          borderTopColor: theme.color.secondary,
+          height: 60,
         },
         tabStyle: {
-          backgroundColor: theme.color.light,
+          backgroundColor: theme.color.primary,
           paddingVertical: 4,
         },
         labelStyle: {
@@ -50,7 +49,7 @@ export default function () {
             <Icon
               name="shoe-formal"
               type="materialCommunityIcons"
-              color={focused ? theme.color.primary : '#000'}
+              color={focused ? theme.color.secondary : '#fff'}
               size={22}
             />
           ),
@@ -66,7 +65,7 @@ export default function () {
             <Icon
               name="beach-slipper"
               type="fontisto"
-              color={focused ? theme.color.primary : '#000'}
+              color={focused ? theme.color.secondary : '#fff'}
               size={22}
             />
           ),

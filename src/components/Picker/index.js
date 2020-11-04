@@ -23,7 +23,7 @@ const Input = styled.TouchableOpacity`
   justify-content: center;
   background-color: white;
   border-radius: 3px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #f6f5f5;
   ${({disabled}) => disabled && `background-color: ${theme.color.neutral2};`}
 `;
 

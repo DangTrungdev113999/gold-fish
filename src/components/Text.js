@@ -89,7 +89,7 @@ const Text = styled.Text`
         font-size: 14px;
         line-height: 18px;
         font-weight: 600;
-        color: ${theme.color.textSecondary};
+        color: ${theme.color.secondary};
         font-family: ${theme.font.primarySemiBold};
       `;
     } else if (s3) {

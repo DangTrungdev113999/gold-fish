@@ -1,11 +1,11 @@
 import React from 'react';
-import {Text, View} from 'react-native';
+import {Block, Text} from '~/components';
 
 const Slippers = () => {
   return (
-    <View>
+    <Block bg="bg" flex={1}>
       <Text>Slippersa</Text>
-    </View>
+    </Block>
   );
 };
 
