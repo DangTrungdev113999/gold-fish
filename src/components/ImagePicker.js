@@ -1,34 +1,23 @@
-import React, {useState, useRef} from 'react';
-import {Dimensions, ScrollView, Platform, StyleSheet} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Dimensions, Platform, StyleSheet} from 'react-native';
 import styled from 'styled-components';
 import Modal from 'react-native-modal';
 import {RNCamera} from 'react-native-camera';
 import {PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {
-  Block,
-  Text,
-  Touchable,
-  Input,
-  Picker,
-  Icon,
-  Button,
-} from '~/components';
-
-import {useSetObjectState} from '~/hoocks';
-
-import theme from '~/config/theme';
+import {Block, Text, Touchable, Icon, ImagePreview} from '~/components';
 
 import {checkAndRequestPermission} from '~/utils';
 
-const GATEGORIES = [
-  {name: 'Hunter', value: 'Hunter'},
-  {name: 'Giầy thể thao', value: 'Giầy thể thao'},
-  {name: 'Giầy chạy bộ', value: 'Giầy chạy bộ'},
-  {name: 'Giầy đá banh', value: 'Giầy đá banh'},
-  {name: 'Giầy tây', value: 'Giầy tây'},
-];
+import theme from '~/config/theme';
+
+import {uploadShoeImage} from '~/modules/shoes/api';
 
 const windowHeight = Dimensions.get('window').height;
+
+const ImagePickerWrapper = styled(Touchable)`
+  height: ${windowHeight / 3}px;
+  background-color: #1d2636;
+`;
 
 const Image = styled.Image.attrs({
   resizeMode: 'contain',
@@ -36,11 +25,6 @@ const Image = styled.Image.attrs({
   flex: 1;
   height: ${windowHeight / 3}px;
   background-color: rgba(0, 0, 0, 0.8);
-`;
-
-const ImagePicker = styled(Touchable)`
-  height: ${windowHeight / 3}px;
-  background-color: #1d2636;
 `;
 
 const CaptureButtonContent = styled.View`
@@ -59,16 +43,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const AddShoe = () => {
+const ImagePicker = ({imageUri, setData}) => {
   const [visible, setVisible] = useState(false);
   const [flash, setFlash] = useState('auto');
+  const [percent, setPercent] = useState(0);
   const [horizontal] = useState(false);
-  const [data, setData] = useSetObjectState({
-    shoeId: '',
-    uri: '',
-    type: '',
-  });
-  const {uri, shoeId, type} = data;
 
   const refCamera = useRef();
 
@@ -97,19 +76,16 @@ const AddShoe = () => {
 
       try {
         const data = await refCamera.current.takePictureAsync(options);
-        setData({uri: data.uri});
+        console.log(data);
+        setData({imageUri: data.uri});
       } catch (e) {
         console.log('onCapture error', e);
       }
     }
   };
 
-  const onUsePoto = () => {
-    setVisible(false);
-  };
-
   const onReCapture = () => {
-    setData({uri: ''});
+    setData({imageUri: ''});
   };
 
   const onOpen = async () => {
@@ -125,71 +101,47 @@ const AddShoe = () => {
 
   const onClose = () => {
     setVisible(false);
-    setData({uri: ''});
+    setData({imageUri: ''});
   };
 
-  const formIsValid = () => {
-    return shoeId && uri;
+  const onUsePoto = async () => {
+    await uploadShoeImage({
+      imageUri,
+      onProgress: (p) => {
+        if (p === 100) {
+          setVisible(false);
+        }
+        setPercent(p);
+      },
+      onSuccess: (iamgeUri) => {
+        setData({imageUri});
+      },
+    });
   };
 
   return (
-    <Block flex={1} bg="bg">
-      <ScrollView>
-        {!uri ? (
-          <ImagePicker center middle onPress={onOpen}>
-            <Icon
-              name="image"
-              type="fontAwesome5"
-              size={50}
-              color={theme.color.secondary}
-            />
-            <Text s2 color={theme.color.secondary}>
-              Chụp ảnh
-            </Text>
-          </ImagePicker>
-        ) : (
-          // <Touchable onPress={onOpen}>
-          <Image source={{uri}} />
-          // </Touchable>
-        )}
-
-        <Block p="20px">
-          <Input
-            label="Mã giầy"
-            required
-            placeholder="Nhập mã giầy"
-            value={shoeId}
-            onChange={(val: string) => setData({shoeId: val})}
+    <Block>
+      {!imageUri ? (
+        <ImagePickerWrapper center middle onPress={onOpen}>
+          <Icon
+            name="image"
+            type="fontAwesome5"
+            size={50}
+            color={theme.color.secondary}
           />
-          <Picker
-            label="Dòng sản phẩm"
-            title="Dòng sản phẩm"
-            options={GATEGORIES}
-            placeholder="Chọn dòng sản phẩm"
-            value={type}
-            onChange={(val: string) => setData({type: val})}
-            m="20px 0 0"
-          />
-        </Block>
-      </ScrollView>
-
-      <Button
-        bg="primary"
-        m="20px"
-        p="10px 0"
-        center
-        middle
-        disabled={!formIsValid()}>
-        <Text color={!formIsValid() ? theme.color.gray : theme.color.secondary}>
-          Thêm sản phẩm
-        </Text>
-      </Button>
+          <Text s2 color={theme.color.secondary}>
+            Chụp ảnh
+          </Text>
+        </ImagePickerWrapper>
+      ) : (
+        <ImagePreview imageUri={imageUri} />
+      )}
 
       <Modal
         isVisible={visible}
         onBackButtonPress={() => setVisible(false)}
         style={{margin: 0}}>
-        {!uri ? (
+        {!imageUri ? (
           <RNCamera
             ref={refCamera}
             style={styles.preview}
@@ -199,26 +151,30 @@ const AddShoe = () => {
             captureAudio={false}
           />
         ) : (
-          <Image source={{uri}} />
+          <Image source={{uri: imageUri}} />
         )}
-
-        <Block row bg="bg" middle justify="space-around" p="8px 20px">
+        <Block block h="1px">
+          <Block w={`${percent}%`} h="100%" bg="secondary" />
+        </Block>
+        <Block row h="70px" p="8px 20px" bg="bg" middle justify="space-around">
           <Touchable
             flex={1}
             alignItems="flex-start"
-            onPress={!uri ? onClose : onReCapture}>
+            onPress={!imageUri ? onClose : onReCapture}>
             <Text h5 color={theme.color.secondary}>
-              {!uri ? 'Trở lại' : 'Chụp lại'}
+              {!imageUri ? 'Trở lại' : 'Chụp lại'}
             </Text>
           </Touchable>
+
           <Touchable center middle flex={1} onPress={onCapture}>
-            {!uri ? <CaptureButtonContent /> : <Block />}
+            {!imageUri ? <CaptureButtonContent /> : <Block />}
           </Touchable>
+
           <Touchable
             flex={1}
             alignItems="flex-end"
-            onPress={!uri ? onFlashChange : onUsePoto}>
-            {!uri ? (
+            onPress={!imageUri ? onFlashChange : onUsePoto}>
+            {!imageUri ? (
               <Icon
                 name={
                   flash === 'off'
@@ -242,4 +198,4 @@ const AddShoe = () => {
   );
 };
 
-export default AddShoe;
+export default ImagePicker;

@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import ShoesScreen from '../../containers/Shoe/Shoes';
-import AddShoeScreen from '../../containers/Shoe/AddShoe';
+import ShoesScreen from '../../containers/Shoes/Shoes';
+import ActionShoe from '../../containers/Shoes/ActionShoe';
 import {Block, Icon, Touchable} from '~/components';
 import AddProductIcon from '~/components/Header/AddProductIcon';
 import {mainOptions} from '../navigationOptions';
@@ -20,8 +20,8 @@ export default () => (
       })}
     />
     <Stack.Screen
-      name="add_shoe_screen"
-      component={AddShoeScreen}
+      name="action_shoe_screen"
+      component={ActionShoe}
       options={({navigation}) => ({
         title: 'Giầy Bitis',
         headerLeft: () => (

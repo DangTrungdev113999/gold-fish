@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {FlatList} from 'react-native';
 
 import {Card, Block} from '~/components';
+
+import {fetchShoes} from '~/modules/shoes/api';
 
 const DATA = [
   {
@@ -52,6 +54,15 @@ const DATA = [
 ];
 
 const Shoes = () => {
+  const fetchData = async () => {
+    const shoesList = await fetchShoes();
+    // console.log(shoesList);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Block flex={1} center middle p="10px 0 0" bg="bg">
       <FlatList

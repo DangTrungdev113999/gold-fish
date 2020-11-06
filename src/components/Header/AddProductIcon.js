@@ -4,7 +4,7 @@ import Icon from '../Icon';
 
 const AddProductIcon = ({navigation}) => {
   const goToAddShoe = () => {
-    navigation.navigate('add_shoe_screen');
+    navigation.navigate('action_shoe_screen');
   };
   return (
     <TouchableOpacity m="0 20px 0 0" onPress={goToAddShoe}>

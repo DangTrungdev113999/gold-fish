@@ -9,6 +9,8 @@ import Card from './Card';
 import Touchable from './Touchable';
 import Input from './Input';
 import Picker from './Picker';
+import ImagePicker from './ImagePicker';
+import ImagePreview from './ImagePreview';
 
 export {
   Block,
@@ -22,4 +24,6 @@ export {
   Touchable,
   Input,
   Picker,
+  ImagePicker,
+  ImagePreview,
 };

@@ -8,14 +8,14 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1082617384658:android:046ce971bdd89a7f30a70b",
+        "mobilesdk_app_id": "1:1082617384658:android:19aae843d78d94bf30a70b",
         "android_client_info": {
           "package_name": "com.goldfish"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1082617384658-a3klfr8tgruelkt4gron40psmkvis5e1.apps.googleusercontent.com",
+          "client_id": "1082617384658-dev3101jod2khcdaku17b7i6ni1h3g7d.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.goldfish",
