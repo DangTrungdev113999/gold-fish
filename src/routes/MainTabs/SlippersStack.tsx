@@ -1,8 +1,8 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import SlippersScreen from '~/containers/Slippers/Slippers';
 
-import {mainOptions} from '../navigationOptions';
+import { mainOptions } from '../navigationOptions';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +12,7 @@ export default () => (
       name="slippers_screen"
       component={SlippersScreen}
       options={() => ({
-        title: 'dép',
+        title: 'Dép',
       })}
     />
   </Stack.Navigator>
