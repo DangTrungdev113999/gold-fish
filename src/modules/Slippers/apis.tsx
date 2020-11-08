@@ -2,13 +2,7 @@ import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
-type shoeType = {
-  shoeId: string;
-  uri: string;
-  type?: string;
-  createdAt?: any;
-  updatedAt?: any;
-};
+import {shoeType} from '~/@types';
 
 export const fetchShoes = async () => {
   try {
@@ -55,16 +49,25 @@ export const updateShoes = async (shoe: shoeType) => {
   }
 };
 
+function getRefToStorage(URL: string) {
+  const baseURL =
+    'https://firebasestorage.googleapis.com/v0/b/newProject-ca4cf.appspot.com/o/';
+  let imagePath = URL.replace(baseURL, '');
+  const indexOfEndPath = imagePath.indexOf('?');
+  imagePath = imagePath.substring(0, indexOfEndPath);
+  imagePath = imagePath.replace('%2F', '/');
+  return imagePath;
+}
+
 export const deleteShoes = async (shoe: shoeType) => {
   try {
-    const desertRef = storage().ref(`Shoes/${shoe.uri}`);
+    // const imageRef = storage().refFromURL(shoe.imageUri);
+    // await imageRef.delete();
 
-    // Delete the file
-    await desertRef.delete();
     await firestore().collection('Shoes').doc(shoe.shoeId).delete();
     return shoe;
   } catch (e) {
-    console.log('update shoe error: ', e);
+    console.log('delete shoe error: ', e);
   }
 };
 
@@ -73,8 +76,9 @@ export const uploadShoeImage = async ({
   onProgress,
   onSuccess,
 }: any) => {
-  const fileExtension = imageUri.split('/').pop();
-  const reference = storage().ref(`Shoes/${fileExtension}`);
+  console.log(imageUri);
+  const fileName = imageUri.split('/').pop();
+  const reference = storage().ref(`Shoes/${fileName}`);
 
   await reference.putFile(imageUri as string).on(
     firebase.storage.TaskEvent.STATE_CHANGED,
@@ -92,10 +96,10 @@ export const uploadShoeImage = async ({
       console.log('image upload error: ' + error.toString());
     },
     () => {
-      reference.getDownloadURL().then((downloadUrl) => {
-        console.log('File available at: ' + downloadUrl);
+      reference.getDownloadURL().then((imageUri) => {
+        console.log('File available at: ' + imageUri);
         if (onSuccess) {
-          onSuccess(downloadUrl);
+          onSuccess(imageUri);
         }
       });
     },

@@ -1,16 +1,26 @@
-import React, {useRef, useState} from 'react';
-import {Dimensions, Platform, StyleSheet} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 import styled from 'styled-components';
 import Modal from 'react-native-modal';
-import {RNCamera} from 'react-native-camera';
-import {PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {Block, Text, Touchable, Icon, ImagePreview} from '~/components';
+import { RNCamera } from 'react-native-camera';
+import ImagePickerTest from 'react-native-image-picker';
+import { PERMISSIONS, RESULTS } from 'react-native-permissions';
 
-import {checkAndRequestPermission} from '~/utils';
+import {
+  Block,
+  Text,
+  Touchable,
+  Icon,
+  ImagePreview,
+  Body,
+  Button,
+} from '~/components';
+
+import { checkAndRequestPermission } from '~/utils';
 
 import theme from '~/config/theme';
 
-import {uploadShoeImage} from '~/modules/shoes/api';
+import { uploadShoeImageApi } from '~/modules/shoes/apis';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -43,84 +53,90 @@ const styles = StyleSheet.create({
   },
 });
 
-const ImagePicker = ({imageUri, setData}) => {
+let options = {
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+  quality: 1.0,
+  mediaType: 'photo',
+};
+
+const ImagePicker = ({ imageUri, setData, type }) => {
   const [visible, setVisible] = useState(false);
-  const [flash, setFlash] = useState('auto');
   const [percent, setPercent] = useState(0);
-  const [horizontal] = useState(false);
-
-  const refCamera = useRef();
-
-  const onFlashChange = () => {
-    if (flash === 'auto') {
-      setFlash('off');
-    } else if (flash === 'off') {
-      setFlash('on');
-    } else {
-      setFlash('auto');
-    }
-  };
-
-  const onCapture = async () => {
-    if (refCamera.current) {
-      const options = {
-        quality: 1,
-        width: 1000,
-      };
-
-      if (horizontal) {
-        options.orientation =
-          Platform.OS === 'ios' ? 'landscapeRight' : 'landscapeLeft';
-        options.width = 1000;
-      }
-
-      try {
-        const data = await refCamera.current.takePictureAsync(options);
-        console.log(data);
-        setData({imageUri: data.uri});
-      } catch (e) {
-        console.log('onCapture error', e);
-      }
-    }
-  };
-
-  const onReCapture = () => {
-    setData({imageUri: ''});
-  };
+  const [loading, setLoading] = useState(false);
 
   const onOpen = async () => {
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
+  };
+
+  const onUploadImage = async (imageUri) => {
+    onClose();
+    setPercent(2);
+    await uploadShoeImageApi({
+      imageUri,
+      onProgress: (p) => {
+        setPercent(p);
+      },
+      onSuccess: (uri) => {
+        setData({ imageUri: uri });
+      },
+    });
+  };
+
+  const launchCamera = async () => {
     const permission = await checkAndRequestPermission(
       Platform.OS === 'ios'
         ? PERMISSIONS.IOS.CAMERA
         : PERMISSIONS.ANDROID.CAMERA,
     );
     if (permission === RESULTS.GRANTED) {
-      setVisible(true);
+      ImagePickerTest.launchCamera(options, async (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+          alert(response.customButton);
+        } else {
+          console.log('response', JSON.stringify(response.uri));
+          onUploadImage(response.uri);
+        }
+      });
     }
   };
 
-  const onClose = () => {
-    setVisible(false);
-    setData({imageUri: ''});
-  };
-
-  const onUsePoto = async () => {
-    await uploadShoeImage({
-      imageUri,
-      onProgress: (p) => {
-        if (p === 100) {
-          setVisible(false);
+  const launchImageLibrary = async () => {
+    const permission = await checkAndRequestPermission(
+      Platform.OS === 'ios'
+        ? PERMISSIONS.IOS.WRITE_EXTERNAL_STORAGE
+        : PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
+    );
+    if (permission === RESULTS.GRANTED) {
+      ImagePickerTest.launchImageLibrary(options, async (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+          alert(response.customButton);
+        } else {
+          console.log('response', JSON.stringify(response.uri));
+          onUploadImage(response.uri);
         }
-        setPercent(p);
-      },
-      onSuccess: (iamgeUri) => {
-        setData({imageUri});
-      },
-    });
+      });
+    }
   };
 
   return (
-    <Block>
+    <Body h={`${windowHeight / 3}px`} flex={1} overlay loading={loading}>
       {!imageUri ? (
         <ImagePickerWrapper center middle onPress={onOpen}>
           <Icon
@@ -130,71 +146,66 @@ const ImagePicker = ({imageUri, setData}) => {
             color={theme.color.secondary}
           />
           <Text s2 color={theme.color.secondary}>
-            Chụp ảnh
+            Upload ảnh{' '}
+            {percent > 0 && percent !== 100 ? `${Math.floor(percent)}%` : ''}
           </Text>
         </ImagePickerWrapper>
       ) : (
-        <ImagePreview imageUri={imageUri} />
+        <Block>
+          <ImagePreview imageUri={imageUri} />
+          {imageUri && (
+            <Touchable
+              bg="rgba(255, 255, 255, 0.8)"
+              w="90px"
+              h="90px"
+              center
+              middle
+              borderRadius="45px"
+              absolute
+              bottom="5px"
+              left="5px"
+              onPress={onOpen}
+              disabled={percent > 0 && percent !== 100}>
+              {percent > 0 && percent !== 100 ? (
+                <Text h3 color={theme.color.black}>
+                  {Math.floor(percent)}%
+                </Text>
+              ) : (
+                <Icon name="camera" type="fontAwesome" color="#000" size={50} />
+              )}
+            </Touchable>
+          )}
+        </Block>
       )}
 
       <Modal
         isVisible={visible}
-        onBackButtonPress={() => setVisible(false)}
-        style={{margin: 0}}>
-        {!imageUri ? (
-          <RNCamera
-            ref={refCamera}
-            style={styles.preview}
-            type={RNCamera.Constants.Type.back}
-            pauseAfterCapture
-            flashMode={RNCamera.Constants.FlashMode[flash]}
-            captureAudio={false}
-          />
-        ) : (
-          <Image source={{uri: imageUri}} />
-        )}
-        <Block block h="1px">
-          <Block w={`${percent}%`} h="100%" bg="secondary" />
-        </Block>
-        <Block row h="70px" p="8px 20px" bg="bg" middle justify="space-around">
-          <Touchable
-            flex={1}
-            alignItems="flex-start"
-            onPress={!imageUri ? onClose : onReCapture}>
-            <Text h5 color={theme.color.secondary}>
-              {!imageUri ? 'Trở lại' : 'Chụp lại'}
-            </Text>
-          </Touchable>
-
-          <Touchable center middle flex={1} onPress={onCapture}>
-            {!imageUri ? <CaptureButtonContent /> : <Block />}
-          </Touchable>
-
-          <Touchable
-            flex={1}
-            alignItems="flex-end"
-            onPress={!imageUri ? onFlashChange : onUsePoto}>
-            {!imageUri ? (
-              <Icon
-                name={
-                  flash === 'off'
-                    ? 'ios-flash-off-sharp'
-                    : flash === 'on'
-                    ? 'ios-flash'
-                    : 'flash-auto'
-                }
-                type={flash === 'auto' ? 'maturialIcons' : 'ionicons'}
-                color={theme.color.secondary}
-              />
-            ) : (
-              <Text h5 color={theme.color.secondary}>
-                Sử dụng ảnh
-              </Text>
-            )}
-          </Touchable>
+        onBackButtonPress={onClose}
+        onBackdropPress={onClose}
+        backdropOpacity={0.6}
+        style={{ margin: 0, justifyContent: 'flex-end' }}>
+        <Block bg="bg" p="20px 0">
+          <Button
+            bg="primary"
+            m="0 20px"
+            p="10px 0"
+            center
+            middle
+            onPress={launchCamera}>
+            <Text color={theme.color.secondary}>Chụp ảnh</Text>
+          </Button>
+          <Button
+            bg="primary"
+            m="10px 20px 0"
+            p="10px 0"
+            center
+            middle
+            onPress={launchImageLibrary}>
+            <Text color={theme.color.secondary}>Chọn ảnh từ thư viện</Text>
+          </Button>
         </Block>
       </Modal>
-    </Block>
+    </Body>
   );
 };
 

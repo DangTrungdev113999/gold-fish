@@ -1,5 +1,6 @@
-import React from 'react';
-import {ScrollView} from 'react-native';
+import React, { useEffect } from 'react';
+import { Alert, ScrollView, ToastAndroid } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
   Button,
@@ -7,30 +8,65 @@ import {
   Picker,
   Text,
   ImagePicker,
-  ImagePreview,
+  Body,
 } from '~/components';
 import theme from '~/config/theme';
-import {useSetObjectState} from '~/hoocks';
-import {addShoes, updateShoes} from '~/modules/shoes/api';
+import { useSetObjectState } from '~/hoocks';
 
-const GATEGORIES = [
-  {name: 'Hunter', value: 'Hunter'},
-  {name: 'Giầy thể thao', value: 'Giầy thể thao'},
-  {name: 'Giầy chạy bộ', value: 'Giầy chạy bộ'},
-  {name: 'Giầy đá banh', value: 'Giầy đá banh'},
-  {name: 'Giầy tây', value: 'Giầy tây'},
-];
+import { GATEGORIES } from '~/config/constants';
+import { updateShoeCreator, addShoeCreator } from '~/modules/shoes/thunk';
+import {
+  addShoeLoadingSelector,
+  updateShoeLoadingSelector,
+} from '~/modules/shoes/selector';
+import { showAlert } from '~/utils';
+import { deleteShoeLoadingSelector } from '~/modules/Slippers/selector';
 
-const AddShoe = () => {
+const ActionShoe = ({ navigation, route }: any) => {
   const [data, setData] = useSetObjectState({
-    shoeId: 'ABC139823A4',
+    shoeId: '',
     imageUri: '',
     type: 'Hunter',
+    like: false,
   });
 
+  const dispatch = useDispatch();
+  const updateShoesLoading = useSelector(updateShoeLoadingSelector);
+  const addShoesLoading = useSelector(addShoeLoadingSelector);
+  const deleteShoesLoading = useSelector(deleteShoeLoadingSelector);
+
+  useEffect(() => {
+    if (route.params?.shoeDetail?.shoeId) {
+      setData({ ...route.params.shoeDetail });
+    }
+  }, [route.params?.shoeDetail?.shoeId]);
+
   const onActionShoe = async () => {
-    const response = await updateShoes(data);
-    console.log(response);
+    if (route.params.type === 'add') {
+      dispatch(
+        addShoeCreator({
+          shoe: data,
+          onSuccess: () => {
+            navigation.navigate('shoes_screen');
+          },
+          onError: (e: string) => {
+            showAlert('Có lỗi xẩy ra', e);
+          },
+        }),
+      );
+    } else if (route.params.type === 'update') {
+      dispatch(
+        updateShoeCreator({
+          shoe: data,
+          onSuccess: () => {
+            ToastAndroid.show('Cập nhật thành công !', ToastAndroid.SHORT);
+          },
+          onError: (e: string) => {
+            showAlert('Có lỗi xẩy ra', e);
+          },
+        }),
+      );
+    }
   };
 
   const formIsValid = () => {
@@ -38,17 +74,27 @@ const AddShoe = () => {
   };
 
   return (
-    <Block flex={1} bg="bg">
+    <Body
+      flex={1}
+      overlay
+      loading={updateShoesLoading || addShoesLoading || deleteShoesLoading}>
       <ScrollView>
-        <ImagePicker imageUri={data.imageUri} setData={setData} />
+        <ImagePicker
+          imageUri={data.imageUri}
+          setData={setData}
+          type={route.params?.type}
+        />
 
-        <Block p="20px">
+        <Block p="30px 20px 20px">
           <Input
             label="Mã giầy"
             required
             placeholder="Nhập mã giầy"
             value={data.shoeId}
-            onChange={(val: string) => setData({shoeId: val})}
+            disabled={route.params.type === 'update'}
+            iconLeftName="tago"
+            iconLeftType="antDesign"
+            onChangeText={(val: string) => setData({ shoeId: val })}
           />
           <Picker
             label="Dòng sản phẩm"
@@ -56,7 +102,7 @@ const AddShoe = () => {
             options={GATEGORIES}
             placeholder="Chọn dòng sản phẩm"
             value={data.type}
-            onChange={(val: string) => setData({type: val})}
+            onChange={(val: string) => setData({ type: val })}
             m="20px 0 0"
           />
         </Block>
@@ -71,11 +117,11 @@ const AddShoe = () => {
         disabled={!formIsValid()}
         onPress={onActionShoe}>
         <Text color={!formIsValid() ? theme.color.gray : theme.color.secondary}>
-          Thêm sản phẩm
+          {route.params.type === 'add' ? 'Thêm sản phẩm' : 'Cập nhật sản phẩm'}
         </Text>
       </Button>
-    </Block>
+    </Body>
   );
 };
 
-export default AddShoe;
+export default ActionShoe;

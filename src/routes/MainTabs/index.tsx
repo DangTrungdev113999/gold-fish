@@ -27,8 +27,7 @@ export default function () {
         activeTintColor: theme.color.secondary,
         inactiveTintColor: theme.color.light,
         style: {
-          borderTopWidth: 0.5,
-          borderTopColor: theme.color.secondary,
+          borderTopWidth: 0,
           height: 60,
         },
         tabStyle: {

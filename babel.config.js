@@ -12,6 +12,7 @@ module.exports = {
       'babel-plugin-module-resolver',
       {
         root: ['./'],
+        extensions: ['.ts', '.tsx', '.js', '.ios.js', '.android.js'],
         alias: {
           '@assets': './assets',
         },

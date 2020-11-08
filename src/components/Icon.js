@@ -19,12 +19,17 @@ const Icon = ({
   size = 20,
   color = '#000',
   name = 'slightly-smile',
-  bg,
+  bg = 'transparent',
   type = 'iconicons',
   ...props
 }) => {
   return (
-    <Block w={size} h={size} borderRadius={size / 2} bg={bg} {...props}>
+    <Block
+      w={`${size}px`}
+      h={`${size}px`}
+      borderRadius={`${size / 2}px`}
+      bg={bg}
+      {...props}>
       {type === 'antDesign' && (
         <AntDesign name={name} size={size} color={color} />
       )}

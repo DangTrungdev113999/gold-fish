@@ -12,6 +12,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 
+import com.imagepicker.permissions.OnImagePickerPermissionsCallback; 
+import com.facebook.react.modules.core.PermissionListener; 
+
 
 
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -19,7 +22,6 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import org.reactnative.camera.RNCameraPackage;
 
 public class MainApplication extends Application implements ReactApplication {
-
   private final ReactNativeHost mReactNativeHost =
       new ReactNativeHost(this) {
         @Override

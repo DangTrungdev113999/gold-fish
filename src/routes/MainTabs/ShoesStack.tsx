@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import ShoesScreen from '../../containers/Shoes/Shoes';
-import ActionShoe from '../../containers/Shoes/ActionShoe';
+import ShoesScreen from '~/containers/Shoes/Shoes';
+import ActionShoe from '~/containers/Shoes/ActionShoe';
 import {Block, Icon, Touchable} from '~/components';
-import AddProductIcon from '~/components/Header/AddProductIcon';
+import {AddProductIcon, DeleteProductIcon} from '~/components/Header';
 import {mainOptions} from '../navigationOptions';
 
 const Stack = createStackNavigator();
@@ -22,8 +22,10 @@ export default () => (
     <Stack.Screen
       name="action_shoe_screen"
       component={ActionShoe}
-      options={({navigation}) => ({
-        title: 'Giầy Bitis',
+      options={({navigation, route}) => ({
+        title: route.params?.shoeDetail?.shoeId
+          ? `#${route.params.shoeDetail.shoeId}`
+          : 'Thêm giầy',
         headerLeft: () => (
           <Touchable m="0 0 0 10px" onPress={() => navigation.goBack()}>
             <Icon
@@ -34,7 +36,12 @@ export default () => (
             />
           </Touchable>
         ),
-        headerRight: () => <Block />,
+        headerRight: () =>
+          route.params?.shoeDetail?.shoeId ? (
+            <DeleteProductIcon navigation={navigation} route={route} />
+          ) : (
+            <Block />
+          ),
       })}
     />
   </Stack.Navigator>

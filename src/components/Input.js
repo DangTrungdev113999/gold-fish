@@ -32,7 +32,7 @@ const WrapperInput = styled.View.attrs(({focus}) =>
   height: 40px;
   ${({danger}) => danger && `border-color: ${theme.color.danger};`}
   ${({success}) => success && `border-color: ${theme.color.success};`}
-  ${({disabled}) => disabled && `background-color: ${theme.color.neutral2};`}
+  ${({disabled}) => disabled && `background-color: ${theme.color.neutral5};`}
   ${({m}) => m && `margin: ${m};`}
 `;
 
@@ -45,7 +45,6 @@ const StyledTextInput = styled.TextInput.attrs({
   flex: 1;
   height: 40px;
   padding: 0 12px;
-  background-color: #f6f5f5;
   font-family: ${theme.font.primary};
   color: ${theme.color.textSecondary};
   ${({m}) => m && `margin: ${m};`}

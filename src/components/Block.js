@@ -19,10 +19,10 @@ const Block = styled.View`
   ${({wrap}) => wrap && 'flex-wrap: wrap;'}
   ${({absolute}) => absolute && 'position: absolute;'}
   ${({relative}) => relative && 'position: relative;'}
-  ${({top}) => top && `top: ${top}px;`}
-  ${({bottom}) => bottom && `bottom: ${bottom}px;`}
-  ${({right}) => right && `right: ${right}px;`}
-  ${({left}) => left && `right: ${left}px;`}
+  ${({top}) => top && `top: ${top};`}
+  ${({bottom}) => bottom && `bottom: ${bottom};`}
+  ${({right}) => right && `right: ${right};`}
+  ${({left}) => left && `left: ${left};`}
   ${({borderWidth}) => borderWidth && `border-width: ${borderWidth};`}
   ${({borderColor}) => borderColor && `border-color: ${borderColor};`}
   ${({borderRadius}) => borderRadius && `border-radius: ${borderRadius};`}
@@ -42,11 +42,6 @@ const Block = styled.View`
   ${({style}) => style && {...style}}
 `;
 
-export default ({animated, children, ...rest}) => {
-  if (animated) {
-    <Animated.View>
-      <Block {...rest}>{children}</Block>
-    </Animated.View>;
-  }
+export default ({children, ...rest}) => {
   return <Block {...rest}>{children}</Block>;
 };

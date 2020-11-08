@@ -12,7 +12,7 @@ const View = styled.View`
     if (bg) {
       return bg;
     }
-    return theme.color.white;
+    return theme.color.bg;
   }}
     ${({center}) =>
     center &&
@@ -51,14 +51,14 @@ const Body = ({
   let view = <View {...rest}>{children}</View>;
   if (keybordAvoid) {
     view = (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <TouchableWithouteedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={60}
           {...rest}>
           {children}
         </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
+      </TouchableWithouteedback>
     );
   }
 

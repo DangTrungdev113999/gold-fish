@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import FlipCard from 'react-native-flip-card';
+import { useNavigation } from '@react-navigation/native';
 
 import Block from '../Block';
 import TouchableOpacity from '../Touchable';
@@ -9,6 +10,7 @@ import Text from '../Text';
 import Icon from '../Icon';
 
 import theme from '~/config/theme';
+import { shoeType } from '~/@types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -23,10 +25,22 @@ const Wrapper = styled(Block)`
   margin: 10px;
 `;
 
-const Card = ({item}) => {
+type CardPropsType = {
+  item: shoeType;
+};
+
+const Card = ({ item }: CardPropsType) => {
+  const navigation = useNavigation();
   const [favorite, setFavorite] = useState(false);
 
   const handleFavorite = () => setFavorite(!favorite);
+
+  const onEdit = () => {
+    navigation.navigate('action_shoe_screen', {
+      type: 'update',
+      shoeDetail: item,
+    });
+  };
 
   return (
     <Wrapper
@@ -39,33 +53,44 @@ const Card = ({item}) => {
         {/* Face Side */}
 
         <Block>
-          <Image rezideMode="cover" source={{uri: item.img}} />
+          <Image rezideMode="cover" source={{ uri: item.imageUri }} />
         </Block>
 
         {/* Back Side */}
 
         <Block flex={1} center middle bg="#24364E">
           <Text h3 color={theme.color.secondary} bold>
-            {item.id}
+            {item.shoeId}
           </Text>
         </Block>
       </FlipCard>
 
       <Block row h="20%">
-        <TouchableOpacity flex={1} center middle bg="#1F6274">
-          <Icon type="antDesign" name="edit" size={20} color="#fff" />
+        <TouchableOpacity
+          flex={1}
+          center
+          middle
+          // bg={theme.color.information}
+          bg="#1D2636"
+          onPress={onEdit}>
+          <Icon
+            type="antDesign"
+            name="edit"
+            size={20}
+            color={theme.color.secondary}
+          />
         </TouchableOpacity>
         <TouchableOpacity
           flex={1}
           center
           middle
-          bg="#133b5c"
+          bg="#203047"
           onPress={handleFavorite}>
           <Icon
             type="maturialIcons"
             name={favorite ? 'favorite' : 'favorite-outline'}
             size={20}
-            color="#fff"
+            color={theme.color.secondary}
           />
         </TouchableOpacity>
       </Block>

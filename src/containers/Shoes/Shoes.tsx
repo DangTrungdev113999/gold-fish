@@ -1,78 +1,70 @@
-import React, {useEffect} from 'react';
-import {FlatList} from 'react-native';
+import React, { useEffect } from 'react';
+import { FlatList, RefreshControl } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { Card, Body, Loading } from '~/components';
 
-import {Card, Block} from '~/components';
-
-import {fetchShoes} from '~/modules/shoes/api';
-
-const DATA = [
-  {
-    id: '3ad53abb28ba',
-    title: 'First Item',
-    img: 'http://lorempixel.com/400/200/',
-  },
-  {
-    id: 'fbd91aa97f63',
-    title: 'Second Item',
-    img: 'http://lorempixel.com/400/200/sports/1/',
-  },
-  {
-    id: '145571e29d72',
-    title: 'Third Item',
-    img: 'https://picsum.photos/400/200/',
-  },
-  {
-    id: '3ad53abb28ba1',
-    title: 'First Item',
-    img: 'https://picsum.photos/id/137/400/200',
-  },
-  {
-    id: 'fbd91aa97f632',
-    title: 'Second Item',
-    img: 'https://picsum.photos/id/237/400/200',
-  },
-  {
-    id: '145571e29d723',
-    title: 'Third Item',
-    img: 'https://picsum.photos/id/130/400/200',
-  },
-  {
-    id: '3ad53abb28ba3',
-    title: 'First Item',
-    img: 'https://picsum.photos/id/133/400/200',
-  },
-  {
-    id: 'fbd91aa97f634',
-    title: 'Second Item',
-    img: 'https://picsum.photos/id/139/400/200',
-  },
-  {
-    id: '145571e29d725',
-    title: 'Third Item',
-    img: 'https://picsum.photos/id/140/400/200',
-  },
-];
+import { Block } from '~/components';
+import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/shoes/thunk';
+import {
+  fetchShoesLoadingSelector,
+  loadMoreShoesLoadingSelector,
+  shoesListSelector,
+  lastShoeSelector,
+} from '~/modules/shoes/selector';
 
 const Shoes = () => {
-  const fetchData = async () => {
-    const shoesList = await fetchShoes();
-    // console.log(shoesList);
+  const shoesList = useSelector(shoesListSelector);
+  const fetchShoesLoading = useSelector(fetchShoesLoadingSelector);
+  const loadMoreShoesLoading = useSelector(loadMoreShoesLoadingSelector);
+  const lastShoe = useSelector(lastShoeSelector);
+  const dispatch = useDispatch();
+
+  const fetchShoesList = () => {
+    dispatch(fetchShoesCreator());
   };
 
   useEffect(() => {
-    fetchData();
+    fetchShoesList();
   }, []);
 
+  const loadMoreShoesList = () => {
+    console.log('end');
+    dispatch(loadMoreShoesCreator());
+  };
+
   return (
-    <Block flex={1} center middle p="10px 0 0" bg="bg">
+    <Body flex={1} center p="10px 0 0">
       <FlatList
-        data={DATA}
-        renderItem={({item}) => <Card item={item} />}
-        keyExtractor={(item) => item.id}
+        data={shoesList}
+        renderItem={({ item }) => <Card item={item} />}
+        keyExtractor={(item) => item.shoeId}
+        refreshControl={
+          <RefreshControl
+            refreshing={fetchShoesLoading}
+            onRefresh={fetchShoesList}
+          />
+        }
         horizontal={false}
         numColumns={2}
+        initialNumToRender={8}
+        onEndReachedThreshold={0.1}
+        ListFooterComponent={() => {
+          if (loadMoreShoesLoading) {
+            return (
+              <Block center p="20px 0 40px">
+                <Loading />
+              </Block>
+            );
+          }
+          return null;
+        }}
+        onEndReached={() => {
+          if (lastShoe) {
+            loadMoreShoesList();
+          }
+        }}
       />
-    </Block>
+    </Body>
   );
 };
 
