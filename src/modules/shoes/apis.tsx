@@ -140,3 +140,26 @@ export const uploadShoeImageApi = async ({
     },
   );
 };
+
+export const searchShoesApi = async (searchString: string) => {
+  try {
+    const shoesMatch: shoeType[] = [];
+    const snapshot = await firestore()
+      .collection('Shoes')
+      .orderBy('shoeId')
+      .startAt(searchString)
+      .endAt(searchString + '\uf8ff')
+      .get();
+
+    if (!snapshot.empty) {
+      snapshot.forEach((doc) => {
+        const foodItem = doc.data();
+        shoesMatch.push(foodItem as shoeType);
+      });
+    }
+
+    return shoesMatch;
+  } catch (e) {
+    console.log('search shoes error: ', e.message);
+  }
+};

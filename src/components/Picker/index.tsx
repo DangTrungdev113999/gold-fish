@@ -115,6 +115,8 @@ class Picker extends PureComponent {
         )}
         <Modal
           isVisible={visible}
+          animationIn="fadeIn"
+          animationOut="fadeOut"
           onBackdropPress={this.onClose}
           onBackButtonPress={this.onClose}
           backdropColor={theme.color.neutral9}

@@ -1,9 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { FlatList, RefreshControl, View } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Body, Loading, Touchable, Icon } from '~/components';
+import Modal from 'react-native-modal';
 
+import {
+  Card,
+  Body,
+  Loading,
+  Touchable,
+  Icon,
+  Text,
+  SearchModal,
+} from '~/components';
 import { Block } from '~/components';
 import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/shoes/thunk';
 import {
@@ -65,19 +74,7 @@ const Shoes = () => {
           }
         }}
       />
-      <Touchable
-        w="60px"
-        h="60px"
-        borderRadius="30px"
-        bg="bg"
-        absolute
-        right="20px"
-        bottom="40px"
-        center
-        middle
-        shadow>
-        <Icon name="search" type="fontAwesome5" color={theme.color.secondary} />
-      </Touchable>
+      <SearchModal />
     </Body>
   );
 };

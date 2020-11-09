@@ -159,8 +159,13 @@ const TextInput = React.forwardRef(
 
             <StyledTextInput {...inputProps} />
 
-            {iconRight && type !== 'password' && !iconRightOnPress ? (
-              <Icon name={iconRight} size={18} m="0 10px 0 0" />
+            {iconRight ? (
+              <Icon
+                name={iconRight}
+                type="materialIcons"
+                size={18}
+                m="0 10px 0 0"
+              />
             ) : null}
 
             {loading ? <Loading color="primary" m="0 10px 0 0" /> : null}

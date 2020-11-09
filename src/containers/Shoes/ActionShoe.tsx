@@ -39,6 +39,15 @@ const ActionShoe = ({ navigation, route }: any) => {
     if (route.params?.shoeDetail?.shoeId) {
       setData({ ...route.params.shoeDetail });
     }
+
+    return () => {
+      setData({
+        shoeId: '',
+        imageUri: '',
+        type: 'Hunter',
+        like: false,
+      });
+    };
   }, [route.params?.shoeDetail?.shoeId]);
 
   const onActionShoe = async () => {
@@ -94,6 +103,7 @@ const ActionShoe = ({ navigation, route }: any) => {
             disabled={route.params.type === 'update'}
             iconLeftName="tago"
             iconLeftType="antDesign"
+            autoCapitalize="characters"
             onChangeText={(val: string) => setData({ shoeId: val })}
           />
           <Picker

@@ -11,6 +11,7 @@ import Input from './Input';
 import Picker from './Picker';
 import ImagePicker from './ImagePicker';
 import ImagePreview from './ImagePreview';
+import SearchModal from './SearchModal';
 
 export {
   Block,
@@ -26,4 +27,5 @@ export {
   Picker,
   ImagePicker,
   ImagePreview,
+  SearchModal,
 };
