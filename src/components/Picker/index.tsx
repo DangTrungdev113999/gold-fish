@@ -9,12 +9,15 @@ import Loading from '../Loading';
 import Option from './Option';
 
 import theme from '~/config/theme';
+
+// @ts-ignore
 const Container = styled.View`
   flex: 1;
   ${({ m }: any) => m && `margin: ${m};`}
   ${({ p }: any) => p && `padding: ${p};`}
 `;
 
+// @ts-ignore
 const Input = styled.TouchableOpacity`
   height: 40px;
   padding-horizontal: 10px;
@@ -28,12 +31,14 @@ const Input = styled.TouchableOpacity`
     disabled && `background-color: ${theme.color.neutral2};`}
 `;
 
+// @ts-ignore
 const Wrapper = styled.View`
   background-color: white;
   border-radius: 3px;
   padding-bottom: 10px;
 `;
 
+// @ts-ignore
 const FlatList = styled.FlatList`
   margin-top: 20px;
   max-height: ${Dimensions.get('window').height - 300}px;
@@ -66,6 +71,7 @@ class Picker extends PureComponent {
   };
 
   onOptionPress = (option: any) => {
+    // @ts-ignore
     this.props.onChange(option.value);
     this.onClose();
   };

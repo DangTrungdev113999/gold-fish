@@ -5,6 +5,7 @@ import Text from '../Text';
 import Icon from '../Icon';
 import theme from '~/config/theme';
 
+// @ts-ignore
 const Container = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
@@ -18,6 +19,7 @@ const Container = styled.TouchableOpacity`
 
 class Option extends PureComponent {
   onPress = () => {
+    // @ts-ignore
     this.props.onPress(this.props.item);
   };
 
@@ -25,7 +27,7 @@ class Option extends PureComponent {
     const {
       active,
       item: { name, value },
-    } = this.props;
+    }: any = this.props;
 
     return (
       <Container active={active} onPress={this.onPress}>

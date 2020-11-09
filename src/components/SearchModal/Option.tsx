@@ -1,18 +1,9 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components';
 import { shoeType } from '~/@types';
-
-import {
-  Card,
-  Body,
-  Loading,
-  Touchable,
-  Icon,
-  Text,
-  Block,
-  Input,
-} from '~/components';
+import { Text, Touchable } from '~/components';
 import theme from '~/config/theme';
 
 const windowHeight = Dimensions.get('window').height;
@@ -39,9 +30,19 @@ const Image = styled.Image.attrs({
 type PropsType = {
   item: shoeType;
 };
-const Option = ({ item }: any) => {
+const Option = ({ item, onClose }: any) => {
+  const navigation = useNavigation();
+
+  const goToDetail = () => {
+    onClose();
+    navigation.navigate('action_shoe_screen', {
+      type: 'update',
+      shoeDetail: item,
+    });
+  };
+
   return (
-    <Container block h="100px" row middle>
+    <Container block h="100px" row middle onPress={goToDetail}>
       <Text h5 color={theme.color.neutral2} flex={1}>
         {item.shoeId}
       </Text>

@@ -18,3 +18,17 @@ export const SHOE_PREFIX = [
   'DXM',
   'DBB',
 ];
+
+export const COLOR_CODE = [
+  '-TRG',
+  '-DEN',
+  '-KEM',
+  '-KEL',
+  '-DO',
+  '-CAM',
+  '-XAM',
+  '-DOD',
+  '-XAD',
+  '-HOG',
+  '-HOD',
+];

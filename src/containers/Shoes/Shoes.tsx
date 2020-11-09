@@ -2,26 +2,14 @@
 import React, { useEffect } from 'react';
 import { FlatList, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import Modal from 'react-native-modal';
-
-import {
-  Card,
-  Body,
-  Loading,
-  Touchable,
-  Icon,
-  Text,
-  SearchModal,
-} from '~/components';
-import { Block } from '~/components';
-import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/shoes/thunk';
+import { Block, Body, Card, Loading, SearchModal } from '~/components';
 import {
   fetchShoesLoadingSelector,
+  lastShoeSelector,
   loadMoreShoesLoadingSelector,
   shoesListSelector,
-  lastShoeSelector,
 } from '~/modules/shoes/selector';
-import theme from '~/config/theme';
+import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/shoes/thunk';
 
 const Shoes = () => {
   const shoesList = useSelector(shoesListSelector);

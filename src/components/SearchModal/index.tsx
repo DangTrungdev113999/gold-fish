@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
-import { Touchable, Icon, Block, Input } from '~/components';
+import { FlatList } from 'react-native-gesture-handler';
+import { Touchable, Icon, Block, Input, Loading, Text } from '~/components';
 
 import Option from './Option';
+import { searchShoesApi } from '~/modules/shoes/apis';
+import { COLOR_CODE, SHOE_PREFIX } from '~/config/constants';
+import { shoeType } from '~/@types';
 
 import theme from '~/config/theme';
-import { FlatList } from 'react-native-gesture-handler';
-import { shoeType } from '~/@types';
-import { searchShoesApi } from '~/modules/shoes/apis';
-import { SHOE_PREFIX } from '~/config/constants';
-import Text from '../Text';
+import HideOption from './HideOption';
 const SearchModal = () => {
   const [shoesMatch, setShoesMatch] = useState<shoeType[]>([]);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState('');
 
   const onReset = () => {
@@ -30,22 +31,37 @@ const SearchModal = () => {
     setVisible(false);
   };
 
-  const onSearchShoe = async (q: string) => {
-    setProductId(q);
+  const onSearchProduct = async () => {
+    setLoading(true);
     const flag = setTimeout(async () => {
       clearTimeout(flag);
       const shoesList = await searchShoesApi(productId);
       setShoesMatch(shoesList as shoeType[]);
     }, 100);
+    setLoading(false);
   };
+
+  useEffect(() => {
+    if (productId) {
+      onSearchProduct();
+    }
+  }, [productId]);
 
   const setPrefixProductId = (prefix: string) => {
-    const flag = [...productId].slice('');
-    flag.splice(0, 0, prefix);
-    onSearchShoe(flag.join(''));
+    if (SHOE_PREFIX.indexOf(productId.slice(0, 4)) !== -1) {
+      setProductId(`${prefix}${productId.slice(4)}`);
+    } else if (SHOE_PREFIX.indexOf(productId.slice(0, 3)) !== -1) {
+      setProductId(`${prefix}${productId.slice(3)}`);
+    } else {
+      setProductId(`${prefix}${productId}`);
+    }
   };
 
-  console.log(setProductId);
+  const setColorCodeProductId = (code: string) => {
+    if (true) {
+      setProductId(`${productId.split('-')[0]}${code}`);
+    }
+  };
 
   return (
     <Block absolute right="20px" bottom="40px">
@@ -63,16 +79,22 @@ const SearchModal = () => {
       <Modal
         isVisible={visible}
         animationIn="slideInUp"
-        animationOut="slideInDown"
+        animationOut="slideOutDown"
         backdropColor={theme.color.neutral8}
         onBackButtonPress={onClose}
         onBackdropPress={onClose}
         backdropOpacity={0.6}
         style={{ margin: 0, justifyContent: 'flex-end' }}>
-        <Block h="500px" borderRadius="15px" bg="#1D2636">
-          <Touchable row justify="space-around" middle block h="30px">
+        <Block h="510px" borderRadius="15px" bg="#1D2636">
+          <Touchable row justify="space-around" middle block h="40px">
             <Touchable flex={1} />
-            <Touchable flex={1} onPress={onClose} center middle m="0 0 0 20px">
+            <Touchable
+              flex={1}
+              onPress={onClose}
+              center
+              middle
+              m="0 0 0 20px"
+              disabled={loading}>
               <Icon
                 name="ios-chevron-down-sharp"
                 type="ionicons"
@@ -87,7 +109,11 @@ const SearchModal = () => {
               justify="flex-end"
               m="0 20px 0 0"
               onPress={onReset}>
-              <Text color={theme.color.secondary}>Reset</Text>
+              {loading ? (
+                <Loading />
+              ) : (
+                <Text color={theme.color.secondary}>Reset</Text>
+              )}
             </Touchable>
           </Touchable>
           <Block h="0.5px" block bg="#1A4253" />
@@ -99,34 +125,22 @@ const SearchModal = () => {
             returnKeyType="search"
             autoCapitalize="characters"
             value={productId}
-            onChangeText={(val: string) => onSearchShoe(val)}
+            onChangeText={(val: string) => setProductId(val)}
           />
 
           <FlatList
             data={shoesMatch}
             renderItem={({ item }: { item: shoeType }) => (
-              <Option item={item} />
+              <Option item={item} onClose={onClose} />
             )}
             keyExtractor={(item: shoeType) => item.shoeId}
           />
+
           <Block h="0.5px" block bg="#1A4253" />
-          <Block p="10px">
-            <FlatList
-              data={SHOE_PREFIX}
-              horizontal
-              renderItem={({ item }: { item: string }) => (
-                <Touchable
-                  onPress={() => setPrefixProductId(item)}
-                  m="0 10px 0 0"
-                  p="10px"
-                  bg="#24364E"
-                  borderRadius="10px">
-                  <Text color={theme.color.neutral2}>{item}</Text>
-                </Touchable>
-              )}
-              keyExtractor={(item) => item}
-            />
-          </Block>
+          <HideOption items={SHOE_PREFIX} setString={setPrefixProductId} />
+
+          <Block h="0.5px" block bg="#1A4253" />
+          <HideOption items={COLOR_CODE} setString={setColorCodeProductId} />
         </Block>
       </Modal>
     </Block>
