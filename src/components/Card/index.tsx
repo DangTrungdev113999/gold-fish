@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Dimensions } from 'react-native';
-import FlipCard from 'react-native-flip-card';
 import { useNavigation } from '@react-navigation/native';
 
 import Block from '../Block';
@@ -14,15 +13,20 @@ import { shoeType } from '~/@types';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+//@ts-ignore
 const Image = styled.Image`
   width: 100%;
   height: 100%;
 `;
 
 const Wrapper = styled(Block)`
-  elevation: 1;
-  box-shadow: 0px 2px 8px ${theme.color.secondary};
   margin: 10px;
+  width: ${windowWidth / 2 - 30}px;
+  height: ${windowHeight / 5}px;
+  border-radius: 5px;
+  overflow: hidden;
+  elevation: 3;
 `;
 
 type CardPropsType = {
@@ -32,6 +36,7 @@ type CardPropsType = {
 const Card = ({ item }: CardPropsType) => {
   const navigation = useNavigation();
   const [favorite, setFavorite] = useState(false);
+  const [side, setSide] = useState(true);
 
   const handleFavorite = () => setFavorite(!favorite);
 
@@ -43,27 +48,27 @@ const Card = ({ item }: CardPropsType) => {
   };
 
   return (
-    <Wrapper
-      w={`${windowWidth / 2 - 30}px`}
-      h={`${windowHeight / 5}px`}
-      block
-      borderRadius="5px"
-      overflow="hidden">
-      <FlipCard friction={60} perspective={10000} flipVertical={true}>
-        {/* Face Side */}
-
-        <Block>
-          <Image rezideMode="cover" source={{ uri: item.imageUri }} />
-        </Block>
-
-        {/* Back Side */}
-
-        <Block flex={1} center middle bg="#24364E">
-          <Text h3 color={theme.color.secondary} bold>
+    <Wrapper>
+      {side ? (
+        <TouchableOpacity flex={1} onPress={() => setSide(false)}>
+          <Image
+            rezideMode="cover"
+            resizeMethod="resize"
+            source={{ uri: item.imageUri }}
+          />
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity
+          flex={1}
+          center
+          middle
+          bg="#24364E"
+          onPress={() => setSide(true)}>
+          <Text h3 color={theme.color.secondary} bold center>
             {item.shoeId}
           </Text>
-        </Block>
-      </FlipCard>
+        </TouchableOpacity>
+      )}
 
       <Block row h="20%">
         <TouchableOpacity

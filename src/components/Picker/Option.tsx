@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 
 import Text from '../Text';
@@ -12,7 +12,8 @@ const Container = styled.TouchableOpacity`
   height: 40px;
   border: 0px solid ${theme.color.neutral4};
   border-top-width: 0.5px;
-  background-color: ${({active}) => (active ? theme.color.neutral2 : 'white')};
+  background-color: ${({ active }: any) =>
+    active ? theme.color.neutral2 : 'white'};
 `;
 
 class Option extends PureComponent {
@@ -23,7 +24,7 @@ class Option extends PureComponent {
   render() {
     const {
       active,
-      item: {name, value},
+      item: { name, value },
     } = this.props;
 
     return (
@@ -36,7 +37,7 @@ class Option extends PureComponent {
             name="check"
             type="antDesign"
             color={theme.color.success}
-            style={{position: 'absolute', right: 10}}
+            style={{ position: 'absolute', right: 10 }}
           />
         ) : null}
       </Container>

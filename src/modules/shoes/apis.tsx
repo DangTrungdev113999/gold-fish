@@ -109,6 +109,7 @@ export const uploadShoeImageApi = async ({
   imageUri,
   onProgress,
   onSuccess,
+  onError,
 }: any) => {
   console.log(imageUri);
   const fileName = imageUri.split('/').pop();
@@ -126,8 +127,8 @@ export const uploadShoeImageApi = async ({
       }
     },
     (error) => {
-      // unsubscribe();
       console.log('image upload error: ' + error.toString());
+      onError(error.message);
     },
     () => {
       reference.getDownloadURL().then((imageUri) => {

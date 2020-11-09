@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
+import { FlatList, RefreshControl, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Body, Loading } from '~/components';
+import { Card, Body, Loading, Touchable, Icon } from '~/components';
 
 import { Block } from '~/components';
 import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/shoes/thunk';
@@ -11,6 +12,7 @@ import {
   shoesListSelector,
   lastShoeSelector,
 } from '~/modules/shoes/selector';
+import theme from '~/config/theme';
 
 const Shoes = () => {
   const shoesList = useSelector(shoesListSelector);
@@ -28,7 +30,6 @@ const Shoes = () => {
   }, []);
 
   const loadMoreShoesList = () => {
-    console.log('end');
     dispatch(loadMoreShoesCreator());
   };
 
@@ -59,11 +60,24 @@ const Shoes = () => {
           return null;
         }}
         onEndReached={() => {
-          if (lastShoe) {
+          if (lastShoe && !loadMoreShoesLoading) {
             loadMoreShoesList();
           }
         }}
       />
+      <Touchable
+        w="60px"
+        h="60px"
+        borderRadius="30px"
+        bg="bg"
+        absolute
+        right="20px"
+        bottom="40px"
+        center
+        middle
+        shadow>
+        <Icon name="search" type="fontAwesome5" color={theme.color.secondary} />
+      </Touchable>
     </Body>
   );
 };

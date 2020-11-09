@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
-import { Dimensions, Platform, StyleSheet } from 'react-native';
+/* eslint-disable no-alert */
+import React, { useState } from 'react';
+import { Dimensions, Platform } from 'react-native';
 import styled from 'styled-components';
 import Modal from 'react-native-modal';
-import { RNCamera } from 'react-native-camera';
+import ImageResizer from 'react-native-image-resizer';
 import ImagePickerTest from 'react-native-image-picker';
 import { PERMISSIONS, RESULTS } from 'react-native-permissions';
 
@@ -16,11 +17,10 @@ import {
   Button,
 } from '~/components';
 
-import { checkAndRequestPermission } from '~/utils';
+import { checkAndRequestPermission, showAlert } from '~/utils';
+import { uploadShoeImageApi } from '~/modules/shoes/apis';
 
 import theme from '~/config/theme';
-
-import { uploadShoeImageApi } from '~/modules/shoes/apis';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -29,31 +29,7 @@ const ImagePickerWrapper = styled(Touchable)`
   background-color: #1d2636;
 `;
 
-const Image = styled.Image.attrs({
-  resizeMode: 'contain',
-})`
-  flex: 1;
-  height: ${windowHeight / 3}px;
-  background-color: rgba(0, 0, 0, 0.8);
-`;
-
-const CaptureButtonContent = styled.View`
-  height: 53px;
-  width: 53px;
-  border-radius: 40px;
-  background-color: ${theme.color.secondary};
-  border: 2px solid ${theme.color.white};
-`;
-
-const styles = StyleSheet.create({
-  preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-});
-
-let options = {
+let options: any = {
   storageOptions: {
     skipBackup: true,
     path: 'images',
@@ -62,7 +38,7 @@ let options = {
   mediaType: 'photo',
 };
 
-const ImagePicker = ({ imageUri, setData, type }) => {
+const ImagePicker = ({ imageUri, setData }: any) => {
   const [visible, setVisible] = useState(false);
   const [percent, setPercent] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -75,16 +51,36 @@ const ImagePicker = ({ imageUri, setData, type }) => {
     setVisible(false);
   };
 
-  const onUploadImage = async (imageUri) => {
+  const resizeImage = (imgUri: string) => {
+    setLoading(true);
+    ImageResizer.createResizedImage(imgUri, 400, 200, 'JPEG', 100)
+      .then(({ uri }) => {
+        onUploadImage(uri);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log('resize image err: ', err);
+        return showAlert(
+          'Unable to resize the photo',
+          'Check the console for full the error message',
+        );
+      });
+  };
+
+  const onUploadImage = async (imgUri: string) => {
     onClose();
     setPercent(2);
     await uploadShoeImageApi({
-      imageUri,
-      onProgress: (p) => {
+      imageUri: imgUri,
+      onProgress: (p: number) => {
         setPercent(p);
       },
-      onSuccess: (uri) => {
+      onSuccess: (uri: string) => {
         setData({ imageUri: uri });
+        setLoading(false);
+      },
+      onErorr: (e: string) => {
+        showAlert('Có lỗi khi upload ảnh.!', e);
       },
     });
   };
@@ -106,7 +102,7 @@ const ImagePicker = ({ imageUri, setData, type }) => {
           alert(response.customButton);
         } else {
           console.log('response', JSON.stringify(response.uri));
-          onUploadImage(response.uri);
+          resizeImage(response.uri);
         }
       });
     }
@@ -115,7 +111,8 @@ const ImagePicker = ({ imageUri, setData, type }) => {
   const launchImageLibrary = async () => {
     const permission = await checkAndRequestPermission(
       Platform.OS === 'ios'
-        ? PERMISSIONS.IOS.WRITE_EXTERNAL_STORAGE
+        ? //@ts-ignore
+          PERMISSIONS.IOS.WRITE_EXTERNAL_STORAGE
         : PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE,
     );
     if (permission === RESULTS.GRANTED) {
@@ -129,16 +126,16 @@ const ImagePicker = ({ imageUri, setData, type }) => {
           alert(response.customButton);
         } else {
           console.log('response', JSON.stringify(response.uri));
-          onUploadImage(response.uri);
+          resizeImage(response.uri);
         }
       });
     }
   };
 
   return (
-    <Body h={`${windowHeight / 3}px`} flex={1} overlay loading={loading}>
+    <Body h={`${windowHeight / 3}px`} flex={1}>
       {!imageUri ? (
-        <ImagePickerWrapper center middle onPress={onOpen}>
+        <ImagePickerWrapper center middle onPress={onOpen} disabled={loading}>
           <Icon
             name="image"
             type="fontAwesome5"
@@ -146,8 +143,7 @@ const ImagePicker = ({ imageUri, setData, type }) => {
             color={theme.color.secondary}
           />
           <Text s2 color={theme.color.secondary}>
-            Upload ảnh{' '}
-            {percent > 0 && percent !== 100 ? `${Math.floor(percent)}%` : ''}
+            Upload ảnh {loading ? `${Math.floor(percent)}%` : ''}
           </Text>
         </ImagePickerWrapper>
       ) : (
@@ -165,8 +161,8 @@ const ImagePicker = ({ imageUri, setData, type }) => {
               bottom="5px"
               left="5px"
               onPress={onOpen}
-              disabled={percent > 0 && percent !== 100}>
-              {percent > 0 && percent !== 100 ? (
+              disabled={loading}>
+              {loading ? (
                 <Text h3 color={theme.color.black}>
                   {Math.floor(percent)}%
                 </Text>

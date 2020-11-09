@@ -1,5 +1,5 @@
-import React, {PureComponent} from 'react';
-import {Dimensions, Keyboard, Platform} from 'react-native';
+import React, { PureComponent } from 'react';
+import { Dimensions, Keyboard, Platform } from 'react-native';
 import styled from 'styled-components';
 import Modal from 'react-native-modal';
 
@@ -11,8 +11,8 @@ import Option from './Option';
 import theme from '~/config/theme';
 const Container = styled.View`
   flex: 1;
-  ${({m}) => m && `margin: ${m};`}
-  ${({p}) => p && `padding: ${p};`}
+  ${({ m }: any) => m && `margin: ${m};`}
+  ${({ p }: any) => p && `padding: ${p};`}
 `;
 
 const Input = styled.TouchableOpacity`
@@ -24,7 +24,8 @@ const Input = styled.TouchableOpacity`
   background-color: white;
   border-radius: 3px;
   border: 1px solid #f6f5f5;
-  ${({disabled}) => disabled && `background-color: ${theme.color.neutral2};`}
+  ${({ disabled }: any) =>
+    disabled && `background-color: ${theme.color.neutral2};`}
 `;
 
 const Wrapper = styled.View`
@@ -38,9 +39,9 @@ const FlatList = styled.FlatList`
   max-height: ${Dimensions.get('window').height - 300}px;
 `;
 
-function arrayToObject(arr, key) {
-  return arr.reduce((a, b) => {
-    const r = {...a};
+function arrayToObject(arr: any, key: any) {
+  return arr.reduce((a: any, b: any) => {
+    const r = { ...a };
     r[b[key]] = b;
     return r;
   }, {});
@@ -54,17 +55,17 @@ class Picker extends PureComponent {
   onOpen = () => {
     if (Platform.OS === 'ios') {
       Keyboard.dismiss();
-      setTimeout(() => this.setState({visible: true}), 100);
+      setTimeout(() => this.setState({ visible: true }), 100);
     } else {
-      this.setState({visible: true});
+      this.setState({ visible: true });
     }
   };
 
   onClose = () => {
-    this.setState({visible: false});
+    this.setState({ visible: false });
   };
 
-  onOptionPress = (option) => {
+  onOptionPress = (option: any) => {
     this.props.onChange(option.value);
     this.onClose();
   };
@@ -76,15 +77,13 @@ class Picker extends PureComponent {
       required,
       placeholder,
       title,
-      subtitle,
       options,
       value,
-      onChange,
       type = 'nomal',
       loading,
       ...rest
-    } = this.props;
-    const {visible} = this.state;
+    }: any = this.props;
+    const { visible } = this.state;
     const optionsObject = arrayToObject(options, 'value');
 
     return (
@@ -120,7 +119,7 @@ class Picker extends PureComponent {
           onBackButtonPress={this.onClose}
           backdropColor={theme.color.neutral9}
           backdropOpacity={0.6}
-          style={{marginHorizontal: 39}}>
+          style={{ marginHorizontal: 39 }}>
           <Wrapper>
             {title ? (
               <Text h3 medium color="primary" m="20px 0 0" center>
@@ -129,8 +128,8 @@ class Picker extends PureComponent {
             ) : null}
             <FlatList
               data={options}
-              keyExtractor={(item) => item.value}
-              renderItem={({item}) => (
+              keyExtractor={(item: any) => item.value}
+              renderItem={({ item }: any) => (
                 <Option
                   item={item}
                   active={item.value === value}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Alert, ScrollView, ToastAndroid } from 'react-native';
+import { ScrollView, ToastAndroid } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
@@ -70,7 +70,7 @@ const ActionShoe = ({ navigation, route }: any) => {
   };
 
   const formIsValid = () => {
-    return true;
+    return data.shoeId && data.imageUri;
   };
 
   return (

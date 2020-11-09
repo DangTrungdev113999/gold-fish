@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 import theme from '~/config/theme';
-
-const Loading = styled.ActivityIndicator.attrs(({color, ...rest}) => ({
+//@ts-ignore
+const Loading = styled.ActivityIndicator.attrs(({ color, ...rest }: any) => ({
+  //@ts-ignore
   color: color ? theme.color[color] : theme.color.secondary,
   ...rest,
 }))`
-  ${({m}) => m && `margin : ${m};`}
+  ${({ m }: any) => m && `margin : ${m};`}
 `;
 
 export default Loading;

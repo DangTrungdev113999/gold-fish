@@ -1,9 +1,10 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import styled from 'styled-components';
 
 const windowHeight = Dimensions.get('window').height;
 
+//@ts-ignore
 const Image = styled.Image.attrs({
   resizeMode: 'cover',
 })`
@@ -12,10 +13,10 @@ const Image = styled.Image.attrs({
   background-color: rgba(0, 0, 0, 0.8);
 `;
 
-const ImagePreview = ({imageUri}) => {
+const ImagePreview = ({ imageUri }: any) => {
   return (
     <>
-      <Image source={{uri: imageUri}} />
+      <Image source={{ uri: imageUri }} />
     </>
   );
 };

@@ -3,9 +3,9 @@ import TouchableOpacity from '../Touchable';
 import Icon from '../Icon';
 import theme from '~/config/theme';
 
-const AddProductIcon = ({navigation}) => {
+const AddProductIcon = ({ navigation }: any) => {
   const goToAddShoe = () => {
-    navigation.navigate('action_shoe_screen', {type: 'add'});
+    navigation.navigate('action_shoe_screen', { type: 'add' });
   };
   return (
     <TouchableOpacity m="0 20px 0 0" onPress={goToAddShoe}>

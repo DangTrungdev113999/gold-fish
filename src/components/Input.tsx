@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Text from './Text';
 import Loading from './Loading';
@@ -6,11 +6,13 @@ import Icon from './Icon';
 
 import theme from '~/config/theme';
 
+//@ts-ignore
 const Wrapper = styled.View`
-  ${({m}) => m && `margin: ${m};`}
+  ${({ m }: any) => m && `margin: ${m};`}
 `;
 
-const WrapperInput = styled.View.attrs(({focus}) =>
+//@ts-ignore
+const WrapperInput = styled.View.attrs(({ focus }: any) =>
   focus
     ? {
         shadowColor: theme.color.secondary,
@@ -30,12 +32,14 @@ const WrapperInput = styled.View.attrs(({focus}) =>
   border-radius: 3px;
   background-color: white;
   height: 40px;
-  ${({danger}) => danger && `border-color: ${theme.color.danger};`}
-  ${({success}) => success && `border-color: ${theme.color.success};`}
-  ${({disabled}) => disabled && `background-color: ${theme.color.neutral5};`}
-  ${({m}) => m && `margin: ${m};`}
+  ${({ danger }: any) => danger && `border-color: ${theme.color.danger};`}
+  ${({ success }: any) => success && `border-color: ${theme.color.success};`}
+  ${({ disabled }: any) =>
+    disabled && `background-color: ${theme.color.neutral5};`}
+  ${({ m }: any) => m && `margin: ${m};`}
 `;
 
+//@ts-ignore
 const StyledTextInput = styled.TextInput.attrs({
   placeholderTextColor: theme.color.neutral6,
   underlineColorAndroid: 'transparent',
@@ -47,7 +51,7 @@ const StyledTextInput = styled.TextInput.attrs({
   padding: 0 12px;
   font-family: ${theme.font.primary};
   color: ${theme.color.textSecondary};
-  ${({m}) => m && `margin: ${m};`}
+  ${({ m }: any) => m && `margin: ${m};`}
 `;
 
 const TextInput = React.forwardRef(
@@ -70,7 +74,7 @@ const TextInput = React.forwardRef(
       onBlur,
       style,
       ...rest
-    },
+    }: any,
     ref,
   ) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -99,7 +103,7 @@ const TextInput = React.forwardRef(
       ...rest,
     };
 
-    const footnoteProps = {
+    const footnoteProps: any = {
       m: '2px 0 0',
       footnote: true,
     };

@@ -1,43 +1,45 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
-import {Keyboard, Platform, TouchableWithoutFeedback} from 'react-native';
+import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
 
 import LoadingOverlay from './LoadingOverlay';
 
 import theme from '~/config/theme';
 
+//@ts-ignore
 const View = styled.View`
-  ${({flex}) => flex && `flex: ${flex};`}
-  background-color: ${({bg}) => {
+  ${({ flex }: any) => flex && `flex: ${flex};`}
+  background-color: ${({ bg }: any) => {
     if (bg) {
       return bg;
     }
     return theme.color.bg;
   }}
-    ${({center}) =>
+    ${({ center }: any) =>
     center &&
     `
       align-items: center;
       justify-content: center;
   `}
-    ${({p}) => p && `padding: ${p};`}
+    ${({ p }: any) => p && `padding: ${p};`}
 `;
 
+//@ts-ignore
 const KeyboardAvoidingView = styled.KeyboardAvoidingView`
-  ${({flex}) => flex && `flex: ${flex};`}
-  background-color: ${({bg}) => {
+  ${({ flex }: any) => flex && `flex: ${flex};`}
+  background-color: ${({ bg }: any) => {
     if (bg) {
       return bg;
     }
     return theme.color.white;
   }};
-  ${({center}) =>
+  ${({ center }: any) =>
     center &&
     `
     align-items: center;
     justify-content: center;
   `}
-  ${({p}) => p && `padding: ${p};`}
+  ${({ p }: any) => p && `padding: ${p};`}
 `;
 
 const Body = ({
@@ -47,18 +49,18 @@ const Body = ({
   loading,
   loadingLabel,
   ...rest
-}) => {
+}: any) => {
   let view = <View {...rest}>{children}</View>;
   if (keybordAvoid) {
     view = (
-      <TouchableWithouteedback onPress={Keyboard.dismiss}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={60}
           {...rest}>
           {children}
         </KeyboardAvoidingView>
-      </TouchableWithouteedback>
+      </TouchableWithoutFeedback>
     );
   }
 

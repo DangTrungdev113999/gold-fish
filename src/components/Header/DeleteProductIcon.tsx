@@ -7,7 +7,7 @@ import { Alert } from 'react-native';
 import { showAlert } from '~/utils';
 import { deleteShoeCreator } from '~/modules/shoes/thunk';
 
-const DeleteProductIcon = ({ navigation, route }) => {
+const DeleteProductIcon = ({ navigation, route }: any) => {
   const dispatch = useDispatch();
 
   const onPress = async () => {
@@ -36,7 +36,7 @@ const DeleteProductIcon = ({ navigation, route }) => {
         onSuccess: () => {
           navigation.navigate('shoes_screen');
         },
-        onError: () => {
+        onError: (e: string) => {
           showAlert('Có lỗi xẩy ra', e);
         },
       }),
