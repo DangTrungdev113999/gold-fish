@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-native-modal';
 import { FlatList } from 'react-native-gesture-handler';
 import { Touchable, Icon, Block, Input, Loading, Text } from '~/components';
@@ -10,15 +10,21 @@ import { shoeType } from '~/@types';
 
 import theme from '~/config/theme';
 import HideOption from './HideOption';
+import { Keyboard } from 'react-native';
 const SearchModal = () => {
   const [shoesMatch, setShoesMatch] = useState<shoeType[]>([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState('');
+  const [keyboardType, setKeyboardType] = useState('default');
+
+  const inputRef = useRef();
 
   const onReset = () => {
     setProductId('');
     setShoesMatch([]);
+    setKeyboardType('default');
+    Keyboard.dismiss();
   };
 
   const onOpen = () => {
@@ -42,7 +48,15 @@ const SearchModal = () => {
   };
 
   useEffect(() => {
+    const codeRegx = /[0-9]+/g;
     if (productId) {
+      if (
+        //@ts-ignore
+        productId.match(codeRegx)?.[0]?.length === 5
+      ) {
+        Keyboard.dismiss();
+        setKeyboardType('default');
+      }
       onSearchProduct();
     }
   }, [productId]);
@@ -55,6 +69,9 @@ const SearchModal = () => {
     } else {
       setProductId(`${prefix}${productId}`);
     }
+    setKeyboardType('number-pad');
+    //@ts-ignore
+    inputRef.current.focus();
   };
 
   const setColorCodeProductId = (code: string) => {
@@ -118,12 +135,14 @@ const SearchModal = () => {
           </Touchable>
           <Block h="0.5px" block bg="#1A4253" />
           <Input
+            ref={inputRef}
             m="20px 20px 0"
             placeholder="Nhập mã giầy"
             iconLeftName="search1"
             iconLeftType="antDesign"
             returnKeyType="search"
             autoCapitalize="characters"
+            keyboardType={keyboardType}
             value={productId}
             onChangeText={(val: string) => setProductId(val)}
           />
