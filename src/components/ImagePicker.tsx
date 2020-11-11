@@ -19,9 +19,10 @@ import {
 } from '~/components';
 
 import { checkAndRequestPermission, showAlert } from '~/utils';
-import { deleteImageUri, uploadShoeImageApi } from '~/modules/shoes/apis';
+import { deleteImageUri, uploadShoeImageApi } from '~/modules/Shoes/apis';
 
 import theme from '~/config/theme';
+import { uploadSlipperImageApi } from '~/modules/Slippers/apis';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -39,7 +40,7 @@ let options: any = {
   mediaType: 'photo',
 };
 
-const ImagePicker = ({ imageUri, setData }: any) => {
+const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
   const [visible, setVisible] = useState(false);
   const [percent, setPercent] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -71,23 +72,28 @@ const ImagePicker = ({ imageUri, setData }: any) => {
   const onUploadImage = async (imgUri: string) => {
     onClose();
     setPercent(2);
-    await uploadShoeImageApi({
-      imageUri: imgUri,
-      onProgress: (p: number) => {
-        setPercent(p);
-      },
-      onSuccess: async (uri: string) => {
-        if (imageUri) {
-          await deleteImageUri(imageUri);
-        }
+    const uploadImageApi =
+      fromScreen === 'action_shoe' ? uploadShoeImageApi : uploadSlipperImageApi;
 
-        setData({ imageUri: uri });
-        setLoading(false);
-      },
-      onErorr: (e: string) => {
-        showAlert('Có lỗi khi upload ảnh.!', e);
-      },
-    });
+    if (fromScreen) {
+      await uploadImageApi({
+        imageUri: imgUri,
+        onProgress: (p: number) => {
+          setPercent(p);
+        },
+        onSuccess: async (uri: string) => {
+          if (imageUri) {
+            await deleteImageUri(imageUri);
+          }
+
+          setData({ imageUri: uri });
+          setLoading(false);
+        },
+        onErorr: (e: string) => {
+          showAlert('Có lỗi khi upload ảnh.!', e);
+        },
+      });
+    }
   };
 
   const launchCamera = async () => {
@@ -112,7 +118,7 @@ const ImagePicker = ({ imageUri, setData }: any) => {
       });
     }
   };
-2
+  2;
   const launchImageLibrary = async () => {
     const permission = await checkAndRequestPermission(
       Platform.OS === 'ios'

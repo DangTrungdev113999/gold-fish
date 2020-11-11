@@ -6,6 +6,11 @@ export const SHOE_TYPES = [
   { name: 'Giầy tây', value: 'Giầy tây' },
 ];
 
+export const SLIPPER_TYPES = [
+  { name: 'Dép quay hậu', value: 'Dép quay hậu' },
+  { name: 'Dép lê', value: 'Dép lê' },
+];
+
 export const SHOE_PREFIX = [
   'DSMH',
   'DSUH',

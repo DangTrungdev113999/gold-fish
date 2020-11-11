@@ -26,8 +26,8 @@ export const fetchShoesApi = async (type: string) => {
 
     if (!snapshot.empty) {
       snapshot.forEach((doc) => {
-        const foodItem = doc.data();
-        shoesList.push(foodItem as shoeType);
+        const shoeItem = doc.data();
+        shoesList.push(shoeItem as shoeType);
       });
     }
 
@@ -55,8 +55,8 @@ export const fetchMoreShoesApi = async (lastShoe: any) => {
 
       if (!snapshot.empty) {
         snapshot.forEach((doc) => {
-          const foodItem = doc.data();
-          shoesList.push(foodItem as shoeType);
+          const shoeItem = doc.data();
+          shoesList.push(shoeItem as shoeType);
         });
       }
 
@@ -122,7 +122,7 @@ export const deleteImageUri = async (imageUri: string) => {
       await imageRef.delete();
     }
   } catch (e) {
-    console.log('delete iamge error: ', e.e);
+    console.log('delete iamge error: ', e.message);
   }
 };
 
@@ -132,7 +132,6 @@ export const uploadShoeImageApi = async ({
   onSuccess,
   onError,
 }: any) => {
-  console.log(imageUri);
   const fileName = imageUri.split('/').pop();
   const reference = storage().ref(`Shoes/${fileName}`);
 
@@ -175,8 +174,8 @@ export const searchShoesApi = async (searchString: string) => {
 
     if (!snapshot.empty) {
       snapshot.forEach((doc) => {
-        const foodItem = doc.data();
-        shoesMatch.push(foodItem as shoeType);
+        const shoeItem = doc.data();
+        shoesMatch.push(shoeItem as shoeType);
       });
     }
 

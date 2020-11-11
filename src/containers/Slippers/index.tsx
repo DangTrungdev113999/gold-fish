@@ -3,21 +3,21 @@
 import React from 'react';
 import { TabBar, TabView } from 'react-native-tab-view';
 import { Body, SearchModal } from '~/components';
-import { SHOE_TYPES } from '~/config/constants';
+import { SLIPPER_TYPES } from '~/config/constants';
 import theme from '~/config/theme';
-import ShoesList from './components/ShoesList';
+import SlippersList from './components/SlippersList';
 
-const SHOE_TYPES_TAB = [...SHOE_TYPES];
+const SLIPPER_TYPES_TAB = [...SLIPPER_TYPES];
 
-SHOE_TYPES_TAB.unshift({ name: 'All', value: 'Tất cả' });
+SLIPPER_TYPES_TAB.unshift({ name: 'All', value: 'Tất cả' });
 
-const Shoes = () => {
+const Slippers = () => {
   const [index, setIndex] = React.useState(0);
 
   const renderScene = ({ route }) => {
     switch (route.key) {
-      case SHOE_TYPES_TAB[index].name:
-        return <ShoesList type={SHOE_TYPES_TAB[index].name} />;
+      case SLIPPER_TYPES_TAB[index].name:
+        return <SlippersList type={SLIPPER_TYPES_TAB[index].name} />;
       default:
         return null;
     }
@@ -48,7 +48,7 @@ const Shoes = () => {
         )}
         navigationState={{
           index,
-          routes: SHOE_TYPES_TAB.map((item) => ({
+          routes: SLIPPER_TYPES_TAB.map((item) => ({
             key: item.name,
             title: item.value,
           })),
@@ -58,12 +58,11 @@ const Shoes = () => {
         swipeEnabled
         renderScene={renderScene}
         onIndexChange={setIndex}
-        // initialLayout={{ width: Dimensions.get('window').width }}
       />
 
-      <SearchModal productTarget="shoe" />
+      <SearchModal productTarget="slipper" />
     </Body>
   );
 };
 
-export default Shoes;
+export default Slippers;

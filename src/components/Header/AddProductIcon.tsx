@@ -3,12 +3,16 @@ import TouchableOpacity from '../Touchable';
 import Icon from '../Icon';
 import theme from '~/config/theme';
 
-const AddProductIcon = ({ navigation }: any) => {
-  const goToAddShoe = () => {
-    navigation.navigate('action_shoe_screen', { type: 'add' });
+const AddProductIcon = ({ navigation, fromScreen }: any) => {
+  const goToAddProdct = () => {
+    if (fromScreen === 'shoes') {
+      navigation.navigate('action_shoe_screen', { type: 'add' });
+    } else {
+      navigation.navigate('action_slipper_screen', { type: 'add' });
+    }
   };
   return (
-    <TouchableOpacity m="0 20px 0 0" onPress={goToAddShoe}>
+    <TouchableOpacity m="0 20px 0 0" onPress={goToAddProdct}>
       <Icon
         type="ionicons"
         name="add-circle-outline"

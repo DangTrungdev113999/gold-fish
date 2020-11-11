@@ -15,52 +15,55 @@ import {
 import theme from '~/config/theme';
 import { useSetObjectState } from '~/hoocks';
 
-import { SHOE_TYPES } from '~/config/constants';
-import { updateShoeCreator, addShoeCreator } from '~/modules/Shoes/thunk';
+import { SLIPPER_TYPES } from '~/config/constants';
 import {
-  addShoeLoadingSelector,
-  updateShoeLoadingSelector,
-} from '~/modules/Shoes/selector';
-import { isShoeId, showAlert } from '~/utils';
-import { deleteShoeLoadingSelector } from '~/modules/Shoes/selector';
+  updateSlipperCreator,
+  addSlipperCreator,
+} from '~/modules/Slippers/thunk';
+import {
+  addSlipperLoadingSelector,
+  updateSlipperLoadingSelector,
+} from '~/modules/Slippers/selector';
+import { isSlipperId, showAlert } from '~/utils';
+import { deleteSlipperLoadingSelector } from '~/modules/Slippers/selector';
 
-const ActionShoe = ({ navigation, route }: any) => {
+const ActionSlipper = ({ navigation, route }: any) => {
   const [data, setData] = useSetObjectState({
-    shoeId: '',
+    slipperId: '',
     imageUri: '',
-    type: 'Hunter',
+    type: '',
     like: false,
   });
 
-  const [shoeIdIsValid, setShoeIdIsValid] = useState(true);
+  const [slipperIdIsValid, setSlipperIdIsValid] = useState(true);
 
   const dispatch = useDispatch();
-  const updateShoesLoading = useSelector(updateShoeLoadingSelector);
-  const addShoesLoading = useSelector(addShoeLoadingSelector);
-  const deleteShoesLoading = useSelector(deleteShoeLoadingSelector);
+  const updateSlippersLoading = useSelector(addSlipperLoadingSelector);
+  const addSlippersLoading = useSelector(updateSlipperLoadingSelector);
+  const deleteSlippersLoading = useSelector(deleteSlipperLoadingSelector);
 
   useEffect(() => {
-    if (route.params?.shoeDetail?.shoeId) {
-      setData({ ...route.params.shoeDetail });
+    if (route.params?.slipperDetail?.slipperId) {
+      setData({ ...route.params.slipperDetail });
     }
 
     return () => {
       setData({
-        shoeId: '',
+        slipperId: '',
         imageUri: '',
-        type: 'Hunter',
+        type: '',
         like: false,
       });
     };
-  }, [route.params?.shoeDetail?.shoeId]);
+  }, [route.params?.slipperDetail?.slipperId]);
 
-  const onActionShoe = async () => {
+  const onActionSlipper = async () => {
     if (route.params.type === 'add') {
       dispatch(
-        addShoeCreator({
-          shoe: data,
+        addSlipperCreator({
+          slipper: data,
           onSuccess: () => {
-            navigation.navigate('shoes_screen');
+            navigation.navigate('slippers_screen');
           },
           onError: (e: string) => {
             showAlert('Có lỗi xẩy ra', e);
@@ -69,8 +72,8 @@ const ActionShoe = ({ navigation, route }: any) => {
       );
     } else if (route.params.type === 'update') {
       dispatch(
-        updateShoeCreator({
-          shoe: data,
+        updateSlipperCreator({
+          slipper: data,
           onSuccess: () => {
             ToastAndroid.show('Cập nhật thành công !', ToastAndroid.SHORT);
           },
@@ -82,54 +85,56 @@ const ActionShoe = ({ navigation, route }: any) => {
     }
   };
 
-  const checkShoeId = () => {
-    const result = isShoeId(data.shoeId);
-    setShoeIdIsValid(result);
+  const checkSlipperId = () => {
+    const result = isSlipperId(data.slipperId);
+    setSlipperIdIsValid(result);
   };
 
-  const onSetShoeId = (shoeId: string) => {
-    if (shoeId.length > 12) {
+  const onSetSlipperId = (slipperId: string) => {
+    if (slipperId.length > 12) {
       Keyboard.dismiss();
     }
-    setData({ shoeId });
+    setData({ slipperId });
   };
 
   const formIsValid = () => {
-    return isShoeId(data.shoeId) && data.imageUri;
+    return isSlipperId(data.slipperId) && data.imageUri;
   };
 
   return (
     <Body
       flex={1}
       overlay
-      loading={updateShoesLoading || addShoesLoading || deleteShoesLoading}>
+      loading={
+        updateSlippersLoading || addSlippersLoading || deleteSlippersLoading
+      }>
       <ScrollView>
         <ImagePicker
           imageUri={data.imageUri}
           setData={setData}
-          fromScreen="action_shoe"
+          fromScreen="action_slipper"
         />
 
         <Block p="30px 20px 20px">
           <Input
-            label="Mã giầy"
+            label="Mã dép"
             required
-            placeholder="Nhập mã giầy"
-            value={data.shoeId}
+            placeholder="Nhập mã dép"
+            value={data.slipperId}
             disabled={route.params.type === 'update'}
             iconLeftName="tago"
             iconLeftType="antDesign"
             autoCapitalize="characters"
-            onChangeText={onSetShoeId}
-            description={!shoeIdIsValid ? 'Mã giầy không đúng định dạng' : ''}
-            danger={!shoeIdIsValid}
-            onBlur={checkShoeId}
+            onChangeText={onSetSlipperId}
+            description={!slipperIdIsValid ? 'Mã dép không đúng định dạng' : ''}
+            danger={!slipperIdIsValid}
+            onBlur={checkSlipperId}
             maxLength={12}
           />
           <Picker
             label="Dòng sản phẩm"
             title="Dòng sản phẩm"
-            options={SHOE_TYPES}
+            options={SLIPPER_TYPES}
             placeholder="Chọn dòng sản phẩm"
             value={data.type}
             onChange={(val: string) => setData({ type: val })}
@@ -145,7 +150,7 @@ const ActionShoe = ({ navigation, route }: any) => {
         center
         middle
         disabled={!formIsValid()}
-        onPress={onActionShoe}>
+        onPress={onActionSlipper}>
         <Text
           color={
             !formIsValid() ? theme.color.grayLight : theme.color.secondary
@@ -157,4 +162,4 @@ const ActionShoe = ({ navigation, route }: any) => {
   );
 };
 
-export default ActionShoe;
+export default ActionSlipper;

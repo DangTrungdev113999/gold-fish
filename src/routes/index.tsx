@@ -1,6 +1,6 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import MainTabs from './MainTabs/index';
 
@@ -12,7 +12,7 @@ const Navigation = () => (
       <Stack.Screen
         name="main_tabs"
         component={MainTabs}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   </NavigationContainer>

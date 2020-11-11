@@ -1,29 +1,38 @@
-import {createSelector} from 'reselect';
-import {rootReducerType} from '~/@types';
+import { createSelector } from 'reselect';
+import { rootReducerType } from '~/@types';
 
-const shoesSelector = (state: rootReducerType) => state.shoes;
+const slippersSelector = (state: rootReducerType) => state.slippers;
 
-export const shoesListSelector = createSelector(
-  shoesSelector,
-  (shoesReducer) => shoesReducer.shoesList,
+export const slippersListSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.slippersList,
 );
 
-export const fetchShoesLoadingSelector = createSelector(
-  shoesSelector,
-  (shoesReducer) => shoesReducer.fetchShoesLoading,
+export const fetchSlippersLoadingSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.fetchSlippersLoading,
 );
 
-export const loadMoreShoesLoadingSelector = createSelector(
-  shoesSelector,
-  (shoesReducer) => shoesReducer.loadMoreShoesLoading,
+export const loadMoreSlippersLoadingSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.loadMoreSlippersLoading,
 );
 
-export const updateShoeLoadingSelector = createSelector(
-  shoesSelector,
-  (shoesReducer) => shoesReducer.updateShoeLoading,
+export const addSlipperLoadingSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.addSlipperLoading,
 );
 
-export const deleteShoeLoadingSelector = createSelector(
-  shoesSelector,
-  (shoesReducer) => shoesReducer.deleteShoeLoading,
+export const updateSlipperLoadingSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.updateSlipperLoading,
+);
+
+export const deleteSlipperLoadingSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.deleteSlipperLoading,
+);
+export const lastSlipperSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.lastSlipper,
 );

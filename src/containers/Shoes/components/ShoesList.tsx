@@ -8,8 +8,8 @@ import {
   lastShoeSelector,
   loadMoreShoesLoadingSelector,
   shoesListSelector,
-} from '~/modules/shoes/selector';
-import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/shoes/thunk';
+} from '~/modules/Shoes/selector';
+import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/Shoes/thunk';
 
 type PropsType = {
   type: string;
@@ -38,7 +38,9 @@ const ShoesList = ({ type }: PropsType) => {
     <Body flex={1} center p="10px 0 0">
       <List
         items={shoesList}
-        renderItem={({ item }) => <Card item={item} />}
+        renderItem={({ item }) => (
+          <Card item={item} targetScreen="action_shoe_screen" />
+        )}
         keyExtractor={(item) => item.shoeId}
         loading={fetchShoesLoading}
         onRefresh={fetchShoesList}

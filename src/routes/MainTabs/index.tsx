@@ -1,10 +1,10 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import ShoesStack from './ShoesStack';
 import SlippersStack from './SlippersStack';
 
-import {Icon} from '~/components';
+import { Icon } from '~/components';
 import theme from '~/config/theme';
 
 const Tab = createBottomTabNavigator();
@@ -42,9 +42,9 @@ export default function () {
       <Tab.Screen
         name="shoes_stack"
         component={ShoesStack}
-        options={({route}) => ({
+        options={({ route }) => ({
           tabBarLabel: 'Giầy',
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Icon
               name="shoe-formal"
               type="materialCommunityIcons"
@@ -58,9 +58,9 @@ export default function () {
       <Tab.Screen
         name="slippers_tab"
         component={SlippersStack}
-        options={({route}) => ({
+        options={({ route }) => ({
           tabBarLabel: 'Dép',
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <Icon
               name="beach-slipper"
               type="fontisto"

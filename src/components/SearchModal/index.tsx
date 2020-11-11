@@ -6,15 +6,21 @@ import { FlatList } from 'react-native-gesture-handler';
 import { Touchable, Icon, Block, Input, Loading, Text } from '~/components';
 
 import Option from './Option';
-import { searchShoesApi } from '~/modules/shoes/apis';
+import { searchShoesApi } from '~/modules/Shoes/apis';
 import { COLOR_CODE, SHOE_PREFIX } from '~/config/constants';
 import { shoeType } from '~/@types';
 
 import theme from '~/config/theme';
 import HideOption from './HideOption';
 import { Keyboard } from 'react-native';
-const SearchModal = () => {
-  const [shoesMatch, setShoesMatch] = useState<shoeType[]>([]);
+import { searchSlippersApi } from '~/modules/Slippers/apis';
+
+type PropsType = {
+  productTarget: string;
+};
+
+const SearchModal = ({ productTarget }: PropsType) => {
+  const [propductsMatch, setPropductsMatch] = useState<shoeType[]>([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState('');
@@ -24,7 +30,7 @@ const SearchModal = () => {
 
   const onReset = () => {
     setProductId('');
-    setShoesMatch([]);
+    setPropductsMatch([]);
     setKeyboardType('default');
     Keyboard.dismiss();
   };
@@ -43,8 +49,10 @@ const SearchModal = () => {
     setLoading(true);
     const flag = setTimeout(async () => {
       clearTimeout(flag);
-      const shoesList = await searchShoesApi(productId);
-      setShoesMatch(shoesList as shoeType[]);
+      const searchProductApi =
+        productTarget === 'shoe' ? searchShoesApi : searchSlippersApi;
+      const productsList = await searchProductApi(productId);
+      setPropductsMatch(productsList as shoeType[]);
     }, 100);
     setLoading(false);
   };
@@ -142,7 +150,7 @@ const SearchModal = () => {
           <Input
             ref={inputRef}
             m="20px 20px 0"
-            placeholder="Nhập mã giầy"
+            placeholder="Nhập mã"
             iconLeftName="search1"
             iconLeftType="antDesign"
             returnKeyType="search"
@@ -154,18 +162,29 @@ const SearchModal = () => {
           />
 
           <FlatList
-            data={shoesMatch}
+            data={propductsMatch}
             renderItem={({ item }: { item: shoeType }) => (
-              <Option item={item} onClose={onClose} />
+              <Option
+                item={item}
+                onClose={onClose}
+                productTarget={productTarget}
+              />
             )}
             keyExtractor={(item: shoeType) => item.shoeId}
           />
 
-          <Block h="0.5px" block bg="#1A4253" />
-          <HideOption items={SHOE_PREFIX} setString={setPrefixProductId} />
+          {productTarget === 'shoe' ? (
+            <>
+              <Block h="0.5px" block bg="#1A4253" />
+              <HideOption items={SHOE_PREFIX} setString={setPrefixProductId} />
 
-          <Block h="0.5px" block bg="#1A4253" />
-          <HideOption items={COLOR_CODE} setString={setColorCodeProductId} />
+              <Block h="0.5px" block bg="#1A4253" />
+              <HideOption
+                items={COLOR_CODE}
+                setString={setColorCodeProductId}
+              />
+            </>
+          ) : null}
         </Block>
       </Modal>
     </Block>

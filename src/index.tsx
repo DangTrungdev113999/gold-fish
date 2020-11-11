@@ -1,15 +1,14 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, LogBox } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 import { Provider } from 'react-redux';
-
-import store from './configStore';
 
 import theme from '~/config/theme';
 import Navigation from '~/routes';
 
-declare const global: { HermesInternal: null | {} };
+import store from './configStore';
 
+LogBox.ignoreLogs(['Warning: ...']);
 const AppProvider = () => {
   return (
     <ThemeProvider theme={theme}>

@@ -14,10 +14,16 @@ export default () => (
     <Stack.Screen
       name="shoes_screen"
       component={ShoesScreen}
-      options={({ navigation }) => ({
+      options={({ navigation, route }) => ({
         title: 'NO LIMIT trên đôi Bitis',
         headerLeft: () => <Block />,
-        headerRight: () => <AddProductIcon navigation={navigation} />,
+        headerRight: () => (
+          <AddProductIcon
+            navigation={navigation}
+            route={route}
+            fromScreen="shoes"
+          />
+        ),
       })}
     />
     <Stack.Screen
@@ -39,7 +45,11 @@ export default () => (
         ),
         headerRight: () =>
           route.params?.shoeDetail?.shoeId ? (
-            <DeleteProductIcon navigation={navigation} route={route} />
+            <DeleteProductIcon
+              navigation={navigation}
+              route={route}
+              fromScreen="action_shoe"
+            />
           ) : (
             <Block />
           ),

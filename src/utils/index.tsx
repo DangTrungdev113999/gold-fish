@@ -85,13 +85,19 @@ export function getRefToStorage(URL: string) {
 }
 
 export function separatorCode(code: string) {
-  const regxNumber = /[0-9]+/;
-  const numberic = code.match(regxNumber)?.[0];
-  return {
-    prefix: code.split(numberic as string)[0],
-    numberic,
-    colorCode: code.split(numberic as string)[1],
-  };
+  if (code) {
+    const regxNumber = /[0-9]+/;
+    const numberic = code.match(regxNumber)?.[0];
+    if (numberic) {
+      return {
+        prefix: code.split(numberic as string)[0],
+        numberic,
+        colorCode: code.split(numberic as string)[1],
+      };
+    }
+    return code;
+  }
+  return code;
 }
 
 export function isShoeId(shoeId: string): any {
@@ -99,4 +105,8 @@ export function isShoeId(shoeId: string): any {
     shoeId &&
     shoeId.match(/^([A-Z]{4}|[A-Z]{3})\d{5}(\-([A-Z]{3}|[A-Z]{2}))?$/g)
   );
+}
+
+export function isSlipperId(slipperId: string): any {
+  return !!(slipperId && slipperId.length >= 5);
 }

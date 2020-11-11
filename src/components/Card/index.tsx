@@ -10,7 +10,7 @@ import Text from '../Text';
 import Icon from '../Icon';
 
 import theme from '~/config/theme';
-import { shoeType } from '~/@types';
+import { shoeType, slipperType } from '~/@types';
 import { separatorCode } from '~/utils';
 
 const windowWidth = Dimensions.get('window').width;
@@ -32,10 +32,10 @@ const Wrapper = styled(Block)`
 `;
 
 type CardPropsType = {
-  item: shoeType;
+  item: shoeType | slipperType;
 };
 
-const Card = ({ item }: CardPropsType) => {
+const Card = ({ item, targetScreen }: CardPropsType) => {
   const navigation = useNavigation();
   const [favorite, setFavorite] = useState(false);
   const [side, setSide] = useState(true);
@@ -43,13 +43,20 @@ const Card = ({ item }: CardPropsType) => {
   const handleFavorite = () => setFavorite(!favorite);
 
   const onEdit = () => {
-    navigation.navigate('action_shoe_screen', {
-      type: 'update',
-      shoeDetail: item,
-    });
+    if (targetScreen === 'action_shoe_screen') {
+      navigation.navigate('action_shoe_screen', {
+        type: 'update',
+        shoeDetail: item,
+      });
+    } else {
+      navigation.navigate('action_slipper_screen', {
+        type: 'update',
+        slipperDetail: item,
+      });
+    }
   };
 
-  const separatorResult = separatorCode(item.shoeId);
+  const separatorResult = separatorCode(item?.shoeId || item?.slipperId);
 
   return (
     <Wrapper>

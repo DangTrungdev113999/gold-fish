@@ -1,96 +1,126 @@
 import {
-  FETCH_SHOES,
-  FETCH_SHOES_SUCCEEDED,
-  FETCH_SHOES_FAILED,
-  LOAD_MORE_SHOES,
-  LOAD_MORE_SHOES_SUCCEEDED,
-  LOAD_MORE_SHOES_FAILED,
-  UPDATE_SHOE,
-  UPDATE_SHOE_SUCCEEDED,
-  UPDATE_SHOE_FAILED,
-  DELETE_SHOE,
-  DELETE_SHOE_SUCCEEDED,
-  DELETE_SHOE_FAILED,
+  FETCH_SLIPPERS,
+  FETCH_SLIPPERS_SUCCEEDED,
+  FETCH_SLIPPERS_FAILED,
+  LOAD_MORE_SLIPPERS,
+  LOAD_MORE_SLIPPERS_SUCCEEDED,
+  LOAD_MORE_SLIPPERS_FAILED,
+  ADD_SLIPPER,
+  ADD_SLIPPER_SUCCEEDED,
+  ADD_SLIPPER_FAILED,
+  UPDATE_SLIPPER,
+  UPDATE_SLIPPER_SUCCEEDED,
+  UPDATE_SLIPPER_FAILED,
+  DELETE_SLIPPER,
+  DELETE_SLIPPER_SUCCEEDED,
+  DELETE_SLIPPER_FAILED,
+  SET_LAST_SLIPPER,
 } from './constants';
 
-export const fetchShoes = () => {
+export const fetchSlippers = () => {
   return {
-    type: FETCH_SHOES,
+    type: FETCH_SLIPPERS,
   };
 };
 
-export const fetchShoesSucceeded = (payload = {}) => {
+export const fetchSlippersSucceeded = (payload = {}) => {
   return {
-    type: FETCH_SHOES_SUCCEEDED,
+    type: FETCH_SLIPPERS_SUCCEEDED,
     payload,
   };
 };
 
-export const fetchShoesFailed = (payload = {}) => {
+export const fetchSlippersFailed = (payload = {}) => {
   return {
-    type: FETCH_SHOES_FAILED,
+    type: FETCH_SLIPPERS_FAILED,
     payload,
   };
 };
 
-export const loadMoreShoes = () => {
+export const loadMoreSlippers = () => {
   return {
-    type: LOAD_MORE_SHOES,
+    type: LOAD_MORE_SLIPPERS,
   };
 };
 
-export const loadMoreShoesSucceeded = (payload = {}) => {
+export const loadMoreSlippersSucceeded = (payload = {}) => {
   return {
-    type: LOAD_MORE_SHOES_SUCCEEDED,
+    type: LOAD_MORE_SLIPPERS_SUCCEEDED,
     payload,
   };
 };
 
-export const loadMoreShoesFailed = (payload = {}) => {
+export const loadMoreSlippersFailed = (payload = {}) => {
   return {
-    type: LOAD_MORE_SHOES_FAILED,
+    type: LOAD_MORE_SLIPPERS_FAILED,
     payload,
   };
 };
 
-export const updateShoe = (payload = {}) => {
+export const addSlipper = () => {
   return {
-    type: UPDATE_SHOE,
+    type: ADD_SLIPPER,
+  };
+};
+
+export const addSlipperSucceeded = (payload = {}) => {
+  return {
+    type: ADD_SLIPPER_SUCCEEDED,
     payload,
   };
 };
 
-export const updateShoeSucceeded = (payload = {}) => {
+export const addSlipperFailed = (payload = {}) => {
   return {
-    type: UPDATE_SHOE_SUCCEEDED,
+    type: ADD_SLIPPER_FAILED,
     payload,
   };
 };
 
-export const updateShoeFailed = (payload = {}) => {
+export const updateSlipper = () => {
   return {
-    type: UPDATE_SHOE_FAILED,
+    type: UPDATE_SLIPPER,
+  };
+};
+
+export const updateSlipperSucceeded = (payload = {}) => {
+  return {
+    type: UPDATE_SLIPPER_SUCCEEDED,
     payload,
   };
 };
 
-export const deleteShoe = (payload = {}) => {
+export const updateSlipperFailed = (payload = {}) => {
   return {
-    type: DELETE_SHOE,
+    type: UPDATE_SLIPPER_FAILED,
     payload,
   };
 };
 
-export const deleteShoeSucceeded = (payload = {}) => {
+export const deleteSlipper = (payload = {}) => {
   return {
-    type: DELETE_SHOE_SUCCEEDED,
+    type: DELETE_SLIPPER,
     payload,
   };
 };
 
-export const deleteShoeFailed = (payload = {}) => {
+export const deleteSlipperSucceeded = (payload = {}) => {
   return {
-    type: DELETE_SHOE_FAILED,
+    type: DELETE_SLIPPER_SUCCEEDED,
+    payload,
+  };
+};
+
+export const deleteSlipperFailed = (payload = {}) => {
+  return {
+    type: DELETE_SLIPPER_FAILED,
+    payload,
+  };
+};
+
+export const setLastSlipper = (payload = {}) => {
+  return {
+    type: SET_LAST_SLIPPER,
     payload,
   };
 };

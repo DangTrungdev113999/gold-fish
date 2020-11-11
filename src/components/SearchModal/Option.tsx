@@ -28,16 +28,24 @@ const Image = styled.Image.attrs({
 type PropsType = {
   item: shoeType;
   onClose: Function;
+  productTarget: string;
 };
-const Option = ({ item, onClose }: PropsType) => {
+const Option = ({ item, onClose, productTarget }: PropsType) => {
   const navigation = useNavigation();
 
   const goToDetail = () => {
     onClose();
-    navigation.navigate('action_shoe_screen', {
-      type: 'update',
-      shoeDetail: item,
-    });
+    if (productTarget === 'shoe') {
+      navigation.navigate('action_shoe_screen', {
+        type: 'update',
+        shoeDetail: item,
+      });
+    } else {
+      navigation.navigate('action_slipper_screen', {
+        type: 'update',
+        slipperDetail: item,
+      });
+    }
   };
 
   const separatorResult = separatorCode(item.shoeId);

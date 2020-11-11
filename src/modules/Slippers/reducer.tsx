@@ -1,86 +1,117 @@
 import produce from 'immer';
-import { shoeReducerType } from '~/@types';
+import { slipperType, slipperReducerType } from '~/@types';
 
 import {
-  FETCH_SHOES,
-  FETCH_SHOES_SUCCEEDED,
-  FETCH_SHOES_FAILED,
-  LOAD_MORE_SHOES,
-  LOAD_MORE_SHOES_SUCCEEDED,
-  LOAD_MORE_SHOES_FAILED,
-  UPDATE_SHOE,
-  UPDATE_SHOE_SUCCEEDED,
-  UPDATE_SHOE_FAILED,
-  DELETE_SHOE,
-  DELETE_SHOE_SUCCEEDED,
-  DELETE_SHOE_FAILED,
+  FETCH_SLIPPERS,
+  FETCH_SLIPPERS_SUCCEEDED,
+  FETCH_SLIPPERS_FAILED,
+  LOAD_MORE_SLIPPERS,
+  LOAD_MORE_SLIPPERS_SUCCEEDED,
+  LOAD_MORE_SLIPPERS_FAILED,
+  ADD_SLIPPER,
+  ADD_SLIPPER_SUCCEEDED,
+  ADD_SLIPPER_FAILED,
+  UPDATE_SLIPPER,
+  UPDATE_SLIPPER_SUCCEEDED,
+  UPDATE_SLIPPER_FAILED,
+  DELETE_SLIPPER,
+  DELETE_SLIPPER_SUCCEEDED,
+  DELETE_SLIPPER_FAILED,
+  SET_LAST_SLIPPER,
 } from './constants';
 
-const initState: shoeReducerType = {
-  shoesList: [],
-  fetchShoesLoading: false,
-  fetchShoesError: '',
-  loadMoreShoesLoading: false,
-  loadMoreShoesError: '',
-  updateShoeLoading: false,
-  updateShoeError: '',
-  deleteShoeLoading: false,
-  deleteShoeError: '',
+const initState: slipperReducerType = {
+  slippersList: [],
+  fetchSlippersLoading: false,
+  fetchSlippersError: '',
+  loadMoreSlippersLoading: false,
+  loadMoreSlippersError: '',
+  addSlipperLoading: false,
+  addSlipperError: '',
+  updateSlipperLoading: false,
+  updateSlipperError: '',
+  deleteSlipperLoading: false,
+  deleteSlipperError: '',
+  lastSlipper: null,
 };
-const shoeReducer = produce((draft, action) => {
+const slipperReducer = produce((draft, action) => {
   switch (action.type) {
-    case FETCH_SHOES:
-      draft.fetchShoesLoading = true;
+    case FETCH_SLIPPERS:
+      draft.fetchSlippersLoading = true;
       draft.error = '';
       break;
-    case FETCH_SHOES_SUCCEEDED:
-      draft.fetchShoesLoading = false;
-      draft.shoes = action.payload;
+    case FETCH_SLIPPERS_SUCCEEDED:
+      draft.fetchSlippersLoading = false;
+      draft.slippersList = action.payload.slippersList;
       break;
-    case FETCH_SHOES_FAILED:
-      draft.fetchShoesLoading = false;
-      draft.fetchShoesError = action.payload;
-      break;
-
-    case LOAD_MORE_SHOES:
-      draft.loadMoreShoesLoading = true;
-      draft.loadMoreShoesError = '';
-      break;
-    case LOAD_MORE_SHOES_SUCCEEDED:
-      draft.loadMoreShoesLoading = false;
-      draft.shoes = action.payload;
-      break;
-    case LOAD_MORE_SHOES_FAILED:
-      draft.loadMoreShoesLoading = false;
-      draft.loadMoreShoesError = action.payload;
+    case FETCH_SLIPPERS_FAILED:
+      draft.fetchSlippersLoading = false;
+      draft.fetchSlippersError = action.payload;
       break;
 
-    case UPDATE_SHOE:
-      draft.updateShoeLoading = true;
-      draft.updateShoeError = '';
+    case LOAD_MORE_SLIPPERS:
+      draft.loadMoreSlippersLoading = true;
+      draft.loadMoreSlippersError = '';
       break;
-    case UPDATE_SHOE_SUCCEEDED:
-      draft.updateShoeLoading = false;
-      draft.shoes = action.payload;
+    case LOAD_MORE_SLIPPERS_SUCCEEDED:
+      draft.loadMoreSlippersLoading = false;
+      draft.slippersList.push(...action.payload.slippersList);
       break;
-    case UPDATE_SHOE_FAILED:
-      draft.updateShoeLoading = false;
-      draft.updateShoeError = action.payload;
+    case LOAD_MORE_SLIPPERS_FAILED:
+      draft.loadMoreSlippersLoading = false;
+      draft.loadMoreSlippersError = action.payload;
       break;
 
-    case DELETE_SHOE:
-      draft.deleteShoeLoading = true;
-      draft.deleteShoeError = '';
+    case ADD_SLIPPER:
+      draft.addSlipperLoading = true;
+      draft.addSlipperError = '';
       break;
-    case DELETE_SHOE_SUCCEEDED:
-      draft.deleteShoeLoading = false;
-      draft.shoes = action.payload;
+    case ADD_SLIPPER_SUCCEEDED:
+      draft.addSlipperLoading = false;
+      draft.slippersList.unshift(action.payload);
       break;
-    case DELETE_SHOE_FAILED:
-      draft.deleteShoeLoading = false;
-      draft.deleteShoeError = action.payload;
+    case ADD_SLIPPER_FAILED:
+      draft.addSlipperLoading = false;
+      draft.addSlipperError = action.payload;
       break;
+
+    case UPDATE_SLIPPER:
+      draft.updateSlipperLoading = true;
+      draft.updateSlipperError = '';
+      break;
+    case UPDATE_SLIPPER_SUCCEEDED: {
+      const index = draft.slippersList.findIndex(
+        (item: slipperType) => item.slipperId === action.payload.slipperId,
+      );
+      draft.updateSlipperLoading = false;
+      draft.slippersList[index] = action.payload;
+      break;
+    }
+    case UPDATE_SLIPPER_FAILED:
+      draft.updateSlipperLoading = false;
+      draft.updateSlipperError = action.payload;
+      break;
+
+    case DELETE_SLIPPER:
+      draft.deleteSlipperLoading = true;
+      draft.deleteSlipperError = '';
+      break;
+    case DELETE_SLIPPER_SUCCEEDED: {
+      const index = draft.slippersList.findIndex(
+        (item: slipperType) => item.slipperId === action.payload.slipperId,
+      );
+      draft.deleteSlipperLoading = false;
+      draft.slippersList.splice(index, 1);
+      break;
+    }
+    case DELETE_SLIPPER_FAILED:
+      draft.deleteSlipperLoading = false;
+      draft.deleteSlipperError = action.payload;
+      break;
+
+    case SET_LAST_SLIPPER:
+      draft.lastSlipper = action.payload.lastSlipper;
   }
 }, initState);
 
-export default shoeReducer;
+export default slipperReducer;
