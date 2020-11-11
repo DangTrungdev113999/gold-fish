@@ -7,6 +7,10 @@ export default {
 
     secondary: '#11ECE5',
     bg: '#0F1724',
+    grayLight: '#5E718C',
+    blue1: '#1D2636',
+    blue2: '#203047',
+    blue3: '#24364E',
 
     standard: '#0080FE',
     success: '#36B37E',

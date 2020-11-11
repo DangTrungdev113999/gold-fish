@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
@@ -6,40 +7,38 @@ import LoadingOverlay from './LoadingOverlay';
 
 import theme from '~/config/theme';
 
-//@ts-ignore
 const View = styled.View`
-  ${({ flex }: any) => flex && `flex: ${flex};`}
-  background-color: ${({ bg }: any) => {
+  ${({ flex }) => flex && `flex: ${flex};`}
+  background-color: ${({ bg }) => {
     if (bg) {
       return bg;
     }
     return theme.color.bg;
   }}
-    ${({ center }: any) =>
+    ${({ center }) =>
     center &&
     `
       align-items: center;
       justify-content: center;
   `}
-    ${({ p }: any) => p && `padding: ${p};`}
+    ${({ p }) => p && `padding: ${p};`}
 `;
 
-//@ts-ignore
 const KeyboardAvoidingView = styled.KeyboardAvoidingView`
-  ${({ flex }: any) => flex && `flex: ${flex};`}
-  background-color: ${({ bg }: any) => {
+  ${({ flex }) => flex && `flex: ${flex};`}
+  background-color: ${({ bg }) => {
     if (bg) {
       return bg;
     }
     return theme.color.white;
   }};
-  ${({ center }: any) =>
+  ${({ center }) =>
     center &&
     `
     align-items: center;
     justify-content: center;
   `}
-  ${({ p }: any) => p && `padding: ${p};`}
+  ${({ p }) => p && `padding: ${p};`}
 `;
 
 const Body = ({
@@ -49,7 +48,7 @@ const Body = ({
   loading,
   loadingLabel,
   ...rest
-}: any) => {
+}) => {
   let view = <View {...rest}>{children}</View>;
   if (keybordAvoid) {
     view = (

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+//@ts-nocheck
 import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-native-modal';
 import { FlatList } from 'react-native-gesture-handler';
@@ -71,7 +73,10 @@ const SearchModal = () => {
     }
     setKeyboardType('number-pad');
     //@ts-ignore
-    inputRef.current.focus();
+    const forus = setTimeout(() => {
+      clearTimeout(forus);
+      inputRef.current.focus();
+    }, 500);
   };
 
   const setColorCodeProductId = (code: string) => {
@@ -86,7 +91,7 @@ const SearchModal = () => {
         w="60px"
         h="60px"
         borderRadius="30px"
-        bg="#5E718C"
+        bg={theme.color.grayLight}
         center
         middle
         shadow
@@ -143,6 +148,7 @@ const SearchModal = () => {
             returnKeyType="search"
             autoCapitalize="characters"
             keyboardType={keyboardType}
+            // onSubmitEditing={Keyboard.dismiss}
             value={productId}
             onChangeText={(val: string) => setProductId(val)}
           />

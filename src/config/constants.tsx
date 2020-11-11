@@ -1,4 +1,4 @@
-export const GATEGORIES = [
+export const SHOE_TYPES = [
   { name: 'Hunter', value: 'Hunter' },
   { name: 'Giầy thể thao', value: 'Giầy thể thao' },
   { name: 'Giầy chạy bộ', value: 'Giầy chạy bộ' },
@@ -32,3 +32,17 @@ export const COLOR_CODE = [
   '-HOG',
   '-HOD',
 ];
+
+export const COLOR_CODE_MAP = {
+  '-TRG': '#F9F9F9',
+  '-DEN': '#000000',
+  '-KEM': '',
+  '-KEL': '',
+  '-DO': '#FF0000',
+  '-DOD': '#CC0000',
+  '-CAM': '#FF6600',
+  '-XAM': '#A6A6A6',
+  '-XAD': '#0000ff',
+  '-HOG': '#ff00cc',
+  '-HOD': '',
+};

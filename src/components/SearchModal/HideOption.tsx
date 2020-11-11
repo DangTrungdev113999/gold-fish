@@ -1,9 +1,8 @@
+//@ts-nocheck
 import React from 'react';
-import { FlatList } from 'react-native-gesture-handler';
-import { Touchable, Icon, Block, Input } from '~/components';
+import { Block, Touchable, Text, List } from '~/components';
+import { COLOR_CODE_MAP } from '~/config/constants';
 import theme from '~/config/theme';
-import Loading from '../Loading';
-import Text from '../Text';
 
 type PropsType = {
   items: string[];
@@ -12,18 +11,25 @@ type PropsType = {
 
 const HideOption = ({ items, setString }: PropsType) => {
   return (
-    <Block p="5px 0 10px" bg="bg">
-      <FlatList
-        data={items}
+    <Block p="5px 0 10px 15px" bg="bg">
+      <List
+        items={items}
         horizontal
         renderItem={({ item }: { item: string }) => (
           <Touchable
             onPress={() => setString(item)}
             m="0 10px 0 0"
             p="3px 10px"
-            bg="#24364E"
+            bg={COLOR_CODE_MAP[item] || '#24364E'}
             borderRadius="10px">
-            <Text color={theme.color.neutral2}>{item}</Text>
+            <Text
+              color={
+                COLOR_CODE_MAP[item] === '#F9F9F9'
+                  ? '#000'
+                  : theme.color.neutral2
+              }>
+              {item}
+            </Text>
           </Touchable>
         )}
         keyExtractor={(item) => item}

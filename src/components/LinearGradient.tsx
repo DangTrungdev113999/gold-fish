@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import styled from 'styled-components';
@@ -5,30 +6,30 @@ import styled from 'styled-components';
 import theme from '~/config/theme';
 
 const LinearGradientStyled = styled(LinearGradient)`
-  ${({ block }: any) => block && 'flex: 1;'}
-  ${({ flex }: any) => flex && `flex: ${flex};`}
-  ${({ w }: any) => w && `width: ${w}px;`}
-  ${({ h }: any) => h && `height: ${h}px;`}
-  ${({ m }: any) => m && `margin: ${m};`}
-  ${({ p }: any) => p && `padding: ${p};`}
-  ${({ absolute }: any) => absolute && 'position: absolute;'}
-  ${({ relative }: any) => relative && 'position: relative;'}
-  ${({ top }: any) => top && `top: ${top}px;`}
-  ${({ bottom }: any) => bottom && `bottom: ${bottom}px;`}
-  ${({ right }: any) => right && `right: ${right}px;`}
-  ${({ left }: any) => left && `right: ${left}px;`}
-  ${({ borderWidth }: any) => borderWidth && `border-width: ${borderWidth}px;`}
-  ${({ borderColor }: any) => borderColor && `border-color: ${borderColor};`}
-  ${({ borderRadius }: any) => borderRadius && `border-radius: ${borderRadius}`}
-  ${({ row }: any) => row && `flex-direction: ${row};`}
-  ${({ column }: any) => column && `flex-direction: ${column};`}
-  ${({ center }: any) => center && 'justify-content: center;'}
-  ${({ middle }: any) => middle && 'align-items: center;'}
-  ${({ justify }: any) => justify && `justify-content: ${justify}`}
-  ${({ alignItems }: any) => alignItems && `align-items: ${alignItems};`}
-  ${({ alignSelf }: any) => alignSelf && `align-self: ${alignSelf};`}
-  ${({ disabled }: any) => disabled && `background-color: ${theme.color.gray};`}
-    ${({ shadow }: any) =>
+  ${({ block }) => block && 'flex: 1;'}
+  ${({ flex }) => flex && `flex: ${flex};`}
+  ${({ w }) => w && `width: ${w}px;`}
+  ${({ h }) => h && `height: ${h}px;`}
+  ${({ m }) => m && `margin: ${m};`}
+  ${({ p }) => p && `padding: ${p};`}
+  ${({ absolute }) => absolute && 'position: absolute;'}
+  ${({ relative }) => relative && 'position: relative;'}
+  ${({ top }) => top && `top: ${top}px;`}
+  ${({ bottom }) => bottom && `bottom: ${bottom}px;`}
+  ${({ right }) => right && `right: ${right}px;`}
+  ${({ left }) => left && `right: ${left}px;`}
+  ${({ borderWidth }) => borderWidth && `border-width: ${borderWidth}px;`}
+  ${({ borderColor }) => borderColor && `border-color: ${borderColor};`}
+  ${({ borderRadius }) => borderRadius && `border-radius: ${borderRadius}`}
+  ${({ row }) => row && `flex-direction: ${row};`}
+  ${({ column }) => column && `flex-direction: ${column};`}
+  ${({ center }) => center && 'justify-content: center;'}
+  ${({ middle }) => middle && 'align-items: center;'}
+  ${({ justify }) => justify && `justify-content: ${justify}`}
+  ${({ alignItems }) => alignItems && `align-items: ${alignItems};`}
+  ${({ alignSelf }) => alignSelf && `align-self: ${alignSelf};`}
+  ${({ disabled }) => disabled && `background-color: ${theme.color.gray};`}
+    ${({ shadow }) =>
     shadow &&
     `
     box-shadow: 3px 3px 10px ${theme.color.gray};
@@ -44,7 +45,7 @@ export default ({
   disabled,
   children,
   ...props
-}: any) => {
+}) => {
   return (
     <LinearGradientStyled
       start={start}

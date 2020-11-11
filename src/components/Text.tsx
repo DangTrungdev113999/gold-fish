@@ -1,13 +1,13 @@
+//@ts-nocheck
 import styled from 'styled-components';
 import theme from '~/config/theme';
 
-//@ts-ignore
 const Text = styled.Text`
   font-size: 14px;
   line-height: 20px;
   font-weight: 400;
   color: ${theme.color.textSecondary};
-  font-family: ${({ thin, light, medium, semiBold, bold, extraBold }: any) => {
+  font-family: ${({ thin, light, medium, semiBold, bold, extraBold }) => {
     if (thin) {
       return theme.font.primaryThin;
     }
@@ -44,7 +44,7 @@ const Text = styled.Text`
     small,
     footnote,
     overline,
-  }: any) => {
+  }) => {
     if (large) {
       return `
         font-size: 34px;
@@ -152,7 +152,7 @@ const Text = styled.Text`
       `;
     }
   }}
-  ${({ color }: any) => {
+  ${({ color }) => {
     if (!color) {
       return;
     }
@@ -176,7 +176,7 @@ const Text = styled.Text`
       return `color: ${color}`;
     }
   }};
-  ${({ thin, light, medium, semiBold, bold, extraBold }: any) => {
+  ${({ thin, light, medium, semiBold, bold, extraBold }) => {
     if (thin) {
       return 'font-weight: 100';
     }
@@ -196,20 +196,21 @@ const Text = styled.Text`
       return 'font-weight: 900';
     }
   }};
-  ${({ size }: any) => size && `font-size: ${size}px;`}
-  ${({ m }: any) => m && `margin: ${m};`}
-  ${({ flex }: any) => flex && `flex: ${flex};`}
-  ${({ center }: any) => center && 'text-align: center;'}
-  ${({ italic }: any) => italic && 'font-style: italic;'}
-  ${({ underline }: any) => underline && 'text-decoration: underline;'}
-  ${({ uppercase }: any) => uppercase && 'text-transform: uppercase;'}
-  ${({ right }: any) =>
+  ${({ size }) => size && `font-size: ${size}px;`}
+  ${({ m }) => m && `margin: ${m};`}
+  ${({ flex }) => flex && `flex: ${flex};`}
+  ${({ center }) => center && 'text-align: center;'}
+  ${({ italic }) => italic && 'font-style: italic;'}
+  ${({ underline }) => underline && 'text-decoration: underline;'}
+  ${({ uppercase }) => uppercase && 'text-transform: uppercase;'}
+  ${({ letterSpacing }) => letterSpacing && `letter-spacing: ${letterSpacing};`}
+  ${({ right }) =>
     right &&
     `
     align-self: flex-end;
     text-align: right;
   `}
-  ${({ left }: any) =>
+  ${({ left }) =>
     left &&
     `
     align-self: flex-start;

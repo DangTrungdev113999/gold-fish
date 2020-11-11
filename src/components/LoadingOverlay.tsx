@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import { Modal } from 'react-native';
 import styled from 'styled-components';
@@ -6,7 +7,6 @@ import Text from './Text';
 
 import theme from '~/config/theme';
 
-//@ts-ignore
 const Wrapper = styled.View`
   background-color: rgba(0, 0, 0, 0.4);
   flex: 1;
@@ -14,7 +14,7 @@ const Wrapper = styled.View`
   align-items: center;
 `;
 
-const LoadingOverlay = ({ loading, title, ...rest }: any) => (
+const LoadingOverlay = ({ loading, title, ...rest }) => (
   <Modal animationType="fade" transparent visible={loading} {...rest}>
     <Wrapper>
       <Loading />

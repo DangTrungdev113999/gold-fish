@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import Iconicons from 'react-native-vector-icons/Fontisto';
 import AntDesign from 'react-native-vector-icons/AntDesign';

@@ -1,3 +1,4 @@
+/* eslint-disable no-sparse-arrays */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Dimensions } from 'react-native';
@@ -10,6 +11,7 @@ import Icon from '../Icon';
 
 import theme from '~/config/theme';
 import { shoeType } from '~/@types';
+import { separatorCode } from '~/utils';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -47,6 +49,8 @@ const Card = ({ item }: CardPropsType) => {
     });
   };
 
+  const separatorResult = separatorCode(item.shoeId);
+
   return (
     <Wrapper>
       {side ? (
@@ -62,11 +66,31 @@ const Card = ({ item }: CardPropsType) => {
           flex={1}
           center
           middle
-          bg="#24364E"
+          bg={theme.color.blue3}
           onPress={() => setSide(true)}>
-          <Text h3 color={theme.color.secondary} bold center>
-            {item.shoeId}
-          </Text>
+          {separatorResult.prefix ? (
+            [
+              <Text
+                h3
+                color={theme.color.secondary}
+                bold
+                center
+                letterSpacing={2}>
+                {separatorResult.prefix}
+              </Text>,
+              <Text h3 color={theme.color.secondary} bold center>
+                {separatorResult?.numberic}
+              </Text>,
+              <Text h3 color={theme.color.secondary} bold center>
+                {separatorResult?.colorCode || ''}
+              </Text>,
+              ,
+            ]
+          ) : (
+            <Text h3 color={theme.color.secondary} bold center>
+              {item.shoeId}
+            </Text>
+          )}
         </TouchableOpacity>
       )}
 
@@ -75,8 +99,7 @@ const Card = ({ item }: CardPropsType) => {
           flex={1}
           center
           middle
-          // bg={theme.color.information}
-          bg="#1D2636"
+          bg={theme.color.blue1}
           onPress={onEdit}>
           <Icon
             type="antDesign"
@@ -89,7 +112,7 @@ const Card = ({ item }: CardPropsType) => {
           flex={1}
           center
           middle
-          bg="#203047"
+          bg={theme.color.blue2}
           onPress={handleFavorite}>
           <Icon
             type="maturialIcons"

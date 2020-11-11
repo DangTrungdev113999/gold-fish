@@ -1,12 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { Dimensions } from 'react-native';
 import styled from 'styled-components';
 import { shoeType } from '~/@types';
 import { Text, Touchable } from '~/components';
 import theme from '~/config/theme';
-
-const windowHeight = Dimensions.get('window').height;
+import { separatorCode } from '~/utils';
 
 const Container = styled(Touchable)`
   margin-top: 20px;
@@ -29,8 +27,9 @@ const Image = styled.Image.attrs({
 
 type PropsType = {
   item: shoeType;
+  onClose: Function;
 };
-const Option = ({ item, onClose }: any) => {
+const Option = ({ item, onClose }: PropsType) => {
   const navigation = useNavigation();
 
   const goToDetail = () => {
@@ -41,10 +40,13 @@ const Option = ({ item, onClose }: any) => {
     });
   };
 
+  const separatorResult = separatorCode(item.shoeId);
+
   return (
     <Container block h="100px" row middle onPress={goToDetail}>
-      <Text h5 color={theme.color.neutral2} flex={1}>
-        {item.shoeId}
+      <Text h5 color={theme.color.neutral2} flex={1} semiBold letterSpacing={0}>
+        {separatorResult.prefix} {separatorResult.numberic}{' '}
+        {separatorResult.colorCode}
       </Text>
       <Image
         resizeMethod="resize"

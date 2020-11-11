@@ -24,10 +24,12 @@ import {
   fetchMoreShoesApi,
 } from './apis';
 
-export const fetchShoesCreator = () => async (dispatch: any) => {
+export const fetchShoesCreator = (payload: any = {}) => async (
+  dispatch: any,
+) => {
   dispatch(fetchShoes());
   try {
-    const response: any = await fetchShoesApi();
+    const response: any = await fetchShoesApi(payload.type);
     dispatch(setlastShoe(response));
     dispatch(fetchShoesSucceeded(response));
   } catch (e) {
@@ -54,10 +56,14 @@ export const addShoeCreator = (payload: any = {}) => async (dispatch: any) => {
   dispatch(addShoe());
   try {
     const shoe = await addShoesApi(payload.shoe);
-    if (payload.onSuccess) payload.onSuccess(shoe);
+    if (payload.onSuccess) {
+      payload.onSuccess(shoe);
+    }
     dispatch(addShoeSucceeded(shoe));
   } catch (e) {
-    if (payload.onError) payload.onError(e.message);
+    if (payload.onError) {
+      payload.onError(e.message);
+    }
     dispatch(addShoeFailed(e.message));
   }
 };
@@ -68,10 +74,14 @@ export const updateShoeCreator = (payload: any = {}) => async (
   dispatch(updateShoe());
   try {
     const shoe = await updateShoesApi(payload.shoe);
-    if (payload.onSuccess) payload.onSuccess(shoe);
+    if (payload.onSuccess) {
+      payload.onSuccess(shoe);
+    }
     dispatch(updateShoeSucceeded(shoe));
   } catch (e) {
-    if (payload.onError) payload.onError(e.message);
+    if (payload.onError) {
+      payload.onError(e.message);
+    }
     dispatch(updateShoeFailed(e.message));
   }
 };
@@ -82,10 +92,14 @@ export const deleteShoeCreator = (payload: any = {}) => async (
   dispatch(deleteShoe());
   try {
     const shoe = await deleteShoesApi(payload.shoe);
-    if (payload.onSuccess) payload.onSuccess(shoe);
+    if (payload.onSuccess) {
+      payload.onSuccess(shoe);
+    }
     dispatch(deleteShoeSucceeded(shoe));
   } catch (e) {
-    if (payload.onError) payload.onError(e.message);
+    if (payload.onError) {
+      payload.onError(e.message);
+    }
     dispatch(deleteShoeFailed(e.message));
   }
 };

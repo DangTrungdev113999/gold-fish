@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import styled from 'styled-components';
 
@@ -6,43 +7,43 @@ import LinearGradient from './LinearGradient';
 //@ts-ignore
 const TouchableOpacity = styled.TouchableOpacity`
   padding: 0;
-  ${({ block }: any) => block && 'flex: 1;'}
-  ${({ flex }: any) => flex && `flex: ${flex};`}
-  ${({ w }: any) => w && `width: ${w}px;`}
-  ${({ h }: any) => h && `height: ${h}px;`}
-  ${({ m }: any) => m && `margin: ${m};`}
-  ${({ p }: any) => p && `padding: ${p};`}
+  ${({ block }) => block && 'flex: 1;'}
+  ${({ flex }) => flex && `flex: ${flex};`}
+  ${({ w }) => w && `width: ${w}px;`}
+  ${({ h }) => h && `height: ${h}px;`}
+  ${({ m }) => m && `margin: ${m};`}
+  ${({ p }) => p && `padding: ${p};`}
 
-  ${({ absolute }: any) => absolute && 'position: absolute;'}
-  ${({ relative }: any) => relative && 'position: relative;'}
-  ${({ top }: any) => top && `top: ${top};`}
-  ${({ bottom }: any) => bottom && `bottom: ${bottom};`}
-  ${({ right }: any) => right && `right: ${right};`}
-  ${({ left }: any) => left && `left: ${left};`}
-  ${({ borderWidth }: any) => borderWidth && `border-width: ${borderWidth}px;`}
-  ${({ borderBottomWidth }: any) =>
+  ${({ absolute }) => absolute && 'position: absolute;'}
+  ${({ relative }) => relative && 'position: relative;'}
+  ${({ top }) => top && `top: ${top};`}
+  ${({ bottom }) => bottom && `bottom: ${bottom};`}
+  ${({ right }) => right && `right: ${right};`}
+  ${({ left }) => left && `left: ${left};`}
+  ${({ borderWidth }) => borderWidth && `border-width: ${borderWidth}px;`}
+  ${({ borderBottomWidth }) =>
     borderBottomWidth && `border-bottom-width: ${borderBottomWidth}px;`}
-  ${({ borderColor }: any) => borderColor && `border-color: ${borderColor};`}
-  ${({ borderRadius }: any) => borderRadius && `border-radius: ${borderRadius}`}
-  ${({ bg, theme }: any) =>
+  ${({ borderColor }) => borderColor && `border-color: ${borderColor};`}
+  ${({ borderRadius }) => borderRadius && `border-radius: ${borderRadius}`}
+  ${({ bg, theme }) =>
     theme.color[bg]
       ? `background-color: ${theme.color[bg]}`
       : `background-color: ${bg}`}
-  ${({ row }: any) => row && 'flex-direction: row;'}
-  ${({ column }: any) => column && 'flex-direction: column;'}
-  ${({ center }: any) => center && 'justify-content: center;'}
-  ${({ middle }: any) => middle && 'align-items: center;'}
-  ${({ justify }: any) => justify && `justify-content: ${justify}`}
-  ${({ alignItems }: any) => alignItems && `align-items: ${alignItems};`}
-  ${({ alignSelf }: any) => alignSelf && `align-self: ${alignSelf};`}
-  ${({ wrap }: any) => wrap && 'flex-wrap: wrap;'}
-  ${({ shadow, theme }: any) =>
+  ${({ row }) => row && 'flex-direction: row;'}
+  ${({ column }) => column && 'flex-direction: column;'}
+  ${({ center }) => center && 'justify-content: center;'}
+  ${({ middle }) => middle && 'align-items: center;'}
+  ${({ justify }) => justify && `justify-content: ${justify}`}
+  ${({ alignItems }) => alignItems && `align-items: ${alignItems};`}
+  ${({ alignSelf }) => alignSelf && `align-self: ${alignSelf};`}
+  ${({ wrap }) => wrap && 'flex-wrap: wrap;'}
+  ${({ shadow, theme }) =>
     shadow &&
     `
     box-shadow: 3px 3px 10px ${theme.color.gray};
     elevation: 1;
   `}
-  ${({ disabled, theme }: any) =>
+  ${({ disabled, theme }) =>
     disabled &&
     `background-color: ${theme.color.primary};`} /* disabled && 'background-color: #070D17;'} */
 `;
@@ -59,7 +60,7 @@ const Button = ({
   disabled,
   onPress,
   ...props
-}: any) => {
+}) => {
   if (gradient && !disabled) {
     return (
       <TouchableOpacity

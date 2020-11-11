@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+//@ts-nocheck
 import React, { useEffect } from 'react';
-import { FlatList, RefreshControl } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Block, Body, Card, Loading, SearchModal } from '~/components';
+import { Block, Body, Card, List, Loading } from '~/components';
 import {
   fetchShoesLoadingSelector,
   lastShoeSelector,
@@ -11,7 +11,11 @@ import {
 } from '~/modules/shoes/selector';
 import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/shoes/thunk';
 
-const Shoes = () => {
+type PropsType = {
+  type: string;
+};
+
+const ShoesList = ({ type }: PropsType) => {
   const shoesList = useSelector(shoesListSelector);
   const fetchShoesLoading = useSelector(fetchShoesLoadingSelector);
   const loadMoreShoesLoading = useSelector(loadMoreShoesLoadingSelector);
@@ -19,12 +23,12 @@ const Shoes = () => {
   const dispatch = useDispatch();
 
   const fetchShoesList = () => {
-    dispatch(fetchShoesCreator());
+    dispatch(fetchShoesCreator({ type }));
   };
 
   useEffect(() => {
     fetchShoesList();
-  }, []);
+  }, [type]);
 
   const loadMoreShoesList = () => {
     dispatch(loadMoreShoesCreator());
@@ -32,16 +36,12 @@ const Shoes = () => {
 
   return (
     <Body flex={1} center p="10px 0 0">
-      <FlatList
-        data={shoesList}
+      <List
+        items={shoesList}
         renderItem={({ item }) => <Card item={item} />}
         keyExtractor={(item) => item.shoeId}
-        refreshControl={
-          <RefreshControl
-            refreshing={fetchShoesLoading}
-            onRefresh={fetchShoesList}
-          />
-        }
+        loading={fetchShoesLoading}
+        onRefresh={fetchShoesList}
         horizontal={false}
         numColumns={2}
         initialNumToRender={8}
@@ -57,14 +57,13 @@ const Shoes = () => {
           return null;
         }}
         onEndReached={() => {
-          if (lastShoe && !loadMoreShoesLoading) {
+          if (lastShoe && !loadMoreShoesLoading && type === 'All') {
             loadMoreShoesList();
           }
         }}
       />
-      <SearchModal />
     </Body>
   );
 };
 
-export default Shoes;
+export default ShoesList;

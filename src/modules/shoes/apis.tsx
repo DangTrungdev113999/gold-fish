@@ -3,17 +3,26 @@ import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
 import { shoeType } from '~/@types';
+import { getRefToStorage } from '~/utils';
 
 const LIMIT = 8;
 
-export const fetchShoesApi = async () => {
+export const fetchShoesApi = async (type: string) => {
   try {
     const shoesList: shoeType[] = [];
-    const snapshot = await firestore()
-      .collection('Shoes')
-      .orderBy('createdAt', 'desc')
-      .limit(LIMIT)
-      .get();
+    let snapshot;
+    if (type === 'All') {
+      snapshot = await firestore()
+        .collection('Shoes')
+        .orderBy('createdAt', 'desc')
+        .limit(LIMIT)
+        .get();
+    } else {
+      snapshot = await firestore()
+        .collection('Shoes')
+        .where('type', '==', type)
+        .get();
+    }
 
     if (!snapshot.empty) {
       snapshot.forEach((doc) => {
@@ -95,13 +104,25 @@ export const updateShoesApi = async (shoe: shoeType) => {
 
 export const deleteShoesApi = async (shoe: shoeType) => {
   try {
-    // const imageRef = storage().refFromURL(shoe.imageUri);
-    // await imageRef.delete();
+    if (shoe.imageUri) {
+      await deleteImageUri(shoe.imageUri);
+    }
 
     await firestore().collection('Shoes').doc(shoe.shoeId).delete();
     return shoe;
   } catch (e) {
     console.log('delete shoe error: ', e.message);
+  }
+};
+
+export const deleteImageUri = async (imageUri: string) => {
+  try {
+    const imageRef = storage().ref(getRefToStorage(imageUri));
+    if (imageRef) {
+      await imageRef.delete();
+    }
+  } catch (e) {
+    console.log('delete iamge error: ', e.e);
   }
 };
 
@@ -149,6 +170,7 @@ export const searchShoesApi = async (searchString: string) => {
       .orderBy('shoeId')
       .startAt(searchString)
       .endAt(searchString + '\uf8ff')
+      .limit(20)
       .get();
 
     if (!snapshot.empty) {

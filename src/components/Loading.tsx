@@ -1,9 +1,8 @@
+//@ts-nocheck
 import styled from 'styled-components';
 
 import theme from '~/config/theme';
-//@ts-ignore
-const Loading = styled.ActivityIndicator.attrs(({ color, ...rest }: any) => ({
-  //@ts-ignore
+const Loading = styled.ActivityIndicator.attrs(({ color, ...rest }) => ({
   color: color ? theme.color[color] : theme.color.secondary,
   ...rest,
 }))`

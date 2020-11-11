@@ -1,10 +1,10 @@
+//@ts-nocheck
 import React from 'react';
 import { Dimensions } from 'react-native';
 import styled from 'styled-components';
 
 const windowHeight = Dimensions.get('window').height;
 
-//@ts-ignore
 const Image = styled.Image.attrs({
   resizeMode: 'cover',
 })`

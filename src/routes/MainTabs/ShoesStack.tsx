@@ -1,10 +1,11 @@
+//@ts-nocheck
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import ShoesScreen from '~/containers/Shoes/Shoes';
+import { createStackNavigator } from '@react-navigation/stack';
+import ShoesScreen from '~/containers/Shoes';
 import ActionShoe from '~/containers/Shoes/ActionShoe';
-import {Block, Icon, Touchable} from '~/components';
-import {AddProductIcon, DeleteProductIcon} from '~/components/Header';
-import {mainOptions} from '../navigationOptions';
+import { Block, Icon, Touchable } from '~/components';
+import { AddProductIcon, DeleteProductIcon } from '~/components/Header';
+import { mainOptions } from '../navigationOptions';
 
 const Stack = createStackNavigator();
 
@@ -13,8 +14,8 @@ export default () => (
     <Stack.Screen
       name="shoes_screen"
       component={ShoesScreen}
-      options={({navigation}) => ({
-        title: 'Giầy Bitis',
+      options={({ navigation }) => ({
+        title: 'NO LIMIT trên đôi Bitis',
         headerLeft: () => <Block />,
         headerRight: () => <AddProductIcon navigation={navigation} />,
       })}
@@ -22,7 +23,7 @@ export default () => (
     <Stack.Screen
       name="action_shoe_screen"
       component={ActionShoe}
-      options={({navigation, route}) => ({
+      options={({ navigation, route }) => ({
         title: route.params?.shoeDetail?.shoeId
           ? `#${route.params.shoeDetail.shoeId}`
           : 'Thêm giầy',

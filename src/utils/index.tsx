@@ -76,7 +76,7 @@ export function showAlert(
 
 export function getRefToStorage(URL: string) {
   const baseURL =
-    'https://firebasestorage.googleapis.com/v0/b/newProject-ca4cf.appspot.com/o/';
+    'https://firebasestorage.googleapis.com/v0/b/redcat-46e47.appspot.com/o/';
   let imagePath = URL.replace(baseURL, '');
   const indexOfEndPath = imagePath.indexOf('?');
   imagePath = imagePath.substring(0, indexOfEndPath);
@@ -84,6 +84,19 @@ export function getRefToStorage(URL: string) {
   return imagePath;
 }
 
-export function findIndex() {
-  
+export function separatorCode(code: string) {
+  const regxNumber = /[0-9]+/;
+  const numberic = code.match(regxNumber)?.[0];
+  return {
+    prefix: code.split(numberic as string)[0],
+    numberic,
+    colorCode: code.split(numberic as string)[1],
+  };
+}
+
+export function isShoeId(shoeId: string): any {
+  return !!(
+    shoeId &&
+    shoeId.match(/^([A-Z]{4}|[A-Z]{3})\d{5}(\-([A-Z]{3}|[A-Z]{2}))?$/g)
+  );
 }

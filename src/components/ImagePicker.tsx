@@ -1,4 +1,5 @@
 /* eslint-disable no-alert */
+//@ts-nocheck
 import React, { useState } from 'react';
 import { Dimensions, Platform } from 'react-native';
 import styled from 'styled-components';
@@ -18,7 +19,7 @@ import {
 } from '~/components';
 
 import { checkAndRequestPermission, showAlert } from '~/utils';
-import { uploadShoeImageApi } from '~/modules/shoes/apis';
+import { deleteImageUri, uploadShoeImageApi } from '~/modules/shoes/apis';
 
 import theme from '~/config/theme';
 
@@ -75,7 +76,11 @@ const ImagePicker = ({ imageUri, setData }: any) => {
       onProgress: (p: number) => {
         setPercent(p);
       },
-      onSuccess: (uri: string) => {
+      onSuccess: async (uri: string) => {
+        if (imageUri) {
+          await deleteImageUri(imageUri);
+        }
+
         setData({ imageUri: uri });
         setLoading(false);
       },
@@ -107,7 +112,7 @@ const ImagePicker = ({ imageUri, setData }: any) => {
       });
     }
   };
-
+2
   const launchImageLibrary = async () => {
     const permission = await checkAndRequestPermission(
       Platform.OS === 'ios'

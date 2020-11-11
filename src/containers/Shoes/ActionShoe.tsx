@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { ScrollView, ToastAndroid } from 'react-native';
+/* eslint-disable prettier/prettier */
+import React, { useEffect, useState } from 'react';
+import { Keyboard, ScrollView, ToastAndroid } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
@@ -13,13 +14,13 @@ import {
 import theme from '~/config/theme';
 import { useSetObjectState } from '~/hoocks';
 
-import { GATEGORIES } from '~/config/constants';
+import { SHOE_TYPES } from '~/config/constants';
 import { updateShoeCreator, addShoeCreator } from '~/modules/shoes/thunk';
 import {
   addShoeLoadingSelector,
   updateShoeLoadingSelector,
 } from '~/modules/shoes/selector';
-import { showAlert } from '~/utils';
+import { isShoeId, showAlert } from '~/utils';
 import { deleteShoeLoadingSelector } from '~/modules/Slippers/selector';
 
 const ActionShoe = ({ navigation, route }: any) => {
@@ -29,6 +30,8 @@ const ActionShoe = ({ navigation, route }: any) => {
     type: 'Hunter',
     like: false,
   });
+
+  const [shoeIdIsValid, setShoeIdIsValid] = useState(true);
 
   const dispatch = useDispatch();
   const updateShoesLoading = useSelector(updateShoeLoadingSelector);
@@ -78,8 +81,20 @@ const ActionShoe = ({ navigation, route }: any) => {
     }
   };
 
+  const checkShoeId = () => {
+    const result = isShoeId(data.shoeId);
+    setShoeIdIsValid(result);
+  };
+
+  const onSetShoeId = (shoeId: string) => {
+    if (shoeId.length > 12) {
+      Keyboard.dismiss();
+    }
+    setData({ shoeId });
+  };
+
   const formIsValid = () => {
-    return data.shoeId && data.imageUri;
+    return isShoeId(data.shoeId) && data.imageUri;
   };
 
   return (
@@ -104,12 +119,16 @@ const ActionShoe = ({ navigation, route }: any) => {
             iconLeftName="tago"
             iconLeftType="antDesign"
             autoCapitalize="characters"
-            onChangeText={(val: string) => setData({ shoeId: val })}
+            onChangeText={onSetShoeId}
+            description={!shoeIdIsValid ? 'Mã giầy không đúng định dạng' : ''}
+            danger={!shoeIdIsValid}
+            onBlur={checkShoeId}
+            maxLength={12}
           />
           <Picker
             label="Dòng sản phẩm"
             title="Dòng sản phẩm"
-            options={GATEGORIES}
+            options={SHOE_TYPES}
             placeholder="Chọn dòng sản phẩm"
             value={data.type}
             onChange={(val: string) => setData({ type: val })}
@@ -126,7 +145,10 @@ const ActionShoe = ({ navigation, route }: any) => {
         middle
         disabled={!formIsValid()}
         onPress={onActionShoe}>
-        <Text color={!formIsValid() ? theme.color.gray : theme.color.secondary}>
+        <Text
+          color={
+            !formIsValid() ? theme.color.grayLight : theme.color.secondary
+          }>
           {route.params.type === 'add' ? 'Thêm sản phẩm' : 'Cập nhật sản phẩm'}
         </Text>
       </Button>
