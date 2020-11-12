@@ -8,7 +8,14 @@ import Navigation from '~/routes';
 
 import store from './configStore';
 
-LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreLogs([
+  'componentWillUpdate',
+  'componentWillMount',
+  'componentWillReceiveProps',
+  'ViewPagerAndroid',
+]);
+// TODO delete
+LogBox.ignoreAllLogs();
 const AppProvider = () => {
   return (
     <ThemeProvider theme={theme}>

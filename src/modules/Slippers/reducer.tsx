@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { slipperType, slipperReducerType } from '~/@types';
+import { slipperType, slipperReducerTypes } from '~/@types';
 
 import {
   FETCH_SLIPPERS,
@@ -20,7 +20,7 @@ import {
   SET_LAST_SLIPPER,
 } from './constants';
 
-const initState: slipperReducerType = {
+const initState: slipperReducerTypes = {
   slippersList: [],
   fetchSlippersLoading: false,
   fetchSlippersError: '',

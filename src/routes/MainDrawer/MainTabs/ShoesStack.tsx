@@ -4,8 +4,12 @@ import { createStackNavigator } from '@react-navigation/stack';
 import ShoesScreen from '~/containers/Shoes';
 import ActionShoe from '~/containers/Shoes/ActionShoe';
 import { Block, Icon, Touchable } from '~/components';
-import { AddProductIcon, DeleteProductIcon } from '~/components/Header';
-import { mainOptions } from '../navigationOptions';
+import {
+  AddProductIcon,
+  DeleteProductIcon,
+  MenuIcon,
+} from '~/components/Header';
+import { mainOptions } from '../../navigationOptions';
 
 const Stack = createStackNavigator();
 
@@ -16,7 +20,7 @@ export default () => (
       component={ShoesScreen}
       options={({ navigation, route }) => ({
         title: 'NO LIMIT trên đôi Bitis',
-        headerLeft: () => <Block />,
+        headerLeft: () => <MenuIcon navigation={navigation} />,
         headerRight: () => (
           <AddProductIcon
             navigation={navigation}
@@ -32,7 +36,7 @@ export default () => (
       options={({ navigation, route }) => ({
         title: route.params?.shoeDetail?.shoeId
           ? `#${route.params.shoeDetail.shoeId}`
-          : 'Thêm giầy',
+          : 'Thêm giày',
         headerLeft: () => (
           <Touchable m="0 0 0 10px" onPress={() => navigation.goBack()}>
             <Icon

@@ -13,6 +13,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import FontAwesome5Brands from 'react-native-vector-icons/FontAwesome5Brands';
 
 import Block from './Block';
 
@@ -37,7 +38,7 @@ const Icon = ({
       {type === 'iconicons' && (
         <Iconicons name={name} size={size} color={color} />
       )}
-      {type === 'maturialIcons' && (
+      {type === 'materialIcons' && (
         <MaterialIcons name={name} size={size} color={color} />
       )}
       {type === 'fontAwesome' && (
@@ -66,6 +67,9 @@ const Icon = ({
       {type === 'fontAwesome5' && (
         <FontAwesome5 name={name} size={size} color={color} />
       )}
+      {/* {type === 'fontAwesome5Brands' && (
+        <FontAwesome5Brands name={name} size={size} color={color} />
+      )} */}
     </Block>
   );
 };

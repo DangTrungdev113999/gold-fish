@@ -13,6 +13,7 @@ import ImagePicker from './ImagePicker';
 import ImagePreview from './ImagePreview';
 import SearchModal from './SearchModal';
 import List from './List';
+import ScrollBody from './ScrollBody';
 
 export {
   Block,
@@ -30,4 +31,5 @@ export {
   ImagePreview,
   SearchModal,
   List,
+  ScrollBody,
 };

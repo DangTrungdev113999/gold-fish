@@ -7,11 +7,13 @@ import theme from '~/config/theme';
 type PropsType = {
   items: string[];
   setString: any;
+  style?: Object;
+  m?: string;
 };
 
-const HideOption = ({ items, setString }: PropsType) => {
+const HideOption = ({ items, setString, style, m }: PropsType) => {
   return (
-    <Block p="5px 0 10px 15px" bg="bg">
+    <Block p="5px 0 10px 15px" bg="bg" m={m} style={style}>
       <List
         items={items}
         horizontal

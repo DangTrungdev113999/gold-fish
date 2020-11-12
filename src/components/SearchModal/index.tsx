@@ -4,11 +4,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-native-modal';
 import { FlatList } from 'react-native-gesture-handler';
 import { Touchable, Icon, Block, Input, Loading, Text } from '~/components';
+import { useNavigation } from '@react-navigation/native';
 
 import Option from './Option';
 import { searchShoesApi } from '~/modules/Shoes/apis';
 import { COLOR_CODE, SHOE_PREFIX } from '~/config/constants';
-import { shoeType } from '~/@types';
+import { shoeTypes } from '~/@types';
 
 import theme from '~/config/theme';
 import HideOption from './HideOption';
@@ -20,11 +21,12 @@ type PropsType = {
 };
 
 const SearchModal = ({ productTarget }: PropsType) => {
-  const [propductsMatch, setPropductsMatch] = useState<shoeType[]>([]);
+  const [propductsMatch, setPropductsMatch] = useState<shoeTypes[]>([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState('');
   const [keyboardType, setKeyboardType] = useState('default');
+  const navigation = useNavigation();
 
   const inputRef = useRef();
 
@@ -52,7 +54,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
       const searchProductApi =
         productTarget === 'shoe' ? searchShoesApi : searchSlippersApi;
       const productsList = await searchProductApi(productId);
-      setPropductsMatch(productsList as shoeType[]);
+      setPropductsMatch(productsList as shoeTypes[]);
     }, 100);
     setLoading(false);
   };
@@ -91,6 +93,13 @@ const SearchModal = ({ productTarget }: PropsType) => {
     if (true) {
       setProductId(`${productId.split('-')[0]}${code}`);
     }
+  };
+
+  const onGoToSettings = (target) => {
+    navigation.navigate('settings_stack', {
+      screen: 'settings_screen',
+      param: { target },
+    });
   };
 
   return (
@@ -146,7 +155,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
               )}
             </Touchable>
           </Touchable>
-          <Block h="0.5px" block bg="#1A4253" />
+          <Block h="0.5px" block bg={theme.color.primaryLight} />
           <Input
             ref={inputRef}
             m="20px 20px 0"
@@ -163,26 +172,54 @@ const SearchModal = ({ productTarget }: PropsType) => {
 
           <FlatList
             data={propductsMatch}
-            renderItem={({ item }: { item: shoeType }) => (
+            renderItem={({ item }: { item: shoeTypes }) => (
               <Option
                 item={item}
                 onClose={onClose}
                 productTarget={productTarget}
               />
             )}
-            keyExtractor={(item: shoeType) => item.shoeId}
+            keyExtractor={(item: shoeTypes) => item.shoeId}
           />
 
           {productTarget === 'shoe' ? (
             <>
-              <Block h="0.5px" block bg="#1A4253" />
-              <HideOption items={SHOE_PREFIX} setString={setPrefixProductId} />
-
-              <Block h="0.5px" block bg="#1A4253" />
-              <HideOption
-                items={COLOR_CODE}
-                setString={setColorCodeProductId}
-              />
+              <Block h="0.5px" block bg={theme.color.primaryLight} />
+              <Block row>
+                <HideOption
+                  style={{ flex: 1 }}
+                  items={SHOE_PREFIX}
+                  setString={setPrefixProductId}
+                />
+                <Touchable
+                  flex={0.1}
+                  m="5px"
+                  bg="success"
+                  center
+                  middle
+                  borderRadius="5px"
+                  onPress={() => onGoToSettings('Tiền tố mã giày')}>
+                  <Icon name="add" type="ionicons" color={theme.color.white} />
+                </Touchable>
+              </Block>
+              <Block h="0.5px" block bg={theme.color.primaryLight} />
+              <Block row>
+                <HideOption
+                  style={{ flex: 1 }}
+                  items={COLOR_CODE}
+                  setString={setColorCodeProductId}
+                />
+                <Touchable
+                  flex={0.1}
+                  m="5px"
+                  bg="success"
+                  center
+                  middle
+                  borderRadius="5px"
+                  onPress={() => onGoToSettings('Tiền tố mã dép')}>
+                  <Icon name="add" type="ionicons" color={theme.color.white} />
+                </Touchable>
+              </Block>
             </>
           ) : null}
         </Block>

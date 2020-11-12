@@ -23,9 +23,9 @@ import {
 import {
   addSlipperLoadingSelector,
   updateSlipperLoadingSelector,
-} from '~/modules/Slippers/selector';
+} from '~/modules/Slippers/selectors/';
 import { isSlipperId, showAlert } from '~/utils';
-import { deleteSlipperLoadingSelector } from '~/modules/Slippers/selector';
+import { deleteSlipperLoadingSelector } from '~/modules/Slippers/selectors/';
 
 const ActionSlipper = ({ navigation, route }: any) => {
   const [data, setData] = useSetObjectState({

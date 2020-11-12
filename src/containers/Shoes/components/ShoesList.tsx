@@ -8,7 +8,7 @@ import {
   lastShoeSelector,
   loadMoreShoesLoadingSelector,
   shoesListSelector,
-} from '~/modules/Shoes/selector';
+} from '~/modules/Shoes/selectors';
 import { fetchShoesCreator, loadMoreShoesCreator } from '~/modules/Shoes/thunk';
 
 type PropsType = {
@@ -59,7 +59,7 @@ const ShoesList = ({ type }: PropsType) => {
           return null;
         }}
         onEndReached={() => {
-          if (lastShoe && !loadMoreShoesLoading && type === 'All') {
+          if (lastShoe && !loadMoreShoesLoading && type === 'Tất cả') {
             loadMoreShoesList();
           }
         }}

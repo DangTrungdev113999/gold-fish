@@ -1,4 +1,5 @@
 /* eslint-disable no-sparse-arrays */
+//@ts-nocheck
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Dimensions } from 'react-native';
@@ -10,7 +11,7 @@ import Text from '../Text';
 import Icon from '../Icon';
 
 import theme from '~/config/theme';
-import { shoeType, slipperType } from '~/@types';
+import { shoeTypes, slipperType } from '~/@types';
 import { separatorCode } from '~/utils';
 
 const windowWidth = Dimensions.get('window').width;
@@ -32,7 +33,7 @@ const Wrapper = styled(Block)`
 `;
 
 type CardPropsType = {
-  item: shoeType | slipperType;
+  item: shoeTypes | slipperType;
 };
 
 const Card = ({ item, targetScreen }: CardPropsType) => {
@@ -122,7 +123,7 @@ const Card = ({ item, targetScreen }: CardPropsType) => {
           bg={theme.color.blue2}
           onPress={handleFavorite}>
           <Icon
-            type="maturialIcons"
+            type="materialIcons"
             name={favorite ? 'favorite' : 'favorite-outline'}
             size={20}
             color={theme.color.secondary}

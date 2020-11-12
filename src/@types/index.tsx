@@ -1,4 +1,4 @@
-export type shoeType = {
+export type shoeTypes = {
   shoeId: string;
   imageUri: string;
   type?: string;
@@ -14,8 +14,8 @@ export type slipperType = {
   updatedAt?: any;
 };
 
-export type shoeReducerType = {
-  shoesList: shoeType[];
+export type shoesReducerTypes = {
+  shoesList: shoeTypes[];
   fetchShoesLoading: boolean;
   fetchShoesError: string;
   loadMoreShoesLoading: boolean;
@@ -29,7 +29,7 @@ export type shoeReducerType = {
   lastShoe: any;
 };
 
-export type slipperReducerType = {
+export type slipperReducerTypes = {
   slippersList: slipperType[];
   fetchSlippersLoading: boolean;
   fetchSlippersError: string;
@@ -44,7 +44,20 @@ export type slipperReducerType = {
   lastSlipper: any;
 };
 
-export type rootReducerType = {
-  shoes: shoeReducerType;
-  slippers: slipperReducerType;
+export type productTypes = {
+  name: string;
+  description?: string;
+};
+
+export type settingsReducerTypes = {
+  shoeTypes: productTypes[];
+  slipperTypes: productTypes[];
+  fetchProductsLoading: false;
+  fetchProductsError: '';
+};
+
+export type rootReducerTypes = {
+  shoes: shoesReducerTypes;
+  slippers: slipperReducerTypes;
+  settings: settingsReducerTypes;
 };

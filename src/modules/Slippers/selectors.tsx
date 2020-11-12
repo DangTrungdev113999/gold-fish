@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { rootReducerType } from '~/@types';
+import { rootReducerTypes } from '~/@types';
 
-const slippersSelector = (state: rootReducerType) => state.slippers;
+const slippersSelector = (state: rootReducerTypes) => state.slippers;
 
 export const slippersListSelector = createSelector(
   slippersSelector,

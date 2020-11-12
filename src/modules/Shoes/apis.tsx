@@ -2,16 +2,16 @@ import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 
-import { shoeType } from '~/@types';
+import { shoeTypes } from '~/@types';
 import { getRefToStorage } from '~/utils';
 
 const LIMIT = 8;
 
 export const fetchShoesApi = async (type: string) => {
   try {
-    const shoesList: shoeType[] = [];
+    const shoesList: shoeTypes[] = [];
     let snapshot;
-    if (type === 'All') {
+    if (type === 'Tất cả') {
       snapshot = await firestore()
         .collection('Shoes')
         .orderBy('createdAt', 'desc')
@@ -27,7 +27,7 @@ export const fetchShoesApi = async (type: string) => {
     if (!snapshot.empty) {
       snapshot.forEach((doc) => {
         const shoeItem = doc.data();
-        shoesList.push(shoeItem as shoeType);
+        shoesList.push(shoeItem as shoeTypes);
       });
     }
 
@@ -45,7 +45,7 @@ export const fetchShoesApi = async (type: string) => {
 export const fetchMoreShoesApi = async (lastShoe: any) => {
   if (lastShoe) {
     try {
-      const shoesList: shoeType[] = [];
+      const shoesList: shoeTypes[] = [];
       const snapshot = await firestore()
         .collection('Shoes')
         .orderBy('createdAt', 'desc')
@@ -56,7 +56,7 @@ export const fetchMoreShoesApi = async (lastShoe: any) => {
       if (!snapshot.empty) {
         snapshot.forEach((doc) => {
           const shoeItem = doc.data();
-          shoesList.push(shoeItem as shoeType);
+          shoesList.push(shoeItem as shoeTypes);
         });
       }
 
@@ -81,7 +81,7 @@ export const fetchShoeDetailApi = async (shoeId: string) => {
   }
 };
 
-export const addShoesApi = async (shoe: shoeType) => {
+export const addShoesApi = async (shoe: shoeTypes) => {
   shoe.createdAt = firebase.firestore.FieldValue.serverTimestamp();
   try {
     // TODO check unique
@@ -92,7 +92,7 @@ export const addShoesApi = async (shoe: shoeType) => {
   }
 };
 
-export const updateShoesApi = async (shoe: shoeType) => {
+export const updateShoesApi = async (shoe: shoeTypes) => {
   shoe.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
   try {
     await firestore().collection('Shoes').doc(shoe.shoeId).update(shoe);
@@ -102,7 +102,7 @@ export const updateShoesApi = async (shoe: shoeType) => {
   }
 };
 
-export const deleteShoesApi = async (shoe: shoeType) => {
+export const deleteShoesApi = async (shoe: shoeTypes) => {
   try {
     if (shoe.imageUri) {
       await deleteImageUri(shoe.imageUri);
@@ -163,7 +163,7 @@ export const uploadShoeImageApi = async ({
 
 export const searchShoesApi = async (searchString: string) => {
   try {
-    const shoesMatch: shoeType[] = [];
+    const shoesMatch: shoeTypes[] = [];
     const snapshot = await firestore()
       .collection('Shoes')
       .orderBy('shoeId')
@@ -175,7 +175,7 @@ export const searchShoesApi = async (searchString: string) => {
     if (!snapshot.empty) {
       snapshot.forEach((doc) => {
         const shoeItem = doc.data();
-        shoesMatch.push(shoeItem as shoeType);
+        shoesMatch.push(shoeItem as shoeTypes);
       });
     }
 

@@ -11,7 +11,7 @@ export const fetchSlippersApi = async (type: string) => {
   try {
     const slippersList: slipperType[] = [];
     let snapshot;
-    if (type === 'All') {
+    if (type === 'Tất cả') {
       snapshot = await firestore()
         .collection('Slippers')
         .orderBy('createdAt', 'desc')

@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import ShoesStack from './ShoesStack';
 import SlippersStack from './SlippersStack';
+import UserStack from './UserStack';
 
 import { Icon } from '~/components';
 import theme from '~/config/theme';
@@ -43,7 +44,7 @@ export default function () {
         name="shoes_stack"
         component={ShoesStack}
         options={({ route }) => ({
-          tabBarLabel: 'Giầy',
+          tabBarLabel: 'giày',
           tabBarIcon: ({ focused }) => (
             <Icon
               name="shoe-formal"
@@ -64,6 +65,22 @@ export default function () {
             <Icon
               name="beach-slipper"
               type="fontisto"
+              color={focused ? theme.color.secondary : '#fff'}
+              size={22}
+            />
+          ),
+          tabBarVisible: getTabBarVisible(route),
+        })}
+      />
+      <Tab.Screen
+        name="setting_tab"
+        component={UserStack}
+        options={({ route }) => ({
+          tabBarLabel: 'Cá nhân',
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="user-circle"
+              type="fontAwesome"
               color={focused ? theme.color.secondary : '#fff'}
               size={22}
             />

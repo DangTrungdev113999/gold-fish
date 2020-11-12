@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { shoeReducerType } from '~/@types';
+import { shoesReducerTypes } from '~/@types';
 
 import {
   FETCH_SHOES,
@@ -20,9 +20,9 @@ import {
   SET_LAST_SHOE,
 } from './constants';
 
-import { shoeType } from '~/@types';
+import { shoeTypes } from '~/@types';
 
-const initState: shoeReducerType = {
+const initState: shoesReducerTypes = {
   shoesList: [],
   fetchShoesLoading: false,
   fetchShoesError: '',
@@ -83,7 +83,7 @@ const shoeReducer = produce((draft, action) => {
       break;
     case UPDATE_SHOE_SUCCEEDED: {
       const index = draft.shoesList.findIndex(
-        (item: shoeType) => item.shoeId === action.payload.shoeId,
+        (item: shoeTypes) => item.shoeId === action.payload.shoeId,
       );
       draft.updateShoeLoading = false;
       draft.shoesList[index] = action.payload;
@@ -100,7 +100,7 @@ const shoeReducer = produce((draft, action) => {
       break;
     case DELETE_SHOE_SUCCEEDED: {
       const index = draft.shoesList.findIndex(
-        (item: shoeType) => item.shoeId === action.payload.shoeId,
+        (item: shoeTypes) => item.shoeId === action.payload.shoeId,
       );
       draft.deleteShoeLoading = false;
       draft.shoesList.splice(index, 1);

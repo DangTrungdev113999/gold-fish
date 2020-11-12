@@ -5,7 +5,7 @@ import SlippersScreen from '~/containers/Slippers';
 import { Block, Touchable, Icon } from '~/components';
 import { AddProductIcon, DeleteProductIcon } from '~/components/Header';
 import ActionSlipper from '~/containers/Slippers/ActionSlipper';
-import { mainOptions } from '../navigationOptions';
+import { mainOptions } from '../../navigationOptions';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +15,7 @@ export default () => (
       name="slippers_screen"
       component={SlippersScreen}
       options={({ navigation, route }) => ({
-        title: 'NO LIMIT trên đôi Bitis',
+        title: 'Chầy cối làm nên hiện tại',
         headerLeft: () => <Block />,
         headerRight: () => (
           <AddProductIcon

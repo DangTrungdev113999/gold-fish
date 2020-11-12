@@ -8,7 +8,7 @@ import {
   lastSlipperSelector,
   loadMoreSlippersLoadingSelector,
   slippersListSelector,
-} from '~/modules/Slippers/selector';
+} from '~/modules/Slippers/selectors/';
 import {
   fetchSlippersCreator,
   loadMoreSlippersCreator,

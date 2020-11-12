@@ -20,9 +20,10 @@ import { updateShoeCreator, addShoeCreator } from '~/modules/Shoes/thunk';
 import {
   addShoeLoadingSelector,
   updateShoeLoadingSelector,
-} from '~/modules/Shoes/selector';
+} from '~/modules/Shoes/selectors';
 import { isShoeId, showAlert } from '~/utils';
-import { deleteShoeLoadingSelector } from '~/modules/Shoes/selector';
+import { deleteShoeLoadingSelector } from '~/modules/Shoes/selectors';
+import { shoeTypesSelector } from '~/modules/Settings/selectors';
 
 const ActionShoe = ({ navigation, route }: any) => {
   const [data, setData] = useSetObjectState({
@@ -38,6 +39,7 @@ const ActionShoe = ({ navigation, route }: any) => {
   const updateShoesLoading = useSelector(updateShoeLoadingSelector);
   const addShoesLoading = useSelector(addShoeLoadingSelector);
   const deleteShoesLoading = useSelector(deleteShoeLoadingSelector);
+  const shoeTypes = useSelector(shoeTypesSelector);
 
   useEffect(() => {
     if (route.params?.shoeDetail?.shoeId) {
@@ -112,16 +114,16 @@ const ActionShoe = ({ navigation, route }: any) => {
 
         <Block p="30px 20px 20px">
           <Input
-            label="Mã giầy"
+            label="Mã giày"
             required
-            placeholder="Nhập mã giầy"
+            placeholder="Nhập mã giày"
             value={data.shoeId}
             disabled={route.params.type === 'update'}
             iconLeftName="tago"
             iconLeftType="antDesign"
             autoCapitalize="characters"
             onChangeText={onSetShoeId}
-            description={!shoeIdIsValid ? 'Mã giầy không đúng định dạng' : ''}
+            description={!shoeIdIsValid ? 'Mã giày không đúng định dạng' : ''}
             danger={!shoeIdIsValid}
             onBlur={checkShoeId}
             maxLength={12}
@@ -129,7 +131,12 @@ const ActionShoe = ({ navigation, route }: any) => {
           <Picker
             label="Dòng sản phẩm"
             title="Dòng sản phẩm"
-            options={SHOE_TYPES}
+            options={shoeTypes
+              .map((item) => ({
+                name: item.name,
+                value: item.name,
+              }))
+              .slice(1)}
             placeholder="Chọn dòng sản phẩm"
             value={data.type}
             onChange={(val: string) => setData({ type: val })}

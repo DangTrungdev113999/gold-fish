@@ -1,9 +1,9 @@
 export const SHOE_TYPES = [
   { name: 'Hunter', value: 'Hunter' },
-  { name: 'Giầy thể thao', value: 'Giầy thể thao' },
-  { name: 'Giầy chạy bộ', value: 'Giầy chạy bộ' },
-  { name: 'Giầy đá banh', value: 'Giầy đá banh' },
-  { name: 'Giầy tây', value: 'Giầy tây' },
+  { name: 'Giày thể thao', value: 'Giày thể thao' },
+  { name: 'Giày chạy bộ', value: 'Giày chạy bộ' },
+  { name: 'Giày đá banh', value: 'Giày đá banh' },
+  { name: 'Giày tây', value: 'Giày tây' },
 ];
 
 export const SLIPPER_TYPES = [

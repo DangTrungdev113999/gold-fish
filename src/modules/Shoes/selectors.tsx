@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
-import { rootReducerType } from '~/@types';
+import { rootReducerTypes } from '~/@types';
 
-const shoesSelector = (state: rootReducerType) => state.shoes;
+const shoesSelector = (state: rootReducerTypes) => state.shoes;
 
 export const shoesListSelector = createSelector(
   shoesSelector,

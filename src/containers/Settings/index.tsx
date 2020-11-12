@@ -1,34 +1,56 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TabBar, TabView } from 'react-native-tab-view';
+
+import { Block, Body, Text, Touchable, Icon } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
-import { Body, SearchModal } from '~/components';
+import { SHOE_PREFIX, COLOR_CODE_MAP } from '~/config/constants';
+import AddModal from './components/AddModal';
 import theme from '~/config/theme';
+import ListItem from './components/ListItem';
+import { fetchProductTypesCreator } from '~/modules/Settings/thunk';
 import {
   fetchProductTypesLoadingSelector,
+  shoeTypesSelector,
   slipperTypesSelector,
 } from '~/modules/Settings/selectors';
-import { fetchProductTypesCreator } from '~/modules/Settings/thunk';
-import SlippersList from './components/SlippersList';
 
-const Slippers = () => {
-  const [index, setIndex] = React.useState(0);
-  const slipperTypesTab = useSelector(slipperTypesSelector);
+const TABS = [
+  'Loại giày',
+  'loại dép',
+  'Tiền tố mã giày',
+  'Tiền tố mã dép',
+  'Mã mầu',
+];
+
+const shoeTypess = () => {
+  const [index, setIndex] = useState(0);
 
   const dispatch = useDispatch();
+  const shoeTypes = useSelector(shoeTypesSelector);
+  const slipperTypes = useSelector(slipperTypesSelector);
   const fetchProductsLoading = useSelector(fetchProductTypesLoadingSelector);
 
   useEffect(() => {
-    if (!slipperTypesTab.length) {
+    if (!shoeTypess || !slipperTypes) {
       dispatch(fetchProductTypesCreator());
     }
-  }, [slipperTypesTab]);
+  }, [shoeTypes, slipperTypes]);
 
   const renderScene = ({ route }) => {
     switch (route.key) {
-      case slipperTypesTab[index].name:
-        return <SlippersList type={slipperTypesTab[index].name} />;
+      case 'Loại giày':
+        return <ListItem items={shoeTypes} target={TABS[index]} />;
+      case 'loại dép':
+        return <ListItem items={slipperTypes} target={TABS[index]} />;
+      case 'Tiền tố mã giày':
+        return <ListItem items={SHOE_PREFIX} target={TABS[index]} />;
+      case 'Tiền tố mã dép':
+        return <ListItem items={SHOE_PREFIX} target={TABS[index]} />;
+      case 'Mã mầu':
+        return <ListItem items={COLOR_CODE_MAP} target={TABS[index]} />;
       default:
         return null;
     }
@@ -59,9 +81,9 @@ const Slippers = () => {
         )}
         navigationState={{
           index,
-          routes: slipperTypesTab.map((item) => ({
-            key: item.name,
-            title: item.name,
+          routes: TABS.map((item) => ({
+            key: item,
+            title: item,
           })),
         }}
         lazy
@@ -70,10 +92,9 @@ const Slippers = () => {
         renderScene={renderScene}
         onIndexChange={setIndex}
       />
-
-      <SearchModal productTarget="slipper" />
+      <AddModal target={TABS[index]} />
     </Body>
   );
 };
 
-export default Slippers;
+export default shoeTypess;

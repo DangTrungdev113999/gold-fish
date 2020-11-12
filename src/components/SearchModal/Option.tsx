@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import styled from 'styled-components';
-import { shoeType } from '~/@types';
+import { shoeTypes } from '~/@types';
 import { Text, Touchable } from '~/components';
 import theme from '~/config/theme';
 import { separatorCode } from '~/utils';
@@ -26,7 +26,7 @@ const Image = styled.Image.attrs({
 `;
 
 type PropsType = {
-  item: shoeType;
+  item: shoeTypes;
   onClose: Function;
   productTarget: string;
 };
