@@ -26,6 +26,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
   const [loading, setLoading] = useState(false);
   const [productId, setProductId] = useState('');
   const [keyboardType, setKeyboardType] = useState('default');
+  const [activeItem, setActiveItem] = useState('');
   const navigation = useNavigation();
 
   const inputRef = useRef();
@@ -34,6 +35,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
     setProductId('');
     setPropductsMatch([]);
     setKeyboardType('default');
+    setActiveItem('');
     Keyboard.dismiss();
   };
 
@@ -74,6 +76,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
   }, [productId]);
 
   const setPrefixProductId = (prefix: string) => {
+    setActiveItem(prefix);
     if (SHOE_PREFIX.indexOf(productId.slice(0, 4)) !== -1) {
       setProductId(`${prefix}${productId.slice(4)}`);
     } else if (SHOE_PREFIX.indexOf(productId.slice(0, 3)) !== -1) {
@@ -90,15 +93,16 @@ const SearchModal = ({ productTarget }: PropsType) => {
   };
 
   const setColorCodeProductId = (code: string) => {
+    setActiveItem(code);
     if (true) {
       setProductId(`${productId.split('-')[0]}${code}`);
     }
   };
 
-  const onGoToSettings = (target) => {
+  const onGoToSettings = (targetTab) => {
     navigation.navigate('settings_stack', {
       screen: 'settings_screen',
-      param: { target },
+      params: { targetTab },
     });
   };
 
@@ -188,6 +192,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
               <Block row>
                 <HideOption
                   style={{ flex: 1 }}
+                  itemTarget={activeItem}
                   items={SHOE_PREFIX}
                   setString={setPrefixProductId}
                 />
@@ -207,6 +212,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
                 <HideOption
                   style={{ flex: 1 }}
                   items={COLOR_CODE}
+                  itemTarget={activeItem}
                   setString={setColorCodeProductId}
                 />
                 <Touchable
@@ -216,7 +222,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
                   center
                   middle
                   borderRadius="5px"
-                  onPress={() => onGoToSettings('Tiền tố mã dép')}>
+                  onPress={() => onGoToSettings('Mã màu')}>
                   <Icon name="add" type="ionicons" color={theme.color.white} />
                 </Touchable>
               </Block>

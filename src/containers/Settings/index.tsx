@@ -4,9 +4,9 @@
 import React, { useState, useEffect } from 'react';
 import { TabBar, TabView } from 'react-native-tab-view';
 
-import { Block, Body, Text, Touchable, Icon } from '~/components';
+import { Body } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
-import { SHOE_PREFIX, COLOR_CODE_MAP } from '~/config/constants';
+import { SHOE_PREFIX, COLOR_CODE_MAP, TABS_SETTING } from '~/config/constants';
 import AddModal from './components/AddModal';
 import theme from '~/config/theme';
 import ListItem from './components/ListItem';
@@ -17,15 +17,7 @@ import {
   slipperTypesSelector,
 } from '~/modules/Settings/selectors';
 
-const TABS = [
-  'Loại giày',
-  'loại dép',
-  'Tiền tố mã giày',
-  'Tiền tố mã dép',
-  'Mã mầu',
-];
-
-const shoeTypess = () => {
+const shoeTypess = ({ route }) => {
   const [index, setIndex] = useState(0);
 
   const dispatch = useDispatch();
@@ -39,18 +31,35 @@ const shoeTypess = () => {
     }
   }, [shoeTypes, slipperTypes]);
 
+  useEffect(() => {
+    if (route.params?.targetTab) {
+      const tabIndex = TABS_SETTING.indexOf(route.params?.targetTab);
+      setIndex(tabIndex !== -1 ? tabIndex : 0);
+    }
+  }, [route.params?.targetTab]);
+
+  const listItemMap = () => {
+    switch (TABS_SETTING[index]) {
+      case 'Loại giày':
+        return shoeTypes;
+      case 'Loại dép':
+        return slipperTypes;
+      case 'Tiền tố mã giày':
+        return SHOE_PREFIX;
+      case 'Tiền tố mã dép':
+        return SHOE_PREFIX;
+      case 'Mã màu':
+        return COLOR_CODE_MAP;
+      default:
+        return [];
+    }
+  };
+
   const renderScene = ({ route }) => {
     switch (route.key) {
-      case 'Loại giày':
-        return <ListItem items={shoeTypes} target={TABS[index]} />;
-      case 'loại dép':
-        return <ListItem items={slipperTypes} target={TABS[index]} />;
-      case 'Tiền tố mã giày':
-        return <ListItem items={SHOE_PREFIX} target={TABS[index]} />;
-      case 'Tiền tố mã dép':
-        return <ListItem items={SHOE_PREFIX} target={TABS[index]} />;
-      case 'Mã mầu':
-        return <ListItem items={COLOR_CODE_MAP} target={TABS[index]} />;
+      case TABS_SETTING[index]:
+        const items = listItemMap();
+        return <ListItem items={items} target={TABS_SETTING[index]} />;
       default:
         return null;
     }
@@ -81,7 +90,7 @@ const shoeTypess = () => {
         )}
         navigationState={{
           index,
-          routes: TABS.map((item) => ({
+          routes: TABS_SETTING.map((item) => ({
             key: item,
             title: item,
           })),
@@ -92,7 +101,7 @@ const shoeTypess = () => {
         renderScene={renderScene}
         onIndexChange={setIndex}
       />
-      <AddModal target={TABS[index]} />
+      <AddModal items={listItemMap()} target={TABS_SETTING[index]} />
     </Body>
   );
 };

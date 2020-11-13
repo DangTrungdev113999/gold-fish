@@ -17,3 +17,8 @@ export const fetchProductTypesLoadingSelector = createSelector(
   slippersSelector,
   (slippersReducer) => slippersReducer.fetchProductsLoading,
 );
+
+export const updateProductTypesLoadingSelector = createSelector(
+  slippersSelector,
+  (slippersReducer) => slippersReducer.updateProductsLoading,
+);

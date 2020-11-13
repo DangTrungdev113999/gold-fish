@@ -1,7 +1,8 @@
 /* eslint-disable prettier/prettier */
 //@ts-nocheck
 import React, { useEffect, useState } from 'react';
-import { Keyboard, ScrollView, ToastAndroid } from 'react-native';
+import { Keyboard, ScrollView } from 'react-native';
+import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
@@ -15,7 +16,6 @@ import {
 import theme from '~/config/theme';
 import { useSetObjectState } from '~/hoocks';
 
-import { SHOE_TYPES } from '~/config/constants';
 import { updateShoeCreator, addShoeCreator } from '~/modules/Shoes/thunk';
 import {
   addShoeLoadingSelector,
@@ -74,7 +74,7 @@ const ActionShoe = ({ navigation, route }: any) => {
         updateShoeCreator({
           shoe: data,
           onSuccess: () => {
-            ToastAndroid.show('Cập nhật thành công !', ToastAndroid.SHORT);
+            Toast.show('Cập nhật thành công !');
           },
           onError: (e: string) => {
             showAlert('Có lỗi xẩy ra', e);
@@ -126,7 +126,7 @@ const ActionShoe = ({ navigation, route }: any) => {
             description={!shoeIdIsValid ? 'Mã giày không đúng định dạng' : ''}
             danger={!shoeIdIsValid}
             onBlur={checkShoeId}
-            maxLength={12}
+            maxLength={13}
           />
           <Picker
             label="Dòng sản phẩm"

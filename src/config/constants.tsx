@@ -51,3 +51,11 @@ export const COLOR_CODE_MAP = {
   '-HOG': '#ff00cc',
   '-HOD': '',
 };
+
+export const TABS_SETTING = [
+  'Loại giày',
+  'Loại dép',
+  'Tiền tố mã giày',
+  'Tiền tố mã dép',
+  'Mã màu',
+];

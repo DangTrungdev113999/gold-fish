@@ -6,8 +6,11 @@ import theme from '~/config/theme';
 const Drawer = ({ navigation }) => {
   const onCloseDrawer = () => navigation.closeDrawer();
 
-  const onGoToshoeTypess = () => {
-    navigation.navigate('settings_stack');
+  const onGoToProductTypes = (targetTab) => {
+    navigation.navigate('settings_stack', {
+      screen: 'settings_screen',
+      params: { targetTab },
+    });
   };
 
   return (
@@ -52,7 +55,7 @@ const Drawer = ({ navigation }) => {
           m="10px 0 0"
           bg="blue2"
           p="12px 10px"
-          onPress={onGoToshoeTypess}>
+          onPress={() => onGoToProductTypes('Loại giày')}>
           <Icon
             m="0 20px 0 0"
             name="category"
@@ -65,7 +68,12 @@ const Drawer = ({ navigation }) => {
 
         <Block h="1px" block bg={theme.color.primaryLight} />
 
-        <Touchable row middle bg="blue2" p="12px 10px">
+        <Touchable
+          row
+          middle
+          bg="blue2"
+          p="12px 10px"
+          onPress={() => onGoToProductTypes('Loại dép')}>
           <Icon
             m="0 20px 0 0"
             name="category"
@@ -73,12 +81,17 @@ const Drawer = ({ navigation }) => {
             size={25}
             color={theme.color.grayLight}
           />
-          <Text color={theme.color.white}>loại dép</Text>
+          <Text color={theme.color.white}>Loại dép</Text>
         </Touchable>
 
         <Block h="1px" block bg={theme.color.primaryLight} />
 
-        <Touchable row middle bg="blue2" p="12px 10px">
+        <Touchable
+          row
+          middle
+          bg="blue2"
+          p="12px 10px"
+          onPress={() => onGoToProductTypes('Tiền tố mã giày')}>
           <Icon
             m="0 20px 0 0"
             name="awareness-ribbon"
@@ -91,7 +104,12 @@ const Drawer = ({ navigation }) => {
 
         <Block h="1px" block bg={theme.color.primaryLight} />
 
-        <Touchable row middle bg="blue2" p="12px 10px">
+        <Touchable
+          row
+          middle
+          bg="blue2"
+          p="12px 10px"
+          onPress={() => onGoToProductTypes('Tiền tố mã dép')}>
           <Icon
             m="0 20px 0 0"
             name="awareness-ribbon"
@@ -99,12 +117,17 @@ const Drawer = ({ navigation }) => {
             size={25}
             color={theme.color.grayLight}
           />
-          <Text color={theme.color.white}>Tiền Tố mã dép</Text>
+          <Text color={theme.color.white}>Tiền tố mã dép</Text>
         </Touchable>
 
         <Block h="1px" block bg={theme.color.primaryLight} />
 
-        <Touchable row middle bg="blue2" p="12px 10px">
+        <Touchable
+          row
+          middle
+          bg="blue2"
+          p="12px 10px"
+          onPress={() => onGoToProductTypes('Mã màu')}>
           <Icon
             m="0 20px 0 0"
             name="color-palette-sharp"
@@ -112,7 +135,7 @@ const Drawer = ({ navigation }) => {
             size={25}
             color={theme.color.grayLight}
           />
-          <Text color={theme.color.white}>Mã mầu</Text>
+          <Text color={theme.color.white}>Mã màu</Text>
         </Touchable>
       </ScrollBody>
     </Body>

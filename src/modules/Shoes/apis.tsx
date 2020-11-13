@@ -39,6 +39,7 @@ export const fetchShoesApi = async (type: string) => {
     };
   } catch (e) {
     console.log('fetch shoes error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -68,6 +69,7 @@ export const fetchMoreShoesApi = async (lastShoe: any) => {
       };
     } catch (e) {
       console.log('fetch more shoes error: ', e.message);
+      throw new Error(e);
     }
   }
 };
@@ -78,6 +80,7 @@ export const fetchShoeDetailApi = async (shoeId: string) => {
     return snapshot.data();
   } catch (e) {
     console.log('fetch shoes error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -89,6 +92,7 @@ export const addShoesApi = async (shoe: shoeTypes) => {
     return shoe;
   } catch (e) {
     console.log('add shoe error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -99,6 +103,7 @@ export const updateShoesApi = async (shoe: shoeTypes) => {
     return shoe;
   } catch (e) {
     console.log('update shoe error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -112,6 +117,7 @@ export const deleteShoesApi = async (shoe: shoeTypes) => {
     return shoe;
   } catch (e) {
     console.log('delete shoe error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -123,6 +129,7 @@ export const deleteImageUri = async (imageUri: string) => {
     }
   } catch (e) {
     console.log('delete iamge error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -182,5 +189,6 @@ export const searchShoesApi = async (searchString: string) => {
     return shoesMatch;
   } catch (e) {
     console.log('search shoes error: ', e.message);
+    throw new Error(e);
   }
 };

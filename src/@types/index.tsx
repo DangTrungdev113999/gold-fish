@@ -52,8 +52,10 @@ export type productTypes = {
 export type settingsReducerTypes = {
   shoeTypes: productTypes[];
   slipperTypes: productTypes[];
-  fetchProductsLoading: false;
-  fetchProductsError: '';
+  fetchProductsLoading: boolean;
+  fetchProductsError: string;
+  updateProductsLoading: boolean;
+  updateProductsError: string;
 };
 
 export type rootReducerTypes = {

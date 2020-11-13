@@ -1,38 +1,49 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Keyboard } from 'react-native';
 import Modal from 'react-native-modal';
-import { shoeTypes } from '~/@types';
+import Toast from 'react-native-simple-toast';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
-  Body,
   Button,
   Icon,
   Input,
-  Loading,
   ScrollBody,
   Text,
   Touchable,
 } from '~/components';
 import theme from '~/config/theme';
+import { useSetObjectState } from '~/hoocks';
+import { updateProductTypesLoadingSelector } from '~/modules/Settings/selectors';
+import { updateProductTypesCreator } from '~/modules/Settings/thunk';
+import { showAlert } from '~/utils';
 
 type PropsType = {
+  data: any;
   target: string;
 };
 
-const SearchModal = ({ target }: PropsType) => {
-  const [propductsMatch, setPropductsMatch] = useState<shoeTypes[]>([]);
+const AddModal = ({ items, target }: PropsType) => {
   const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [productId, setProductId] = useState('');
+  const [data, setData] = useSetObjectState({
+    name: '',
+    description: '',
+  });
 
+  const dispatch = useDispatch();
+  const updateProductTypesLoading = useSelector(
+    updateProductTypesLoadingSelector,
+  );
   const inputRef = useRef();
 
   const onReset = () => {
-    setProductId('');
-    setPropductsMatch([]);
     Keyboard.dismiss();
+    setData({
+      name: '',
+      description: '',
+    });
   };
 
   const onOpen = () => {
@@ -45,7 +56,37 @@ const SearchModal = ({ target }: PropsType) => {
     setVisible(false);
   };
 
-  useEffect(() => {}, []);
+  const onAdd = () => {
+    if (
+      !items.filter(
+        (item) =>
+          item.name.toLocaleLowerCase() === data.name.toLocaleLowerCase(),
+      ).length
+    ) {
+      const alphaData = [...items];
+      alphaData.push(data);
+      dispatch(
+        updateProductTypesCreator({
+          data: alphaData,
+          target,
+          onSuccess: () => {
+            onReset();
+            Toast.show('Thêm danh mục thành công !');
+          },
+          onError: (e) => {
+            showAlert('Thông báo', e);
+          },
+        }),
+      );
+    } else {
+      onReset();
+      showAlert('Thông báo', 'Danh mục này đã tồn tại');
+    }
+  };
+
+  const formIsValid = () => {
+    return !!(data.name.length > 3);
+  };
 
   return (
     <Block absolute right="20px" bottom="40px">
@@ -77,13 +118,7 @@ const SearchModal = ({ target }: PropsType) => {
         <Block h="450px" borderRadius="15px" bg="#1D2636">
           <Touchable row justify="space-around" middle block h="40px">
             <Touchable flex={1} />
-            <Touchable
-              flex={1}
-              onPress={onClose}
-              center
-              middle
-              m="0 0 0 20px"
-              disabled={loading}>
+            <Touchable flex={1} onPress={onClose} center middle m="0 0 0 20px">
               <Icon
                 name="ios-chevron-down-sharp"
                 type="ionicons"
@@ -98,11 +133,7 @@ const SearchModal = ({ target }: PropsType) => {
               justify="flex-end"
               m="0 20px 0 0"
               onPress={onReset}>
-              {loading ? (
-                <Loading />
-              ) : (
-                <Text color={theme.color.secondary}>Reset</Text>
-              )}
+              <Text color={theme.color.secondary}>Reset</Text>
             </Touchable>
           </Touchable>
           <Block h="0.5px" block bg={theme.color.primaryLight} />
@@ -113,18 +144,18 @@ const SearchModal = ({ target }: PropsType) => {
               label={`Nhập ${target}`}
               m="20px 20px 0"
               placeholder={`Nhập ${target}`}
-              autoCapitalize="characters"
-              value={productId}
-              onChangeText={(val: string) => setProductId(val)}
+              autoCapitalize="words"
+              value={data.name}
+              onChangeText={(val: string) => setData({ name: val })}
             />
             <Input
               ref={inputRef}
               label="Mô tả"
               m="20px 20px 0"
               placeholder="Mô tả"
-              autoCapitalize="characters"
-              value={productId}
-              onChangeText={(val: string) => setProductId(val)}
+              autoCapitalize="words"
+              value={data.description}
+              onChangeText={(val: string) => setData({ name: val })}
             />
           </ScrollBody>
 
@@ -134,11 +165,13 @@ const SearchModal = ({ target }: PropsType) => {
             p="10px 0"
             center
             middle
-            // disabled={!formIsValid()}
-            //           onPress={onActionShoe}
-          >
-            <Text color={!true ? theme.color.grayLight : theme.color.secondary}>
-              Thêm
+            disabled={!formIsValid()}
+            onPress={onAdd}>
+            <Text
+              color={
+                !formIsValid() ? theme.color.grayLight : theme.color.secondary
+              }>
+              {updateProductTypesLoading ? 'loading...' : 'Thêm'}
             </Text>
           </Button>
         </Block>
@@ -147,4 +180,4 @@ const SearchModal = ({ target }: PropsType) => {
   );
 };
 
-export default SearchModal;
+export default AddModal;

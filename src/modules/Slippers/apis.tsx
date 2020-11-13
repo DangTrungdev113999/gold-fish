@@ -39,6 +39,7 @@ export const fetchSlippersApi = async (type: string) => {
     };
   } catch (e) {
     console.log('fetch slippers error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -68,6 +69,7 @@ export const fetchMoreSlippersApi = async (lastSlipper: any) => {
       };
     } catch (e) {
       console.log('fetch more slippers error: ', e.message);
+      throw new Error(e);
     }
   }
 };
@@ -81,6 +83,7 @@ export const fetchSlipperDetailApi = async (slipperId: string) => {
     return snapshot.data();
   } catch (e) {
     console.log('fetch slippers error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -95,6 +98,7 @@ export const addSlippersApi = async (slipper: slipperType) => {
     return slipper;
   } catch (e) {
     console.log('add slipper error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -108,6 +112,7 @@ export const updateSlippersApi = async (slipper: slipperType) => {
     return slipper;
   } catch (e) {
     console.log('update slipper error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -121,6 +126,7 @@ export const deleteSlippersApi = async (slipper: slipperType) => {
     return slipper;
   } catch (e) {
     console.log('delete slipper error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -132,6 +138,7 @@ export const deleteImageUri = async (imageUri: string) => {
     }
   } catch (e) {
     console.log('delete iamge error: ', e.message);
+    throw new Error(e);
   }
 };
 
@@ -191,5 +198,6 @@ export const searchSlippersApi = async (searchString: string) => {
     return slippersMatch;
   } catch (e) {
     console.log('search slippers error: ', e.message);
+    throw new Error(e);
   }
 };

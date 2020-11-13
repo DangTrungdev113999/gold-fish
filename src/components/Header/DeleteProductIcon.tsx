@@ -1,5 +1,6 @@
 import React from 'react';
 import TouchableOpacity from '../Touchable';
+import Toast from 'react-native-simple-toast';
 import Icon from '../Icon';
 import { useDispatch } from 'react-redux';
 import theme from '~/config/theme';
@@ -26,7 +27,6 @@ const DeleteProductIcon = ({ navigation, route, fromScreen }: any) => {
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
         },
       ],
       { cancelable: true },
@@ -39,6 +39,7 @@ const DeleteProductIcon = ({ navigation, route, fromScreen }: any) => {
         deleteShoeCreator({
           shoe: route.params.shoeDetail,
           onSuccess: () => {
+            Toast.show('Xóa sản phấm thành công!');
             navigation.navigate('shoes_screen');
           },
           onError: (e: string) => {
@@ -51,6 +52,7 @@ const DeleteProductIcon = ({ navigation, route, fromScreen }: any) => {
         deleteSlipperCreator({
           slipper: route.params.slipperDetail,
           onSuccess: () => {
+            Toast.show('Xóa sản phấm thành công!');
             navigation.navigate('slippers_screen');
           },
           onError: (e: string) => {
