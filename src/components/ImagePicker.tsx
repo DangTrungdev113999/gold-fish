@@ -144,7 +144,7 @@ const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
   };
 
   return (
-    <Body h={`${windowHeight / 3}px`} flex={1}>
+    <Body h={`${windowHeight / 3}px`}>
       {!imageUri ? (
         <ImagePickerWrapper center middle onPress={onOpen} disabled={loading}>
           <Icon

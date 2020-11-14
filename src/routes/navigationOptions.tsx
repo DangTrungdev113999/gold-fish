@@ -13,7 +13,7 @@ const mainOptions = {
     backgroundColor: theme.color.primary,
   },
   headerTitleStyle: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: theme.font.primary,
     fontWeight: '400',
     lineHeight: 24,
@@ -22,4 +22,4 @@ const mainOptions = {
   },
 };
 
-export {mainOptions};
+export { mainOptions };

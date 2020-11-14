@@ -84,10 +84,29 @@ export const fetchShoeDetailApi = async (shoeId: string) => {
   }
 };
 
-export const addShoesApi = async (shoe: shoeTypes) => {
-  shoe.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+export const deleteImageUri = async (imageUri: string) => {
   try {
-    // TODO check unique
+    const imageRef = storage().ref(getRefToStorage(imageUri));
+    if (imageRef) {
+      await imageRef.delete();
+    }
+  } catch (e) {
+    console.log('delete iamge error: ', e.message);
+    throw new Error(e);
+  }
+};
+
+export const addShoesApi = async (shoe: shoeTypes) => {
+  try {
+    const checkShoeVisible = await fetchShoeDetailApi(shoe.shoeId);
+
+    if (checkShoeVisible?.shoeId) {
+      if (checkShoeVisible?.imageUri) {
+        await deleteImageUri(shoe.imageUri);
+      }
+      throw `Mã ${checkShoeVisible.shoeId} đã tồn tại !`;
+    }
+    shoe.createdAt = firebase.firestore.FieldValue.serverTimestamp();
     await firestore().collection('Shoes').doc(shoe.shoeId).set(shoe);
     return shoe;
   } catch (e) {
@@ -117,18 +136,6 @@ export const deleteShoesApi = async (shoe: shoeTypes) => {
     return shoe;
   } catch (e) {
     console.log('delete shoe error: ', e.message);
-    throw new Error(e);
-  }
-};
-
-export const deleteImageUri = async (imageUri: string) => {
-  try {
-    const imageRef = storage().ref(getRefToStorage(imageUri));
-    if (imageRef) {
-      await imageRef.delete();
-    }
-  } catch (e) {
-    console.log('delete iamge error: ', e.message);
     throw new Error(e);
   }
 };

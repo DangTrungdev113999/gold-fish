@@ -43,7 +43,7 @@ const DeleteProductIcon = ({ navigation, route, fromScreen }: any) => {
             navigation.navigate('shoes_screen');
           },
           onError: (e: string) => {
-            showAlert('Có lỗi xẩy ra', e);
+            showAlert('Thông báo!', e);
           },
         }),
       );
@@ -56,7 +56,7 @@ const DeleteProductIcon = ({ navigation, route, fromScreen }: any) => {
             navigation.navigate('slippers_screen');
           },
           onError: (e: string) => {
-            showAlert('Có lỗi xẩy ra', e);
+            showAlert('Thông báo!', e);
           },
         }),
       );

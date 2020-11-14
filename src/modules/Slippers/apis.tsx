@@ -87,10 +87,29 @@ export const fetchSlipperDetailApi = async (slipperId: string) => {
   }
 };
 
-export const addSlippersApi = async (slipper: slipperType) => {
-  slipper.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+export const deleteImageUri = async (imageUri: string) => {
   try {
-    // TODO check unique
+    const imageRef = storage().ref(getRefToStorage(imageUri));
+    if (imageRef) {
+      await imageRef.delete();
+    }
+  } catch (e) {
+    console.log('delete iamge error: ', e.message);
+    throw new Error(e);
+  }
+};
+
+export const addSlippersApi = async (slipper: slipperType) => {
+  try {
+    const checkSlipperVisible = await fetchSlipperDetailApi(slipper.slipperId);
+
+    if (checkSlipperVisible?.shoeId) {
+      if (checkSlipperVisible?.imageUri) {
+        await deleteImageUri(slipper.imageUri);
+      }
+      throw `Mã ${checkSlipperVisible.shoeId} đã tồn tại !`;
+    }
+    slipper.createdAt = firebase.firestore.FieldValue.serverTimestamp();
     await firestore()
       .collection('Slippers')
       .doc(slipper.slipperId)
@@ -126,18 +145,6 @@ export const deleteSlippersApi = async (slipper: slipperType) => {
     return slipper;
   } catch (e) {
     console.log('delete slipper error: ', e.message);
-    throw new Error(e);
-  }
-};
-
-export const deleteImageUri = async (imageUri: string) => {
-  try {
-    const imageRef = storage().ref(getRefToStorage(imageUri));
-    if (imageRef) {
-      await imageRef.delete();
-    }
-  } catch (e) {
-    console.log('delete iamge error: ', e.message);
     throw new Error(e);
   }
 };

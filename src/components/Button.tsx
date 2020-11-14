@@ -2,11 +2,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import LinearGradient from './LinearGradient';
-
 //@ts-ignore
 const TouchableOpacity = styled.TouchableOpacity`
-  padding: 0;
+  /* padding: 0; */
   ${({ block }) => block && 'flex: 1;'}
   ${({ flex }) => flex && `flex: ${flex};`}
   ${({ w }) => w && `width: ${w}px;`}
@@ -50,36 +48,12 @@ const TouchableOpacity = styled.TouchableOpacity`
 
 const Button = ({
   opacity = 0.5,
-  gradient,
-  colors,
-  start,
-  end,
-  locations,
   children,
   shadow,
   disabled,
   onPress,
   ...props
 }) => {
-  if (gradient && !disabled) {
-    return (
-      <TouchableOpacity
-        activeOpacity={opacity}
-        onPress={onPress}
-        disabled={disabled}>
-        <LinearGradient
-          start={start}
-          end={end}
-          locations={locations}
-          shadow={shadow}
-          colors={colors}
-          {...props}>
-          {children}
-        </LinearGradient>
-      </TouchableOpacity>
-    );
-  }
-
   return (
     <TouchableOpacity
       activeOpacity={opacity}

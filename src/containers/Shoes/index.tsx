@@ -46,8 +46,12 @@ const Shoes = () => {
             inactiveColor={theme.color.neutral6}
             pressColor={theme.color.secondary}
             labelStyle={{
-              fontSize: 15,
+              fontSize: 12,
               margin: 0,
+              height: 35,
+            }}
+            tabStyle={{
+              height: 33,
             }}
             indicatorStyle={{
               backgroundColor: theme.color.secondary,

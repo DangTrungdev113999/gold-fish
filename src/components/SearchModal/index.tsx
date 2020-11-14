@@ -13,8 +13,15 @@ import { shoeTypes } from '~/@types';
 
 import theme from '~/config/theme';
 import HideOption from './HideOption';
-import { Keyboard } from 'react-native';
+import {
+  Dimensions,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import { searchSlippersApi } from '~/modules/Slippers/apis';
+
+const windowHeight = Dimensions.get('window').height;
 
 type PropsType = {
   productTarget: string;
@@ -119,117 +126,128 @@ const SearchModal = ({ productTarget }: PropsType) => {
         onPress={onOpen}>
         <Icon name="search" type="fontAwesome5" color={theme.color.secondary} />
       </Touchable>
-      <Modal
-        isVisible={visible}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        backdropColor={theme.color.neutral8}
-        onBackButtonPress={onClose}
-        onBackdropPress={onClose}
-        backdropOpacity={0.6}
-        style={{ margin: 0, justifyContent: 'flex-end' }}>
-        <Block h="510px" borderRadius="15px" bg="#1D2636">
-          <Touchable row justify="space-around" middle block h="40px">
-            <Touchable flex={1} />
-            <Touchable
-              flex={1}
-              onPress={onClose}
-              center
-              middle
-              m="0 0 0 20px"
-              disabled={loading}>
-              <Icon
-                name="ios-chevron-down-sharp"
-                type="ionicons"
-                size={30}
-                color={theme.color.secondary}
-              />
-            </Touchable>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={60}>
+        <Modal
+          isVisible={visible}
+          animationIn="slideInUp"
+          animationOut="slideOutDown"
+          backdropColor={theme.color.neutral8}
+          onBackButtonPress={onClose}
+          onBackdropPress={onClose}
+          backdropOpacity={0.6}
+          style={{ margin: 0, justifyContent: 'flex-end' }}>
+          <Block h={windowHeight / 2} borderRadius="15px" bg="#1D2636">
+            <Touchable row justify="space-around" middle block h="40px">
+              <Touchable flex={1} />
+              <Touchable
+                flex={1}
+                onPress={onClose}
+                center
+                middle
+                m="0 0 0 20px"
+                disabled={loading}>
+                <Icon
+                  name="ios-chevron-down-sharp"
+                  type="ionicons"
+                  size={30}
+                  color={theme.color.secondary}
+                />
+              </Touchable>
 
-            <Touchable
-              flex={1}
-              row
-              justify="flex-end"
-              m="0 20px 0 0"
-              onPress={onReset}>
-              {loading ? (
-                <Loading />
-              ) : (
-                <Text color={theme.color.secondary}>Reset</Text>
+              <Touchable
+                flex={1}
+                row
+                justify="flex-end"
+                m="0 20px 0 0"
+                onPress={onReset}>
+                {loading ? (
+                  <Loading />
+                ) : (
+                  <Text color={theme.color.secondary}>Reset</Text>
+                )}
+              </Touchable>
+            </Touchable>
+            <Block h="0.5px" block bg={theme.color.primaryLight} />
+            <Input
+              ref={inputRef}
+              m="20px"
+              placeholder="Nhập mã"
+              iconLeftName="search1"
+              iconLeftType="antDesign"
+              returnKeyType="search"
+              autoCapitalize="characters"
+              keyboardType={keyboardType}
+              // onSubmitEditing={Keyboard.dismiss}
+              value={productId}
+              onChangeText={(val: string) => setProductId(val)}
+            />
+            <FlatList
+              data={propductsMatch}
+              renderItem={({ item }: { item: shoeTypes }) => (
+                <Option
+                  item={item}
+                  onClose={onClose}
+                  productTarget={productTarget}
+                />
               )}
-            </Touchable>
-          </Touchable>
-          <Block h="0.5px" block bg={theme.color.primaryLight} />
-          <Input
-            ref={inputRef}
-            m="20px 20px 0"
-            placeholder="Nhập mã"
-            iconLeftName="search1"
-            iconLeftType="antDesign"
-            returnKeyType="search"
-            autoCapitalize="characters"
-            keyboardType={keyboardType}
-            // onSubmitEditing={Keyboard.dismiss}
-            value={productId}
-            onChangeText={(val: string) => setProductId(val)}
-          />
+              keyExtractor={(item: shoeTypes) => item.shoeId}
+            />
 
-          <FlatList
-            data={propductsMatch}
-            renderItem={({ item }: { item: shoeTypes }) => (
-              <Option
-                item={item}
-                onClose={onClose}
-                productTarget={productTarget}
-              />
-            )}
-            keyExtractor={(item: shoeTypes) => item.shoeId}
-          />
-
-          {productTarget === 'shoe' ? (
-            <>
-              <Block h="0.5px" block bg={theme.color.primaryLight} />
-              <Block row>
-                <HideOption
-                  style={{ flex: 1 }}
-                  itemTarget={activeItem}
-                  items={SHOE_PREFIX}
-                  setString={setPrefixProductId}
-                />
-                <Touchable
-                  flex={0.1}
-                  m="5px"
-                  bg="success"
-                  center
-                  middle
-                  borderRadius="5px"
-                  onPress={() => onGoToSettings('Tiền tố mã giày')}>
-                  <Icon name="add" type="ionicons" color={theme.color.white} />
-                </Touchable>
-              </Block>
-              <Block h="0.5px" block bg={theme.color.primaryLight} />
-              <Block row>
-                <HideOption
-                  style={{ flex: 1 }}
-                  items={COLOR_CODE}
-                  itemTarget={activeItem}
-                  setString={setColorCodeProductId}
-                />
-                <Touchable
-                  flex={0.1}
-                  m="5px"
-                  bg="success"
-                  center
-                  middle
-                  borderRadius="5px"
-                  onPress={() => onGoToSettings('Mã màu')}>
-                  <Icon name="add" type="ionicons" color={theme.color.white} />
-                </Touchable>
-              </Block>
-            </>
-          ) : null}
-        </Block>
-      </Modal>
+            {productTarget === 'shoe' ? (
+              <>
+                <Block h="0.5px" block bg={theme.color.primaryLight} />
+                <Block row>
+                  <HideOption
+                    style={{ flex: 1 }}
+                    itemTarget={activeItem}
+                    items={SHOE_PREFIX}
+                    setString={setPrefixProductId}
+                  />
+                  <Touchable
+                    flex={0.1}
+                    m="5px"
+                    bg="success"
+                    center
+                    middle
+                    borderRadius="5px"
+                    onPress={() => onGoToSettings('Tiền tố mã giày')}>
+                    <Icon
+                      name="add"
+                      type="ionicons"
+                      color={theme.color.white}
+                    />
+                  </Touchable>
+                </Block>
+                <Block h="0.5px" block bg={theme.color.primaryLight} />
+                <Block row>
+                  <HideOption
+                    style={{ flex: 1 }}
+                    items={COLOR_CODE}
+                    itemTarget={activeItem}
+                    setString={setColorCodeProductId}
+                  />
+                  <Touchable
+                    flex={0.1}
+                    m="5px"
+                    bg="success"
+                    center
+                    middle
+                    borderRadius="5px"
+                    onPress={() => onGoToSettings('Mã màu')}>
+                    <Icon
+                      name="add"
+                      type="ionicons"
+                      color={theme.color.white}
+                    />
+                  </Touchable>
+                </Block>
+              </>
+            ) : null}
+          </Block>
+        </Modal>
+      </KeyboardAvoidingView>
     </Block>
   );
 };

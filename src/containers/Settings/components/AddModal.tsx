@@ -1,12 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
 import React, { useRef, useState } from 'react';
-import { Keyboard } from 'react-native';
+import {
+  Dimensions,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import Modal from 'react-native-modal';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
+  Body,
   Button,
   Icon,
   Input,
@@ -19,6 +25,8 @@ import { useSetObjectState } from '~/hoocks';
 import { updateProductTypesLoadingSelector } from '~/modules/Settings/selectors';
 import { updateProductTypesCreator } from '~/modules/Settings/thunk';
 import { showAlert } from '~/utils';
+
+const windowHeight = Dimensions.get('window').height;
 
 type PropsType = {
   data: any;
@@ -89,7 +97,7 @@ const AddModal = ({ items, target }: PropsType) => {
   };
 
   return (
-    <Block absolute right="20px" bottom="40px">
+    <Block absolute right="20px" bottom="40px" keybordAvoid>
       <Touchable
         w="60px"
         h="60px"
@@ -115,7 +123,7 @@ const AddModal = ({ items, target }: PropsType) => {
         onBackdropPress={onClose}
         backdropOpacity={0.6}
         style={{ margin: 0, justifyContent: 'flex-end' }}>
-        <Block h="450px" borderRadius="15px" bg="#1D2636">
+        <Block h={windowHeight / 2} borderRadius="15px" bg="#1D2636">
           <Touchable row justify="space-around" middle block h="40px">
             <Touchable flex={1} />
             <Touchable flex={1} onPress={onClose} center middle m="0 0 0 20px">
@@ -158,7 +166,6 @@ const AddModal = ({ items, target }: PropsType) => {
               onChangeText={(val: string) => setData({ name: val })}
             />
           </ScrollBody>
-
           <Button
             bg="primary"
             m="20px"

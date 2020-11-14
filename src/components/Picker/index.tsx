@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { PureComponent } from 'react';
 import { Dimensions, Keyboard, Platform } from 'react-native';
 import styled from 'styled-components';
@@ -12,9 +13,8 @@ import theme from '~/config/theme';
 
 // @ts-ignore
 const Container = styled.View`
-  flex: 1;
-  ${({ m }: any) => m && `margin: ${m};`}
-  ${({ p }: any) => p && `padding: ${p};`}
+  ${({ m }) => m && `margin: ${m};`}
+  ${({ p }) => p && `padding: ${p};`}
 `;
 
 // @ts-ignore
@@ -27,8 +27,7 @@ const Input = styled.TouchableOpacity`
   background-color: white;
   border-radius: 3px;
   border: 1px solid #f6f5f5;
-  ${({ disabled }: any) =>
-    disabled && `background-color: ${theme.color.neutral2};`}
+  ${({ disabled }) => disabled && `background-color: ${theme.color.neutral2};`}
 `;
 
 // @ts-ignore
@@ -44,8 +43,8 @@ const FlatList = styled.FlatList`
   max-height: ${Dimensions.get('window').height - 300}px;
 `;
 
-function arrayToObject(arr: any, key: any) {
-  return arr.reduce((a: any, b: any) => {
+function arrayToObject(arr, key) {
+  return arr.reduce((a, b) => {
     const r = { ...a };
     r[b[key]] = b;
     return r;
@@ -70,7 +69,7 @@ class Picker extends PureComponent {
     this.setState({ visible: false });
   };
 
-  onOptionPress = (option: any) => {
+  onOptionPress = (option) => {
     // @ts-ignore
     this.props.onChange(option.value);
     this.onClose();
@@ -88,7 +87,7 @@ class Picker extends PureComponent {
       type = 'nomal',
       loading,
       ...rest
-    }: any = this.props;
+    } = this.props;
     const { visible } = this.state;
     const optionsObject = arrayToObject(options, 'value');
 
@@ -136,8 +135,8 @@ class Picker extends PureComponent {
             ) : null}
             <FlatList
               data={options}
-              keyExtractor={(item: any) => item.value}
-              renderItem={({ item }: any) => (
+              keyExtractor={(item) => item.value}
+              renderItem={({ item }) => (
                 <Option
                   item={item}
                   active={item.value === value}

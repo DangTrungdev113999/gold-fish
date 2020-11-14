@@ -36,7 +36,7 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
             }
           },
           onError: (e) => {
-            showAlert('Có lỗi xẩy ra', e);
+            showAlert('Thông báo!', e);
             setAlphaData(items);
           },
         }),
@@ -99,14 +99,14 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
               row
               justify="space-around"
               middle
-              p="20px"
+              p="8px 12px"
               m="10px 0"
               bg="blue1"
               borderRadius="15px"
               borderWidth="1px"
               borderColor={theme.color.primaryLight}
               opacity={activeIcon ? 0.8 : 1}>
-              <Block flex={1}>
+              <Block flex={1} center>
                 <Text h3 color={theme.color.white}>
                   {index + 1}. {item?.name || item}
                 </Text>

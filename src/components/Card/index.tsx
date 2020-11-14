@@ -24,10 +24,10 @@ const Image = styled.Image`
 `;
 
 const Wrapper = styled(Block)`
-  margin: 10px;
-  width: ${windowWidth / 2 - 30}px;
+  margin: 6px;
+  width: ${windowWidth / 2 - 20}px;
   height: ${windowHeight / 5}px;
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
   elevation: 3;
 `;

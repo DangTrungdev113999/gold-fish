@@ -66,7 +66,13 @@ const ActionSlipper = ({ navigation, route }: any) => {
             navigation.navigate('slippers_screen');
           },
           onError: (e: string) => {
-            showAlert('Có lỗi xẩy ra', e);
+            showAlert('Thông báo!', e);
+            setData({
+              slipperId: '',
+              imageUri: '',
+              type: '',
+              like: false,
+            });
           },
         }),
       );
@@ -78,7 +84,7 @@ const ActionSlipper = ({ navigation, route }: any) => {
             ToastAndroid.show('Cập nhật thành công !', ToastAndroid.SHORT);
           },
           onError: (e: string) => {
-            showAlert('Có lỗi xẩy ra', e);
+            showAlert('Thông báo!', e);
           },
         }),
       );
