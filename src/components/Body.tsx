@@ -30,7 +30,7 @@ const KeyboardAvoidingView = styled.KeyboardAvoidingView`
     if (bg) {
       return bg;
     }
-    return theme.color.white;
+    return theme.color.bg;
   }};
   ${({ center }) =>
     center &&

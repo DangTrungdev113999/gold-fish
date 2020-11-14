@@ -34,7 +34,7 @@ export const fetchSlippersApi = async (type: string) => {
     return {
       slippersList,
       lastSlipper: !snapshot.empty
-        ? snapshot.docs[snapshot.docs.length - 1]
+        ? snapshot.docs[snapshot.docs.length - 1].data()
         : null,
     };
   } catch (e) {
@@ -50,7 +50,7 @@ export const fetchMoreSlippersApi = async (lastSlipper: any) => {
       const snapshot = await firestore()
         .collection('Slippers')
         .orderBy('createdAt', 'desc')
-        .startAfter(lastSlipper.data().createdAt)
+        .startAfter(lastSlipper.createdAt)
         .limit(LIMIT)
         .get();
 
@@ -64,7 +64,7 @@ export const fetchMoreSlippersApi = async (lastSlipper: any) => {
       return {
         slippersList,
         lastSlipper: !snapshot.empty
-          ? snapshot.docs[snapshot.docs.length - 1]
+          ? snapshot.docs[snapshot.docs.length - 1].data()
           : null,
       };
     } catch (e) {

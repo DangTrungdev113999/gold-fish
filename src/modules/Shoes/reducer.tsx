@@ -48,6 +48,7 @@ const shoeReducer = produce((draft, action) => {
       break;
     case FETCH_SHOES_FAILED:
       draft.fetchShoesLoading = false;
+      draft.shoesList = [];
       draft.fetchShoesError = action.payload;
       break;
 
@@ -113,6 +114,7 @@ const shoeReducer = produce((draft, action) => {
 
     case SET_LAST_SHOE:
       draft.lastShoe = action.payload.lastShoe;
+      break;
   }
 }, initState);
 

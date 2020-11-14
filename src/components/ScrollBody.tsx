@@ -1,6 +1,6 @@
 //@ts-nocheck
 
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
@@ -25,22 +25,19 @@ const ScrollView = styled.ScrollView.attrs(({ p, flex }) => {
     if (bg) {
       return bg;
     }
-    return theme.color.neutral1;
+    return theme.color.bg;
   }};
 `;
 
-const ScrollBody = ({
-  children,
-  keyboard,
-  loading,
-  loadingLabel,
-  overlay,
-  ...rest
-}) => {
+const ScrollBody = (
+  { children, keyboard, loading, loadingLabel, overlay, ...rest },
+  ref,
+) => {
   // const headerHeight = useHeaderHeight();
 
   let scrollview = (
     <ScrollView
+      ref={ref}
       keyboardDismissMode="interactive"
       keyboardShouldPersistTaps="handled"
       {...rest}>
@@ -74,4 +71,4 @@ const ScrollBody = ({
   return scrollview;
 };
 
-export default ScrollBody;
+export default forwardRef(ScrollBody);

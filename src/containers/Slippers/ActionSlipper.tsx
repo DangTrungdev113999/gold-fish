@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Keyboard, ScrollView, ToastAndroid } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -41,6 +41,17 @@ const ActionSlipper = ({ navigation, route }: any) => {
   const updateSlippersLoading = useSelector(addSlipperLoadingSelector);
   const addSlippersLoading = useSelector(updateSlipperLoadingSelector);
   const deleteSlippersLoading = useSelector(deleteSlipperLoadingSelector);
+  const scrollViewRef = useRef(null);
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+    };
+  }, []);
+
+  const _keyboardDidShow = () => {
+    scrollViewRef.current.scrollToEnd({ animated: true, duration: 500 });
+  };
 
   useEffect(() => {
     if (route.params?.slipperDetail?.slipperId) {
@@ -114,7 +125,7 @@ const ActionSlipper = ({ navigation, route }: any) => {
       loading={
         updateSlippersLoading || addSlippersLoading || deleteSlippersLoading
       }>
-      <ScrollView>
+      <ScrollView ref={scrollViewRef}>
         <ImagePicker
           imageUri={data.imageUri}
           setData={setData}

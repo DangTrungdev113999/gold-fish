@@ -46,6 +46,7 @@ const slipperReducer = produce((draft, action) => {
       break;
     case FETCH_SLIPPERS_FAILED:
       draft.fetchSlippersLoading = false;
+      draft.fetchSlippersLoading = [];
       draft.fetchSlippersError = action.payload;
       break;
 
@@ -111,6 +112,7 @@ const slipperReducer = produce((draft, action) => {
 
     case SET_LAST_SLIPPER:
       draft.lastSlipper = action.payload.lastSlipper;
+      break;
   }
 }, initState);
 

@@ -62,7 +62,11 @@ const SlippersList = ({ type }: PropsType) => {
           return null;
         }}
         onEndReached={() => {
-          if (lastSlipper && !loadMoreSlippersLoading && type === 'All') {
+          if (
+            lastSlipper?.slipperId &&
+            !loadMoreSlippersLoading &&
+            type === 'All'
+          ) {
             loadMoreSlippersList();
           }
         }}

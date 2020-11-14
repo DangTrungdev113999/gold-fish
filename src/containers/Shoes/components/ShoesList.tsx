@@ -59,7 +59,7 @@ const ShoesList = ({ type }: PropsType) => {
           return null;
         }}
         onEndReached={() => {
-          if (lastShoe && !loadMoreShoesLoading && type === 'Tất cả') {
+          if (lastShoe?.shoeId && !loadMoreShoesLoading && type === 'Tất cả') {
             loadMoreShoesList();
           }
         }}

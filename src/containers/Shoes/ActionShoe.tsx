@@ -1,14 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  View,
-} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Keyboard } from 'react-native';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,6 +13,7 @@ import {
   Text,
   ImagePicker,
   Body,
+  ScrollBody,
 } from '~/components';
 import theme from '~/config/theme';
 import { useSetObjectState } from '~/hoocks';
@@ -31,52 +26,6 @@ import {
 import { isShoeId, showAlert } from '~/utils';
 import { deleteShoeLoadingSelector } from '~/modules/Shoes/selectors';
 import { shoeTypesSelector } from '~/modules/Settings/selectors';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import TextInput from '~/components/Input';
-
-const KeyboardAvoidingComponent = () => {
-  return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>
-          <Text style={styles.header}>Header</Text>
-          <TextInput placeholder="Username" style={styles.textInput} />
-          <View style={styles.btnContainer}>
-            <Button title="Submit" onPress={() => null} />
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  inner: {
-    padding: 24,
-    flex: 1,
-    justifyContent: 'space-around',
-  },
-  header: {
-    fontSize: 36,
-    marginBottom: 48,
-  },
-  textInput: {
-    height: 40,
-    borderColor: '#000000',
-    borderBottomWidth: 1,
-    marginBottom: 36,
-  },
-  btnContainer: {
-    backgroundColor: 'white',
-    marginTop: 12,
-  },
-});
-
 const ActionShoe = ({ navigation, route }: any) => {
   const [data, setData] = useSetObjectState({
     shoeId: '',
@@ -92,6 +41,18 @@ const ActionShoe = ({ navigation, route }: any) => {
   const addShoesLoading = useSelector(addShoeLoadingSelector);
   const deleteShoesLoading = useSelector(deleteShoeLoadingSelector);
   const shoeTypes = useSelector(shoeTypesSelector);
+  const scrollViewRef = useRef(null);
+
+  useEffect(() => {
+    Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
+    return () => {
+      Keyboard.removeListener('keyboardDidShow', _keyboardDidShow);
+    };
+  }, []);
+
+  const _keyboardDidShow = () => {
+    scrollViewRef.current.scrollToEnd({ animated: true, duration: 500 });
+  };
 
   useEffect(() => {
     if (route.params?.shoeDetail?.shoeId) {
@@ -158,78 +119,50 @@ const ActionShoe = ({ navigation, route }: any) => {
     return isShoeId(data.shoeId) && data.imageUri;
   };
 
-  // if (true) {
-  //   return (
-  //     <KeyboardAvoidingView
-  //       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-  //       style={{ flex: 1, backgroundColor: theme.color.blue1 }}>
-  //       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-  //         <Block m="550px 0 0">
-  //           <Input
-  //             label="Mã giày"
-  //             required
-  //             placeholder="Nhập mã giày"
-  //             value={data.shoeId}
-  //             disabled={route.params.type === 'update'}
-  //             iconLeftName="tago"
-  //             iconLeftType="antDesign"
-  //             autoCapitalize="characters"
-  //             onChangeText={onSetShoeId}
-  //             description={!shoeIdIsValid ? 'Mã giày không đúng định dạng' : ''}
-  //             danger={!shoeIdIsValid}
-  //             onBlur={checkShoeId}
-  //             maxLength={13}
-  //           />
-  //         </Block>
-  //       </TouchableWithoutFeedback>
-  //     </KeyboardAvoidingView>
-  //   );
-  // }
-
   return (
     <Body
       flex={1}
+      keybordAvoid
       overlay
       loading={updateShoesLoading || addShoesLoading || deleteShoesLoading}>
-      {/* <ScrollView> */}
-      <ImagePicker
-        imageUri={data.imageUri}
-        setData={setData}
-        fromScreen="action_shoe"
-      />
-
-      <Block p="30px 20px 20px">
-        <Input
-          label="Mã giày"
-          required
-          placeholder="Nhập mã giày"
-          value={data.shoeId}
-          disabled={route.params.type === 'update'}
-          iconLeftName="tago"
-          iconLeftType="antDesign"
-          autoCapitalize="characters"
-          onChangeText={onSetShoeId}
-          description={!shoeIdIsValid ? 'Mã giày không đúng định dạng' : ''}
-          danger={!shoeIdIsValid}
-          onBlur={checkShoeId}
-          maxLength={13}
+      <ScrollBody ref={scrollViewRef}>
+        <ImagePicker
+          imageUri={data.imageUri}
+          setData={setData}
+          fromScreen="action_shoe"
         />
-        <Picker
-          label="Dòng sản phẩm"
-          title="Dòng sản phẩm"
-          options={shoeTypes
-            .map((item) => ({
-              name: item.name,
-              value: item.name,
-            }))
-            .slice(1)}
-          placeholder="Chọn dòng sản phẩm"
-          value={data.type}
-          onChange={(val: string) => setData({ type: val })}
-          m="20px 0 0"
-        />
-      </Block>
-      {/* </ScrollView> */}
+        <Block p="30px 20px 20px" flex={1}>
+          <Input
+            label="Mã giày"
+            required
+            placeholder="Nhập mã giày"
+            value={data.shoeId}
+            disabled={route.params.type === 'update'}
+            iconLeftName="tago"
+            iconLeftType="antDesign"
+            autoCapitalize="characters"
+            onChangeText={onSetShoeId}
+            description={!shoeIdIsValid ? 'Mã giày không đúng định dạng' : ''}
+            danger={!shoeIdIsValid}
+            onBlur={checkShoeId}
+            maxLength={13}
+          />
+          <Picker
+            label="Dòng sản phẩm"
+            title="Dòng sản phẩm"
+            options={shoeTypes
+              .map((item) => ({
+                name: item.name,
+                value: item.name,
+              }))
+              .slice(1)}
+            placeholder="Chọn dòng sản phẩm"
+            value={data.type}
+            onChange={(val: string) => setData({ type: val })}
+            m="20px 0 0"
+          />
+        </Block>
+      </ScrollBody>
 
       <Button
         bg="primary"
