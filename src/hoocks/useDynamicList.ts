@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import {useCallback, useRef, useState} from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 const useDynamicList = <T>(initialValue: T[]) => {
   const counterRef = useRef(-1);

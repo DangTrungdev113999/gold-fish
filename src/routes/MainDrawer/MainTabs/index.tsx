@@ -73,7 +73,7 @@ export default function () {
         })}
       />
       <Tab.Screen
-        name="setting_tab"
+        name="user_tab"
         component={UserStack}
         options={({ route }) => ({
           tabBarLabel: 'Cá nhân',

@@ -38,11 +38,12 @@ const slipperReducer = produce((draft, action) => {
   switch (action.type) {
     case FETCH_SLIPPERS:
       draft.fetchSlippersLoading = true;
-      draft.error = '';
+      draft.fetchSlippersError = '';
       break;
     case FETCH_SLIPPERS_SUCCEEDED:
       draft.fetchSlippersLoading = false;
       draft.slippersList = action.payload.slippersList;
+      draft.fetchSlippersError = '';
       break;
     case FETCH_SLIPPERS_FAILED:
       draft.fetchSlippersLoading = false;
@@ -57,6 +58,7 @@ const slipperReducer = produce((draft, action) => {
     case LOAD_MORE_SLIPPERS_SUCCEEDED:
       draft.loadMoreSlippersLoading = false;
       draft.slippersList.push(...action.payload.slippersList);
+      draft.loadMoreSlippersError = '';
       break;
     case LOAD_MORE_SLIPPERS_FAILED:
       draft.loadMoreSlippersLoading = false;
@@ -70,6 +72,7 @@ const slipperReducer = produce((draft, action) => {
     case ADD_SLIPPER_SUCCEEDED:
       draft.addSlipperLoading = false;
       draft.slippersList.unshift(action.payload);
+      draft.addSlipperError = '';
       break;
     case ADD_SLIPPER_FAILED:
       draft.addSlipperLoading = false;
@@ -86,6 +89,7 @@ const slipperReducer = produce((draft, action) => {
       );
       draft.updateSlipperLoading = false;
       draft.slippersList[index] = action.payload;
+      draft.updateSlipperError = '';
       break;
     }
     case UPDATE_SLIPPER_FAILED:
@@ -103,6 +107,7 @@ const slipperReducer = produce((draft, action) => {
       );
       draft.deleteSlipperLoading = false;
       draft.slippersList.splice(index, 1);
+      draft.deleteSlipperError = '';
       break;
     }
     case DELETE_SLIPPER_FAILED:

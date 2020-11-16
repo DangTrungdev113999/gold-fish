@@ -107,7 +107,7 @@ const TextInput = React.forwardRef(
     };
 
     if (danger) {
-      iconRight = 'info-danger';
+      iconRight = 'error-outline';
       footnoteProps.color = theme.color.danger;
     }
 
@@ -163,6 +163,7 @@ const TextInput = React.forwardRef(
                 type="materialIcons"
                 size={18}
                 m="0 10px 0 0"
+                color={danger ? theme.color.danger : '#000'}
               />
             ) : null}
 

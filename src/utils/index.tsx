@@ -110,3 +110,24 @@ export function isShoeId(shoeId: string): any {
 export function isSlipperId(slipperId: string): any {
   return !!(slipperId && slipperId.length >= 5);
 }
+
+export function isPhoneNumber(phoneNumber: string) {
+  return phoneNumber && phoneNumber.match(/^(\+84|0)*[1-9]\d{8}$/g);
+}
+
+export function removePhoneCountryPrefix(phone: string) {
+  if (phone && phone.indexOf('+84') !== -1) {
+    return phone.replace('+84', '0');
+  }
+  return phone;
+}
+
+export function parsePhone(phone: string) {
+  if (phone.indexOf('+84') === -1) {
+    if (phone.slice(0, 1) === '0') {
+      return `+84${phone.slice(1)}`;
+    }
+    return `+84${phone}`;
+  }
+  return phone;
+}

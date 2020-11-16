@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
 import React, { useEffect, useState } from 'react';
+import { Dimensions } from 'react-native';
 import { TabBar, TabView } from 'react-native-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
 import { Body, SearchModal } from '~/components';
@@ -46,12 +47,12 @@ const Slippers = () => {
             inactiveColor={theme.color.neutral6}
             pressColor={theme.color.secondary}
             labelStyle={{
-              fontSize: 12,
+              fontSize: 13,
               margin: 0,
-              height: 35,
+              height: 28,
             }}
             tabStyle={{
-              height: 33,
+              height: 38,
             }}
             indicatorStyle={{
               backgroundColor: theme.color.secondary,
@@ -73,6 +74,7 @@ const Slippers = () => {
         swipeEnabled
         renderScene={renderScene}
         onIndexChange={setIndex}
+        initialLayout={{ width: Dimensions.get('window').width }}
       />
 
       <SearchModal productTarget="slipper" />

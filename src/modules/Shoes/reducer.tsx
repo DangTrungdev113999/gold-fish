@@ -45,6 +45,7 @@ const shoeReducer = produce((draft, action) => {
     case FETCH_SHOES_SUCCEEDED:
       draft.fetchShoesLoading = false;
       draft.shoesList = action.payload.shoesList;
+      draft.fetchShoesError = '';
       break;
     case FETCH_SHOES_FAILED:
       draft.fetchShoesLoading = false;
@@ -59,6 +60,7 @@ const shoeReducer = produce((draft, action) => {
     case LOAD_MORE_SHOES_SUCCEEDED:
       draft.loadMoreShoesLoading = false;
       draft.shoesList.push(...action.payload.shoesList);
+      draft.loadMoreShoesError = '';
       break;
     case LOAD_MORE_SHOES_FAILED:
       draft.loadMoreShoesLoading = false;
@@ -72,6 +74,7 @@ const shoeReducer = produce((draft, action) => {
     case ADD_SHOE_SUCCEEDED:
       draft.addShoeLoading = false;
       draft.shoesList.unshift(action.payload);
+      draft.addShoeError = '';
       break;
     case ADD_SHOE_FAILED:
       draft.addShoeLoading = false;
@@ -88,6 +91,7 @@ const shoeReducer = produce((draft, action) => {
       );
       draft.updateShoeLoading = false;
       draft.shoesList[index] = action.payload;
+      draft.updateShoeError = '';
       break;
     }
     case UPDATE_SHOE_FAILED:
@@ -105,6 +109,7 @@ const shoeReducer = produce((draft, action) => {
       );
       draft.deleteShoeLoading = false;
       draft.shoesList.splice(index, 1);
+      draft.deleteShoeError = '';
       break;
     }
     case DELETE_SHOE_FAILED:

@@ -28,6 +28,7 @@ const settingsReducer = produce((draft, action) => {
       draft.fetchProductsLoading = false;
       draft.shoeTypes = action.payload.shoeTypes;
       draft.slipperTypes = action.payload.slipperTypes;
+      draft.fetchProductsError = '';
       break;
     case FETCH_PRODUCT_TYPES_FAILED:
       draft.fetchProductsLoading = false;
@@ -47,6 +48,7 @@ const settingsReducer = produce((draft, action) => {
       if (action.payload.slipperTypes) {
         draft.slipperTypes = action.payload.slipperTypes;
       }
+      draft.fetchProductsError = '';
       break;
     case UPDATE_PRODUCT_TYPES_FAILED:
       draft.updateProductsLoading = false;

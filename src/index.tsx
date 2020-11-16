@@ -30,12 +30,11 @@ const AppProvider = () => {
           backgroundColor="transparent"
         />
         <PersistGate persistor={configStore().persistor}>
-          {(bootstrapped) => {
-            console.log(bootstrapped);
+          {(loading) => {
             return (
               <AnimatedSplash
                 translucent={true}
-                isLoaded={bootstrapped}
+                isLoaded={loading}
                 logoImage={require('../assets/images/logo.png')}
                 backgroundColor={theme.color.bg}
                 logoHeight={150}

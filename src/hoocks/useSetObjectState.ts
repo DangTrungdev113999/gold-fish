@@ -1,4 +1,4 @@
-import {useCallback, useState} from 'react';
+import { useCallback, useState } from 'react';
 
 const useSetObjectState = <T extends object>(
   initialValue: T | (() => T),

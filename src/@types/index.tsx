@@ -58,7 +58,12 @@ export type settingsReducerTypes = {
   updateProductsError: string;
 };
 
+export type authReducerTypes = {
+  token: string;
+};
+
 export type rootReducerTypes = {
+  auth: authReducerTypes;
   shoes: shoesReducerTypes;
   slippers: slipperReducerTypes;
   settings: settingsReducerTypes;

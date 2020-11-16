@@ -1,4 +1,4 @@
-import {useRef} from 'react';
+import { useRef } from 'react';
 
 type CompareFunction<T> = (prev: T | undefined, next: T) => boolean;
 
