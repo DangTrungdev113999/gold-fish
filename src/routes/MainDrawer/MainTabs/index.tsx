@@ -49,7 +49,7 @@ export default function () {
             <Icon
               name="shoe-formal"
               type="materialCommunityIcons"
-              color={focused ? theme.color.secondary : '#fff'}
+              color={focused ? theme.color.secondary : theme.color.white}
               size={22}
             />
           ),
@@ -65,13 +65,14 @@ export default function () {
             <Icon
               name="beach-slipper"
               type="fontisto"
-              color={focused ? theme.color.secondary : '#fff'}
+              color={focused ? theme.color.secondary : theme.color.white}
               size={22}
             />
           ),
           tabBarVisible: getTabBarVisible(route),
         })}
       />
+
       <Tab.Screen
         name="user_tab"
         component={UserStack}
@@ -81,7 +82,7 @@ export default function () {
             <Icon
               name="user-circle"
               type="fontAwesome"
-              color={focused ? theme.color.secondary : '#fff'}
+              color={focused ? theme.color.secondary : theme.color.white}
               size={22}
             />
           ),

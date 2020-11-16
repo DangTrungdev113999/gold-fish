@@ -9,6 +9,7 @@ import rootReducer from './rootReducer';
 
 const persistConfig = {
   key: 'root',
+  timeout: 10000,
   storage: AsyncStorage,
   version: 1,
   stateReconciler: autoMergeLevel2,

@@ -62,8 +62,19 @@ export type authReducerTypes = {
   token: string;
 };
 
+export type profileType = {
+  phoneNumber: string;
+  username: string;
+  photoURL: string;
+};
+
+export type userReducerTypes = {
+  profile: profileType;
+};
+
 export type rootReducerTypes = {
   auth: authReducerTypes;
+  user: userReducerTypes;
   shoes: shoesReducerTypes;
   slippers: slipperReducerTypes;
   settings: settingsReducerTypes;

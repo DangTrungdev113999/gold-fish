@@ -1,6 +1,5 @@
 //@ts-nocheck
-
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import {
   Block,
@@ -13,9 +12,17 @@ import {
   Icon,
 } from '~/components';
 import theme from '~/config/theme';
-import { isPhoneNumber, removePhoneCountryPrefix, showAlert } from '~/utils';
+import {
+  isPhoneNumber,
+  removePhoneCountryPrefix,
+  showAlert,
+  parsePhone,
+} from '~/utils';
 import { getFirebasePhoneAuthVerificationCode } from '~/modules/Auth/apis';
 import { translateFirebaseMessage } from '~/utils/translate';
+import { savePhoneNumber } from '~/modules/User/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { profileSelector } from '~/modules/User/selectors';
 
 const Image = styled.Image.attrs({})`
   width: 80px;
@@ -23,8 +30,10 @@ const Image = styled.Image.attrs({})`
 `;
 
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const profile = useSelector(profileSelector);
   const [phoneNumber, setPhoneNumber] = useState(
-    removePhoneCountryPrefix('0328579282'),
+    removePhoneCountryPrefix(profile.phoneNumber),
   );
   const [phoneIsValid, setPhoneIsValid] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -42,6 +51,8 @@ const Login = ({ navigation }) => {
 
   const onGotoConfirmCode = async () => {
     setLoading(true);
+
+    dispatch(savePhoneNumber({ phoneNumber: parsePhone(phoneNumber) }));
     try {
       const response = await getFirebasePhoneAuthVerificationCode(phoneNumber);
       if (response) {
@@ -55,6 +66,10 @@ const Login = ({ navigation }) => {
       showAlert('Thông báo', translateFirebaseMessage(e.message) || e.message);
     }
     setLoading(false);
+  };
+
+  const isButtonDisable = () => {
+    return phoneIsValid && isPhoneNumber(phoneNumber);
   };
 
   return (
@@ -101,8 +116,14 @@ const Login = ({ navigation }) => {
           p="10px 0"
           center
           middle
+          disabled={!isButtonDisable()}
           onPress={onGotoConfirmCode}>
-          <Text color={theme.color.secondary}>Tiếp Tục</Text>
+          <Text
+            color={
+              !isButtonDisable() ? theme.color.grayLight : theme.color.secondary
+            }>
+            Tiếp Tục
+          </Text>
         </Button>
       </Block>
     </Body>

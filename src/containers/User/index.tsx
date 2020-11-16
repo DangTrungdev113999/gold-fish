@@ -11,13 +11,13 @@ import useAuthencation from '~/hoocks/useAuthentication';
 
 const User = ({ navigation }) => {
   useAuthencation();
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   const onLogOut = async () => {
     setLoading(true);
     try {
-      await logOutApi();
+      // await logOutApi();
       dispatch(
         setToken({
           token: '',

@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
   Body,
@@ -24,6 +24,8 @@ import {
 import { showAlert } from '~/utils';
 import { translateFirebaseMessage } from '~/utils/translate';
 import CodeInput from './components/CodeInput';
+import useAuthencation from '~/hoocks/useAuthentication';
+import { profileSelector } from '~/modules/User/selectors';
 
 const Image = styled.Image.attrs({})`
   width: 80px;
@@ -31,11 +33,20 @@ const Image = styled.Image.attrs({})`
 `;
 
 const Verification = ({ navigation, route }) => {
+  const [user] = useAuthencation();
   const [verificationCode, setCode] = useState('');
   const [confirmResult, setConfirmResult] = useState('');
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
+  const profile = useSelector(profileSelector);
+
+  useEffect(() => {
+    console.log(profile);
+    if (user && user.phoneNumber === profile.phoneNumber) {
+      checkUser();
+    }
+  }, [user]);
 
   useEffect(() => {
     if (route.params?.confirmResult) {
@@ -60,6 +71,12 @@ const Verification = ({ navigation, route }) => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (verificationCode.length === 6) {
+      onGotoConfirmCode();
+    }
+  }, [verificationCode]);
 
   const checkUser = async (isNewUser) => {
     console.log({ isNewUser });
@@ -99,8 +116,16 @@ const Verification = ({ navigation, route }) => {
           p="10px 0"
           center
           middle
-          onPress={onGotoConfirmCode}>
-          <Text color={theme.color.secondary}>Tiếp Tục</Text>
+          onPress={onGotoConfirmCode}
+          disabled={verificationCode.length < 6}>
+          <Text
+            color={
+              verificationCode.length < 6
+                ? theme.color.grayLight
+                : theme.color.secondary
+            }>
+            Tiếp Tục
+          </Text>
         </Button>
       </Block>
     </Body>

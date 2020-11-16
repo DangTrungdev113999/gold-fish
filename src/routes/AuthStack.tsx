@@ -3,7 +3,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import WelcomeScreen from '~/containers/Auth/Welcome';
 import LoginScreen from '~/containers/Auth/Login';
-import VerificationScreen from '~/containers/Auth/verification';
+import VerificationScreen from '~/containers/Auth/Verification';
 
 import { mainOptions } from './navigationOptions';
 

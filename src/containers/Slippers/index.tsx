@@ -6,6 +6,7 @@ import { TabBar, TabView } from 'react-native-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
 import { Body, SearchModal } from '~/components';
 import theme from '~/config/theme';
+import useAuthencation from '~/hoocks/useAuthentication';
 import {
   fetchProductTypesLoadingSelector,
   slipperTypesSelector,
@@ -14,6 +15,7 @@ import { fetchProductTypesCreator } from '~/modules/Settings/thunk';
 import SlippersList from './components/SlippersList';
 
 const Slippers = () => {
+  useAuthencation();
   const [index, setIndex] = React.useState(0);
   const slipperTypesTab = useSelector(slipperTypesSelector);
 

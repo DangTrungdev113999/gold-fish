@@ -1,0 +1,1 @@
+export const SAVE_PHONE = 'user/SAVE_PHONE';
