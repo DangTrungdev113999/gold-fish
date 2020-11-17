@@ -121,11 +121,13 @@ const SearchModal = ({ productTarget }: PropsType) => {
   };
 
   const onGoToSettings = (targetTab) => {
+    onClose();
     navigation.navigate('settings_stack', {
       screen: 'settings_screen',
       params: { targetTab },
     });
   };
+  console.log(visible);
 
   return (
     <Block absolute right="20px" bottom="40px">

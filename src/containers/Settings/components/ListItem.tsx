@@ -2,13 +2,15 @@
 //@ts-nocheck
 import React, { useEffect, useRef, useState } from 'react';
 import { Alert, Dimensions } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { DraxProvider, DraxList } from 'react-native-drax';
 import Toast from 'react-native-simple-toast';
 import { Block, Body, Text, Touchable, Icon } from '~/components';
 import theme from '~/config/theme';
 import { updateProductTypesCreator } from '~/modules/Settings/thunk';
 import { showAlert } from '~/utils';
+import { updateSuggestionCreator } from '~/modules/User/thunk';
+import { profileSelector } from '~/modules/User/selectors';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -16,6 +18,7 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
   const [alphaData, setAlphaData] = useState(items);
   const [activeIcon, setActiveIcon] = useState(false);
   const dispatch = useDispatch();
+  const profile = useSelector(profileSelector);
   const isDelete = useRef(false);
 
   useEffect(() => {
@@ -23,7 +26,7 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
   }, [items]);
 
   const onUpdateIndex = (data: any) => {
-    if (target === 'Loại giày' || target === 'Loại dép') {
+    if (['Loại giày', 'Loại dép'].includes(target)) {
       dispatch(
         updateProductTypesCreator({
           data,
@@ -37,6 +40,34 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
           },
           onError: (e) => {
             showAlert('Thông báo!', e);
+            setAlphaData(items);
+          },
+        }),
+      );
+    }
+
+    if (['Tiền tố mã giày', 'Tiền tố mã dép', 'Mã màu'].includes(target)) {
+      const suggestionMap = {
+        'Tiền tố mã giày': 'shoePrefixes',
+        'Tiền tố mã dép': 'slipperPrefixes',
+        'Mã màu': 'colorCodes',
+      };
+      console.log(suggestionMap[target]);
+      dispatch(
+        updateSuggestionCreator({
+          user: profile,
+          data: {
+            [suggestionMap[target]]: data,
+          },
+          onSuccess: () => {
+            if (isDelete.current) {
+              Toast.show('Xóa danh mục thành công !');
+            } else {
+              Toast.show('Cập nhật vị trí thành công !');
+            }
+          },
+          onError: (e) => {
+            showAlert('Thông báo', e);
             setAlphaData(items);
           },
         }),

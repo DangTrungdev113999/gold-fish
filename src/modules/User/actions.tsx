@@ -1,5 +1,8 @@
 import {
   SAVE_PHONE,
+  FETCH_SUGGESTION,
+  FETCH_SUGGESTION_SUCCEEDED,
+  FETCH_SUGGESTION_FAILED,
   ADD_SUGGESTION,
   ADD_SUGGESTION_SUCCEEDED,
   ADD_SUGGESTION_FAILED,
@@ -7,6 +10,26 @@ import {
   UPDATE_SUGGESTION_SUCCEEDED,
   UPDATE_SUGGESTION_FAILED,
 } from './constants';
+
+export const fetchSuggestion = () => {
+  return {
+    type: FETCH_SUGGESTION,
+  };
+};
+
+export const fetchSuggestionSucceeded = (payload = {}) => {
+  return {
+    type: FETCH_SUGGESTION_SUCCEEDED,
+    payload,
+  };
+};
+
+export const fetchSuggestionFailed = (payload = {}) => {
+  return {
+    type: FETCH_SUGGESTION_FAILED,
+    payload,
+  };
+};
 
 export const savePhoneNumber = (payload = {}) => {
   return {
@@ -35,20 +58,20 @@ export const addSuggestionFailed = (payload = {}) => {
   };
 };
 
-export const udpateSuggestion = () => {
+export const updateSuggestion = () => {
   return {
     type: UPDATE_SUGGESTION,
   };
 };
 
-export const udpateSuggestionSucceeded = (payload = {}) => {
+export const updateSuggestionSucceeded = (payload = {}) => {
   return {
     type: UPDATE_SUGGESTION_SUCCEEDED,
     payload,
   };
 };
 
-export const udpateSuggestionFailed = (payload = {}) => {
+export const updateSuggestionFailed = (payload = {}) => {
   return {
     type: UPDATE_SUGGESTION_FAILED,
     payload,

@@ -73,6 +73,8 @@ export type userReducerTypes = {
   shoePrefixes: string[];
   slipperPrefixes: string[];
   colorCodes: string[];
+  fetchSuggestionLoading: boolean;
+  fetchSuggestionError: string;
   addSuggestionLoading: boolean;
   addSuggestionError: string;
   updateSuggestionLoading: boolean;

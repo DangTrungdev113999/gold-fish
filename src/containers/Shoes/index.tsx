@@ -13,6 +13,8 @@ import {
 import { fetchProductTypesCreator } from '~/modules/Settings/thunk';
 import ShoesList from './components/ShoesList';
 import useAuthencation from '~/hoocks/useAuthentication';
+import { fetchSuggestionCreator } from '~/modules/User/thunk';
+import { fetchSuggestionLoadingSelector } from '~/modules/User/selectors';
 
 const Shoes = () => {
   useAuthencation();
@@ -21,12 +23,17 @@ const Shoes = () => {
   const dispatch = useDispatch();
   const shoeTypesTab = useSelector(shoeTypesSelector);
   const fetchProductsLoading = useSelector(fetchProductTypesLoadingSelector);
+  const fetchSuggestionLoading = useSelector(fetchSuggestionLoadingSelector);
 
   useEffect(() => {
     if (!shoeTypesTab.length) {
       dispatch(fetchProductTypesCreator());
     }
   }, [shoeTypesTab]);
+
+  useEffect(() => {
+    dispatch(fetchSuggestionCreator());
+  }, []);
 
   const renderScene = ({ route }) => {
     switch (route.key) {
@@ -38,7 +45,10 @@ const Shoes = () => {
   };
 
   return (
-    <Body flex={1} overlay loading={fetchProductsLoading}>
+    <Body
+      flex={1}
+      overlay
+      loading={fetchProductsLoading || fetchSuggestionLoading}>
       <TabView
         renderTabBar={(props) => (
           <TabBar

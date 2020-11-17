@@ -46,7 +46,7 @@ const Verification = ({ navigation, route }) => {
     if (user && user.phoneNumber === profile.phoneNumber) {
       doAction();
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     if (route.params?.confirmResult) {

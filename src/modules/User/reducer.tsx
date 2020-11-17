@@ -1,9 +1,11 @@
-import { parseSync } from '@babel/core';
 import produce from 'immer';
 import { userReducerTypes } from '~/@types';
 
 import {
   SAVE_PHONE,
+  FETCH_SUGGESTION,
+  FETCH_SUGGESTION_SUCCEEDED,
+  FETCH_SUGGESTION_FAILED,
   ADD_SUGGESTION,
   ADD_SUGGESTION_SUCCEEDED,
   ADD_SUGGESTION_FAILED,
@@ -21,6 +23,8 @@ const initState: userReducerTypes = {
   shoePrefixes: [],
   slipperPrefixes: [],
   colorCodes: [],
+  fetchSuggestionLoading: false,
+  fetchSuggestionError: '',
   addSuggestionLoading: false,
   addSuggestionError: '',
   updateSuggestionLoading: false,
@@ -31,6 +35,22 @@ const userReducer = produce((draft, action) => {
   switch (action.type) {
     case SAVE_PHONE:
       draft.profile.phoneNumber = action.payload.phoneNumber;
+      break;
+
+    case FETCH_SUGGESTION:
+      draft.fetchSuggestionLoading = true;
+      draft.fetchSuggestionError = '';
+      break;
+    case FETCH_SUGGESTION_SUCCEEDED:
+      draft.fetchSuggestionLoading = false;
+      draft.fetchSuggestionError = '';
+      draft.shoePrefixes = action.payload.shoePrefixes;
+      draft.slipperPrefixes = action.payload.slipperPrefixes;
+      draft.colorCodes = action.payload.colorCodes;
+      break;
+    case FETCH_SUGGESTION_FAILED:
+      draft.fetchSuggestionLoading = false;
+      draft.fetchSuggestionError = action.payload;
       break;
 
     case ADD_SUGGESTION:

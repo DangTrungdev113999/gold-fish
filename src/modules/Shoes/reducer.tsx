@@ -40,17 +40,19 @@ const shoeReducer = produce((draft, action) => {
   switch (action.type) {
     case FETCH_SHOES:
       draft.fetchShoesLoading = true;
-      draft.error = '';
+      draft.fetchShoesError = '';
       break;
     case FETCH_SHOES_SUCCEEDED:
       draft.fetchShoesLoading = false;
       draft.shoesList = action.payload.shoesList;
       draft.fetchShoesError = '';
+      draft.loadMoreShoesLoading = false;
       break;
     case FETCH_SHOES_FAILED:
       draft.fetchShoesLoading = false;
       draft.shoesList = [];
       draft.fetchShoesError = action.payload;
+      draft.loadMoreShoesLoading = false;
       break;
 
     case LOAD_MORE_SHOES:

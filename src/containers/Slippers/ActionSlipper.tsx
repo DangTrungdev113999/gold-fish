@@ -146,7 +146,7 @@ const ActionSlipper = ({ navigation, route }: any) => {
             description={!slipperIdIsValid ? 'Mã dép không đúng định dạng' : ''}
             danger={!slipperIdIsValid}
             onBlur={checkSlipperId}
-            maxLength={13}
+            maxLength={15}
           />
           <Picker
             label="Dòng sản phẩm"

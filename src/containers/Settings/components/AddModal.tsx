@@ -18,6 +18,8 @@ import theme from '~/config/theme';
 import { useSetObjectState } from '~/hoocks';
 import { updateProductTypesLoadingSelector } from '~/modules/Settings/selectors';
 import { updateProductTypesCreator } from '~/modules/Settings/thunk';
+import { profileSelector } from '~/modules/User/selectors';
+import { updateSuggestionCreator } from '~/modules/User/thunk';
 import { showAlert } from '~/utils';
 
 const windowHeight = Dimensions.get('window').height;
@@ -38,6 +40,8 @@ const AddModal = ({ items, target }: PropsType) => {
   const updateProductTypesLoading = useSelector(
     updateProductTypesLoadingSelector,
   );
+
+  const profile = useSelector(profileSelector);
   const inputRef = useRef();
 
   const onReset = () => {
@@ -67,19 +71,46 @@ const AddModal = ({ items, target }: PropsType) => {
     ) {
       const alphaData = [...items];
       alphaData.push(data);
-      dispatch(
-        updateProductTypesCreator({
-          data: alphaData,
-          target,
-          onSuccess: () => {
-            onReset();
-            Toast.show('Thêm danh mục thành công !');
-          },
-          onError: (e) => {
-            showAlert('Thông báo', e);
-          },
-        }),
-      );
+
+      if (['Loại giày', 'Loại dép'].includes(target)) {
+        dispatch(
+          updateProductTypesCreator({
+            data: alphaData,
+            target,
+            onSuccess: () => {
+              onReset();
+              Toast.show('Thêm danh mục thành công !');
+            },
+            onError: (e) => {
+              showAlert('Thông báo', e);
+            },
+          }),
+        );
+      }
+
+      if (['Tiền tố mã giày', 'Tiền tố mã dép', 'Mã màu'].includes(target)) {
+        const suggestionMap = {
+          'Tiền tố mã giày': 'shoePrefixes',
+          'Tiền tố mã dép': 'slipperPrefixes',
+          'Mã màu': 'colorCodes',
+        };
+        console.log(suggestionMap[target]);
+        dispatch(
+          updateSuggestionCreator({
+            user: profile,
+            data: {
+              [suggestionMap[target]]: alphaData,
+            },
+            onSuccess: () => {
+              onReset();
+              Toast.show('Thêm danh mục thành công !');
+            },
+            onError: (e) => {
+              showAlert('Thông báo', e);
+            },
+          }),
+        );
+      }
     } else {
       onReset();
       showAlert('Thông báo', 'Danh mục này đã tồn tại');
@@ -87,7 +118,7 @@ const AddModal = ({ items, target }: PropsType) => {
   };
 
   const formIsValid = () => {
-    return !!(data.name.length > 3);
+    return !!(data.name.length > 1);
   };
 
   return (
@@ -146,7 +177,7 @@ const AddModal = ({ items, target }: PropsType) => {
               label={`Nhập ${target}`}
               m="20px 20px 0"
               placeholder={`Nhập ${target}`}
-              autoCapitalize="words"
+              autoCapitalize="characters"
               value={data.name}
               onChangeText={(val: string) => setData({ name: val })}
             />
@@ -157,7 +188,7 @@ const AddModal = ({ items, target }: PropsType) => {
               placeholder="Mô tả"
               autoCapitalize="words"
               value={data.description}
-              onChangeText={(val: string) => setData({ name: val })}
+              onChangeText={(val: string) => setData({ description: val })}
             />
           </ScrollBody>
           <Button

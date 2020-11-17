@@ -44,11 +44,13 @@ const slipperReducer = produce((draft, action) => {
       draft.fetchSlippersLoading = false;
       draft.slippersList = action.payload.slippersList;
       draft.fetchSlippersError = '';
+      draft.loadMoreSlippersLoading = false;
       break;
     case FETCH_SLIPPERS_FAILED:
       draft.fetchSlippersLoading = false;
       draft.fetchSlippersLoading = [];
       draft.fetchSlippersError = action.payload;
+      draft.loadMoreSlippersLoading = false;
       break;
 
     case LOAD_MORE_SLIPPERS:
