@@ -7,3 +7,18 @@ export const profileSelector = createSelector(
   userSelector,
   (userReducer) => userReducer.profile,
 );
+
+export const shoePrefixesSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.shoePrefixes,
+);
+
+export const slipperPrefixesSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.slipperPrefixes,
+);
+
+export const colorCodesSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.colorCodes,
+);

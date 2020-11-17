@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import Option from './Option';
 import { searchShoesApi } from '~/modules/Shoes/apis';
-import { COLOR_CODE, SHOE_PREFIX } from '~/config/constants';
+import { SHOE_PREFIX } from '~/config/constants';
 import { shoeTypes } from '~/@types';
 
 import theme from '~/config/theme';
@@ -20,6 +20,12 @@ import {
   Platform,
 } from 'react-native';
 import { searchSlippersApi } from '~/modules/Slippers/apis';
+import { useSelector } from 'react-redux';
+import {
+  colorCodesSelector,
+  shoePrefixesSelector,
+  slipperPrefixesSelector,
+} from '~/modules/User/selectors';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -37,6 +43,14 @@ const SearchModal = ({ productTarget }: PropsType) => {
   const navigation = useNavigation();
 
   const inputRef = useRef();
+
+  const shoePrefixes = useSelector(shoePrefixesSelector).map(
+    (item) => item.name,
+  );
+  const slipperPrefixes = useSelector(slipperPrefixesSelector).map(
+    (item) => item.name,
+  );
+  const colorCodes = useSelector(colorCodesSelector).map((item) => item.name);
 
   const onReset = () => {
     setProductId('');
@@ -202,7 +216,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
                   <HideOption
                     style={{ flex: 1 }}
                     itemTarget={activeItem}
-                    items={SHOE_PREFIX}
+                    items={shoePrefixes}
                     setString={setPrefixProductId}
                   />
                   <Touchable
@@ -221,12 +235,16 @@ const SearchModal = ({ productTarget }: PropsType) => {
                   </Touchable>
                 </Block>
                 <Block h="0.5px" block bg={theme.color.primaryLight} />
+              </>
+            ) : (
+              <>
+                <Block h="0.5px" block bg={theme.color.primaryLight} />
                 <Block row>
                   <HideOption
                     style={{ flex: 1 }}
-                    items={COLOR_CODE}
                     itemTarget={activeItem}
-                    setString={setColorCodeProductId}
+                    items={slipperPrefixes}
+                    setString={setPrefixProductId}
                   />
                   <Touchable
                     flex={0.1}
@@ -235,7 +253,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
                     center
                     middle
                     borderRadius="5px"
-                    onPress={() => onGoToSettings('Mã màu')}>
+                    onPress={() => onGoToSettings('Tiền tố mã dép')}>
                     <Icon
                       name="add"
                       type="ionicons"
@@ -243,8 +261,27 @@ const SearchModal = ({ productTarget }: PropsType) => {
                     />
                   </Touchable>
                 </Block>
+                <Block h="0.5px" block bg={theme.color.primaryLight} />
               </>
-            ) : null}
+            )}
+            <Block row>
+              <HideOption
+                style={{ flex: 1 }}
+                items={colorCodes}
+                itemTarget={activeItem}
+                setString={setColorCodeProductId}
+              />
+              <Touchable
+                flex={0.1}
+                m="5px"
+                bg="success"
+                center
+                middle
+                borderRadius="5px"
+                onPress={() => onGoToSettings('Mã màu')}>
+                <Icon name="add" type="ionicons" color={theme.color.white} />
+              </Touchable>
+            </Block>
           </Block>
         </Modal>
       </KeyboardAvoidingView>

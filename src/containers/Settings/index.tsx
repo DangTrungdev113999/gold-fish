@@ -6,7 +6,7 @@ import { TabBar, TabView } from 'react-native-tab-view';
 
 import { Body } from '~/components';
 import { useDispatch, useSelector } from 'react-redux';
-import { SHOE_PREFIX, COLOR_CODE_MAP, TABS_SETTING } from '~/config/constants';
+import { TABS_SETTING } from '~/config/constants';
 import AddModal from './components/AddModal';
 import theme from '~/config/theme';
 import ListItem from './components/ListItem';
@@ -17,6 +17,11 @@ import {
   slipperTypesSelector,
 } from '~/modules/Settings/selectors';
 import { Dimensions } from 'react-native';
+import {
+  colorCodesSelector,
+  shoePrefixesSelector,
+  slipperPrefixesSelector,
+} from '~/modules/User/selectors';
 
 const shoeTypess = ({ route }) => {
   const [index, setIndex] = useState(0);
@@ -24,6 +29,11 @@ const shoeTypess = ({ route }) => {
   const dispatch = useDispatch();
   const shoeTypes = useSelector(shoeTypesSelector);
   const slipperTypes = useSelector(slipperTypesSelector);
+
+  const shoePrefixes = useSelector(shoePrefixesSelector);
+  const slipperPrefixes = useSelector(slipperPrefixesSelector);
+  const colorCodes = useSelector(colorCodesSelector);
+
   const fetchProductsLoading = useSelector(fetchProductTypesLoadingSelector);
 
   useEffect(() => {
@@ -46,11 +56,11 @@ const shoeTypess = ({ route }) => {
       case 'Loại dép':
         return slipperTypes;
       case 'Tiền tố mã giày':
-        return SHOE_PREFIX;
+        return shoePrefixes;
       case 'Tiền tố mã dép':
-        return SHOE_PREFIX;
+        return slipperPrefixes;
       case 'Mã màu':
-        return COLOR_CODE_MAP;
+        return colorCodes;
       default:
         return [];
     }

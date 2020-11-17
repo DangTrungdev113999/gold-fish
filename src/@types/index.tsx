@@ -70,6 +70,13 @@ export type profileType = {
 
 export type userReducerTypes = {
   profile: profileType;
+  shoePrefixes: string[];
+  slipperPrefixes: string[];
+  colorCodes: string[];
+  addSuggestionLoading: boolean;
+  addSuggestionError: string;
+  updateSuggestionLoading: boolean;
+  updateSuggestionError: string;
 };
 
 export type rootReducerTypes = {

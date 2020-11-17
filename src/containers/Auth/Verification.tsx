@@ -26,6 +26,7 @@ import { translateFirebaseMessage } from '~/utils/translate';
 import CodeInput from './components/CodeInput';
 import useAuthencation from '~/hoocks/useAuthentication';
 import { profileSelector } from '~/modules/User/selectors';
+import { addSuggestionCreator } from '~/modules/User/thunk';
 
 const Image = styled.Image.attrs({})`
   width: 80px;
@@ -42,9 +43,8 @@ const Verification = ({ navigation, route }) => {
   const profile = useSelector(profileSelector);
 
   useEffect(() => {
-    console.log(profile);
     if (user && user.phoneNumber === profile.phoneNumber) {
-      checkUser();
+      doAction();
     }
   }, [user]);
 
@@ -53,6 +53,32 @@ const Verification = ({ navigation, route }) => {
       setConfirmResult(route.params?.confirmResult);
     }
   }, [route.params?.confirmResult]);
+
+  const doAction = async (isNewUser = false) => {
+    setLoading(true);
+    if (isNewUser) {
+      dispatch(
+        addSuggestionCreator({
+          user: profile,
+          data: {
+            shoePrefixes: [{ name: 'DSMH', description: 'Giầy hunter street' }],
+            slipperPrefixes: [{ name: 'DEM', description: '' }],
+            colorCodes: [
+              { name: '-TRG', description: 'Màu trắng' },
+              { name: '-DEN', description: 'Màu đen' },
+            ],
+          },
+        }),
+      );
+    }
+    const response = await getIdToken();
+    dispatch(
+      setToken({
+        token: response.token,
+      }),
+    );
+    setLoading(false);
+  };
 
   const onGotoConfirmCode = async () => {
     setLoading(true);
@@ -65,7 +91,7 @@ const Verification = ({ navigation, route }) => {
         showAlert('Thông báo!', 'Lỗi kết nối hệ thống. Vui lòng thử lại.');
         throw new Error('Lỗi kết nối hệ thống. Vui lòng thử lại.');
       }
-      checkUser(currentUser.additionalUserInfo.isNewUser);
+      doAction(currentUser.additionalUserInfo.isNewUser);
     } catch (e) {
       showAlert('Thông báo', translateFirebaseMessage(e.message) || e.message);
     }
@@ -77,16 +103,6 @@ const Verification = ({ navigation, route }) => {
       onGotoConfirmCode();
     }
   }, [verificationCode]);
-
-  const checkUser = async (isNewUser) => {
-    console.log({ isNewUser });
-    const response = await getIdToken();
-    dispatch(
-      setToken({
-        token: response.token,
-      }),
-    );
-  };
 
   return (
     <Body center flex={1} keybordAvoid overlay loading={loading}>

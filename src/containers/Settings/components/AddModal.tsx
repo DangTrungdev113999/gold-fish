@@ -1,18 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
 import React, { useRef, useState } from 'react';
-import {
-  Dimensions,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native';
+import { Dimensions, Keyboard } from 'react-native';
 import Modal from 'react-native-modal';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Block,
-  Body,
   Button,
   Icon,
   Input,
