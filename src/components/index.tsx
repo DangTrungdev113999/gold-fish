@@ -14,7 +14,6 @@ import ImagePreview from './ImagePreview';
 import SearchModal from './SearchModal';
 import List from './List';
 import ScrollBody from './ScrollBody';
-import Splash from './Splash';
 
 export {
   Block,
@@ -33,5 +32,4 @@ export {
   SearchModal,
   List,
   ScrollBody,
-  Splash,
 };

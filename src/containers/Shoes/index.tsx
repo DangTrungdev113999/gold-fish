@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Dimensions } from 'react-native';
 import { TabBar, TabView } from 'react-native-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
-import { Body, SearchModal, Text } from '~/components';
+import { Body, SearchModal } from '~/components';
 import theme from '~/config/theme';
 import {
   fetchProductTypesLoadingSelector,

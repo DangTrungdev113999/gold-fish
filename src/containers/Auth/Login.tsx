@@ -112,7 +112,7 @@ const Login = ({ navigation }) => {
         </ScrollBody>
         <Button
           bg="primary"
-          m="20px"
+          m="20px 20px 40px"
           p="10px 0"
           center
           middle
