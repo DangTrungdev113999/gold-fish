@@ -33,8 +33,8 @@ export const fetchSuggestionCreator = () => async (
 ) => {
   dispatch(fetchSuggestion());
   try {
-    const user = getState().user.profile;
-    const response = await fetchSuggestionApi(user);
+    const profile = getState().user.profile;
+    const response = await fetchSuggestionApi(profile);
     dispatch(fetchSuggestionSucceeded(response));
   } catch (e) {
     dispatch(fetchSuggestionFailed(e.message));
@@ -74,8 +74,8 @@ export const updateSuggestionCreator = (payload: any = {}) => async (
 export const fetchUserCreator = () => async (dispatch: any, getState: any) => {
   dispatch(fetchUser());
   try {
-    const userId = getState().user.profile.phoneNumber;
-    const response = await fetchUserApi(userId);
+    const phoneNumber = getState().user.profile.phoneNumber;
+    const response = await fetchUserApi(phoneNumber);
     dispatch(fetchUserSucceeded(response));
   } catch (e) {
     dispatch(fetchUserFailed(e.message));
@@ -94,7 +94,7 @@ export const addNewUserCreator = (padyload: any = {}) => async (
   }
 };
 
-export const udpateUserCreator = (padyload: any = {}) => async (
+export const updateUserCreator = (padyload: any = {}) => async (
   dispatch: any,
   getState: any,
 ) => {

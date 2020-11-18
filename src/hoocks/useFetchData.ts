@@ -39,9 +39,6 @@ const useFetchData = () => {
   const fetchUserLoading = useSelector(fetchUserLoadingSelector);
   const addNewUserLoading = useSelector(addNewUserLoadingSelector);
 
-  console.log(ruleUser);
-  console.log(shoePrefixes);
-
   useEffect(() => {
     if (!shoeTypesTab.length) {
       dispatch(fetchProductTypesCreator());
@@ -74,7 +71,7 @@ const useFetchData = () => {
     } else {
       dispatch(fetchSuggestionCreator());
     }
-  });
+  }, []);
 
   return (
     fetchProductsLoading ||

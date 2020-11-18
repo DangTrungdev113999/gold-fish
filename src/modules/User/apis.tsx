@@ -1,12 +1,12 @@
 import firestore from '@react-native-firebase/firestore';
 
-export const fetchSuggestionApi = async (user: any) => {
+export const fetchSuggestionApi = async (profile: any) => {
   try {
     const snapshot = await firestore()
       .collection('Settings')
       .doc('suggestion')
       .collection('PrefixProduct')
-      .doc(user.phoneNumber)
+      .doc(profile.phoneNumber)
       .get();
 
     return snapshot.data();
@@ -54,11 +54,11 @@ export const updateSuggestionApi = async (user: any, data: any) => {
   }
 };
 
-export const fetchUserApi = async (user: any) => {
+export const fetchUserApi = async (phoneNumber: any) => {
   try {
     const snapshot = await firestore()
-      .collection('Settings')
-      .doc(user.phoneNumber)
+      .collection('Users')
+      .doc(phoneNumber)
       .get();
 
     return snapshot.data();

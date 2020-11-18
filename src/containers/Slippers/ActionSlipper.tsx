@@ -27,6 +27,7 @@ import {
 import { isSlipperId, showAlert } from '~/utils';
 import { deleteSlipperLoadingSelector } from '~/modules/Slippers/selectors/';
 import { profileSelector } from '~/modules/User/selectors';
+import { slipperTypesSelector } from '~/modules/Settings/selectors';
 
 const ActionSlipper = ({ navigation, route }: any) => {
   const profile = useSelector(profileSelector);
@@ -44,6 +45,8 @@ const ActionSlipper = ({ navigation, route }: any) => {
   const updateSlippersLoading = useSelector(addSlipperLoadingSelector);
   const addSlippersLoading = useSelector(updateSlipperLoadingSelector);
   const deleteSlippersLoading = useSelector(deleteSlipperLoadingSelector);
+  const slipperTypes = useSelector(slipperTypesSelector);
+
   const scrollViewRef = useRef(null);
   useEffect(() => {
     Keyboard.addListener('keyboardDidShow', _keyboardDidShow);
@@ -154,7 +157,12 @@ const ActionSlipper = ({ navigation, route }: any) => {
           <Picker
             label="Dòng sản phẩm"
             title="Dòng sản phẩm"
-            options={SLIPPER_TYPES}
+            options={slipperTypes
+              .map((item) => ({
+                name: item.name,
+                value: item.name,
+              }))
+              .slice(1)}
             placeholder="Chọn dòng sản phẩm"
             value={data.type}
             onChange={(val: string) => setData({ type: val })}

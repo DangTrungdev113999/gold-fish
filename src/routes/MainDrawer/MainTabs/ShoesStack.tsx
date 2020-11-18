@@ -19,7 +19,7 @@ export default () => (
       name="shoes_screen"
       component={ShoesScreen}
       options={({ navigation, route }) => ({
-        title: 'NO LIMIT trên đôi Bitis',
+        title: 'NO LIMIT',
         headerLeft: () => <MenuIcon navigation={navigation} />,
         headerRight: () => (
           <AddProductIcon

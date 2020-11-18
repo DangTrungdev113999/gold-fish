@@ -19,7 +19,7 @@ export default () => (
       name="slippers_screen"
       component={SlippersScreen}
       options={({ navigation, route }) => ({
-        title: 'Chầy cối làm nên huyền thoại',
+        title: 'CHẦY CỐI',
         headerLeft: () => <MenuIcon navigation={navigation} />,
         headerRight: () => (
           <AddProductIcon
