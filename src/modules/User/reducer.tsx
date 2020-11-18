@@ -42,11 +42,11 @@ const userReducer = produce((draft, action) => {
       draft.fetchSuggestionError = '';
       break;
     case FETCH_SUGGESTION_SUCCEEDED:
-      draft.fetchSuggestionLoading = false;
-      draft.fetchSuggestionError = '';
       draft.shoePrefixes = action.payload.shoePrefixes;
       draft.slipperPrefixes = action.payload.slipperPrefixes;
       draft.colorCodes = action.payload.colorCodes;
+      draft.fetchSuggestionLoading = false;
+      draft.fetchSuggestionError = '';
       break;
     case FETCH_SUGGESTION_FAILED:
       draft.fetchSuggestionLoading = false;

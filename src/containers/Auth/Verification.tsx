@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
-
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,7 +25,6 @@ import { translateFirebaseMessage } from '~/utils/translate';
 import CodeInput from './components/CodeInput';
 import useAuthencation from '~/hoocks/useAuthentication';
 import { profileSelector } from '~/modules/User/selectors';
-import { addSuggestionCreator } from '~/modules/User/thunk';
 
 const Image = styled.Image.attrs({})`
   width: 80px;
@@ -44,8 +42,7 @@ const Verification = ({ navigation, route }) => {
 
   useEffect(() => {
     if (user && user.phoneNumber === profile.phoneNumber) {
-      const isNewUser = false;
-      doAction(isNewUser);
+      doAction();
     }
   }, []);
 
@@ -55,35 +52,7 @@ const Verification = ({ navigation, route }) => {
     }
   }, [route.params?.confirmResult]);
 
-  const doAction = async (isNewUser = false) => {
-    setLoading(true);
-    if (isNewUser) {
-      dispatch(
-        addSuggestionCreator({
-          user: profile,
-          data: {
-            shoePrefixes: [
-              { name: 'DSMH', description: 'Giầy street hunter ' },
-            ],
-            slipperPrefixes: [{ name: 'DEM', description: '' }],
-            colorCodes: [
-              { name: '-TRG', description: 'Màu trắng' },
-              { name: '-DEN', description: 'Màu đen' },
-            ],
-          },
-        }),
-      );
-    }
-    const response = await getIdToken();
-    dispatch(
-      setToken({
-        token: response.token,
-      }),
-    );
-    setLoading(false);
-  };
-
-  const onGotoConfirmCode = async () => {
+  const onConfirmCode = async () => {
     setLoading(true);
     try {
       const currentUser = await confirmFirebasePhoneAuthToGetToken(
@@ -94,16 +63,27 @@ const Verification = ({ navigation, route }) => {
         showAlert('Thông báo!', 'Lỗi kết nối hệ thống. Vui lòng thử lại.');
         throw new Error('Lỗi kết nối hệ thống. Vui lòng thử lại.');
       }
-      doAction(currentUser.additionalUserInfo.isNewUser);
+      doAction();
     } catch (e) {
       showAlert('Thông báo', translateFirebaseMessage(e.message) || e.message);
     }
     setLoading(false);
   };
 
+  const doAction = async () => {
+    setLoading(true);
+    const response = await getIdToken();
+    dispatch(
+      setToken({
+        token: response.token,
+      }),
+    );
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (verificationCode.length === 6) {
-      onGotoConfirmCode();
+      onConfirmCode();
     }
   }, [verificationCode]);
 
@@ -135,7 +115,7 @@ const Verification = ({ navigation, route }) => {
           p="10px 0"
           center
           middle
-          onPress={onGotoConfirmCode}
+          onPress={onConfirmCode}
           disabled={verificationCode.length < 6}>
           <Text
             color={

@@ -5,14 +5,12 @@ import React, { useState, useEffect } from 'react';
 import { TabBar, TabView } from 'react-native-tab-view';
 
 import { Body } from '~/components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { TABS_SETTING } from '~/config/constants';
 import AddModal from './components/AddModal';
 import theme from '~/config/theme';
 import ListItem from './components/ListItem';
-import { fetchProductTypesCreator } from '~/modules/Settings/thunk';
 import {
-  fetchProductTypesLoadingSelector,
   shoeTypesSelector,
   slipperTypesSelector,
 } from '~/modules/Settings/selectors';
@@ -26,21 +24,12 @@ import {
 const shoeTypess = ({ route }) => {
   const [index, setIndex] = useState(0);
 
-  const dispatch = useDispatch();
   const shoeTypes = useSelector(shoeTypesSelector);
   const slipperTypes = useSelector(slipperTypesSelector);
 
   const shoePrefixes = useSelector(shoePrefixesSelector);
   const slipperPrefixes = useSelector(slipperPrefixesSelector);
   const colorCodes = useSelector(colorCodesSelector);
-
-  const fetchProductsLoading = useSelector(fetchProductTypesLoadingSelector);
-
-  useEffect(() => {
-    if (!shoeTypess || !slipperTypes) {
-      dispatch(fetchProductTypesCreator());
-    }
-  }, [shoeTypes, slipperTypes]);
 
   useEffect(() => {
     if (route.params?.targetTab) {
@@ -77,7 +66,7 @@ const shoeTypess = ({ route }) => {
   };
 
   return (
-    <Body flex={1} overlay loading={fetchProductsLoading}>
+    <Body flex={1}>
       <TabView
         renderTabBar={(props) => (
           <TabBar

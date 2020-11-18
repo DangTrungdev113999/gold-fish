@@ -23,6 +23,11 @@ export const colorCodesSelector = createSelector(
   (userReducer) => userReducer.colorCodes,
 );
 
+export const addSuggestionLoadingSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.addSuggestionLoading,
+);
+
 export const updateSuggestionLoadingSelector = createSelector(
   userSelector,
   (userReducer) => userReducer.updateSuggestionLoading,

@@ -26,9 +26,12 @@ import {
 import { isShoeId, showAlert } from '~/utils';
 import { deleteShoeLoadingSelector } from '~/modules/Shoes/selectors';
 import { shoeTypesSelector } from '~/modules/Settings/selectors';
+import { profileSelector } from '~/modules/User/selectors';
 const ActionShoe = ({ navigation, route }: any) => {
+  const profile = useSelector(profileSelector);
   const [data, setData] = useSetObjectState({
     shoeId: '',
+    userId: profile.phoneNumber,
     imageUri: '',
     type: 'Hunter',
     like: false,

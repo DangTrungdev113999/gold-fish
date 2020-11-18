@@ -26,10 +26,13 @@ import {
 } from '~/modules/Slippers/selectors/';
 import { isSlipperId, showAlert } from '~/utils';
 import { deleteSlipperLoadingSelector } from '~/modules/Slippers/selectors/';
+import { profileSelector } from '~/modules/User/selectors';
 
 const ActionSlipper = ({ navigation, route }: any) => {
+  const profile = useSelector(profileSelector);
   const [data, setData] = useSetObjectState({
     slipperId: '',
+    usrId: profile.phoneNumber,
     imageUri: '',
     type: '',
     like: false,

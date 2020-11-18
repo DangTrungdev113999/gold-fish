@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+// import { useRef } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
 import { showAlert } from '~/utils';
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { setToken } from '~/modules/Auth/actions';
 
 const useAuthencation = () => {
   const [currentUser, setCurrentUser] = useState<null | any>(null);
-  const isCheck = useRef(true);
+  // const isCheck = useRef(true);
   const dispatch = useDispatch();
 
   const logOut = () => {

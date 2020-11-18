@@ -1,39 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
 import { TabBar, TabView } from 'react-native-tab-view';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Body, SearchModal } from '~/components';
 import theme from '~/config/theme';
-import {
-  fetchProductTypesLoadingSelector,
-  shoeTypesSelector,
-} from '~/modules/Settings/selectors';
-import { fetchProductTypesCreator } from '~/modules/Settings/thunk';
+import { useAuthentication, useFetchData } from '~/hoocks';
+import { shoeTypesSelector } from '~/modules/Settings/selectors';
 import ShoesList from './components/ShoesList';
-import useAuthencation from '~/hoocks/useAuthentication';
-import { fetchSuggestionCreator } from '~/modules/User/thunk';
-import { fetchSuggestionLoadingSelector } from '~/modules/User/selectors';
 
 const Shoes = () => {
-  useAuthencation();
+  useAuthentication();
+  const loading = useFetchData();
   const [index, setIndex] = useState(0);
 
-  const dispatch = useDispatch();
   const shoeTypesTab = useSelector(shoeTypesSelector);
-  const fetchProductsLoading = useSelector(fetchProductTypesLoadingSelector);
-  const fetchSuggestionLoading = useSelector(fetchSuggestionLoadingSelector);
-
-  useEffect(() => {
-    if (!shoeTypesTab.length) {
-      dispatch(fetchProductTypesCreator());
-    }
-  }, [shoeTypesTab]);
-
-  useEffect(() => {
-    dispatch(fetchSuggestionCreator());
-  }, []);
 
   const renderScene = ({ route }) => {
     switch (route.key) {
@@ -45,10 +27,7 @@ const Shoes = () => {
   };
 
   return (
-    <Body
-      flex={1}
-      overlay
-      loading={fetchProductsLoading || fetchSuggestionLoading}>
+    <Body flex={1} overlay loading={loading}>
       <TabView
         renderTabBar={(props) => (
           <TabBar
