@@ -9,6 +9,15 @@ import {
   UPDATE_SUGGESTION,
   UPDATE_SUGGESTION_SUCCEEDED,
   UPDATE_SUGGESTION_FAILED,
+  FETCH_USER,
+  FETCH_USER_SUCCEEDED,
+  FETCH_USER_FAILED,
+  ADD_NEW_USER,
+  ADD_NEW_USER_SUCCEEDED,
+  ADD_NEW_USER_FAILED,
+  UPDATE_USER,
+  UPDATE_USER_SUCCEEDED,
+  UPDATE_USER_FAILED,
 } from './constants';
 
 export const fetchSuggestion = () => {
@@ -74,6 +83,66 @@ export const updateSuggestionSucceeded = (payload = {}) => {
 export const updateSuggestionFailed = (payload = {}) => {
   return {
     type: UPDATE_SUGGESTION_FAILED,
+    payload,
+  };
+};
+
+export const fetchUser = () => {
+  return {
+    type: FETCH_USER,
+  };
+};
+
+export const fetchUserSucceeded = (payload = {}) => {
+  return {
+    type: FETCH_USER_SUCCEEDED,
+    payload,
+  };
+};
+
+export const fetchUserFailed = (payload = {}) => {
+  return {
+    type: FETCH_USER_FAILED,
+    payload,
+  };
+};
+
+export const addNewUser = () => {
+  return {
+    type: ADD_NEW_USER,
+  };
+};
+
+export const addNewUserSucceeded = (payload = {}) => {
+  return {
+    type: ADD_NEW_USER_SUCCEEDED,
+    payload,
+  };
+};
+
+export const addNewUserFailed = (payload = {}) => {
+  return {
+    type: ADD_NEW_USER_FAILED,
+    payload,
+  };
+};
+
+export const updateUser = () => {
+  return {
+    type: UPDATE_USER,
+  };
+};
+
+export const updateUserSucceeded = (payload = {}) => {
+  return {
+    type: UPDATE_USER_SUCCEEDED,
+    payload,
+  };
+};
+
+export const updateUserFailed = (payload = {}) => {
+  return {
+    type: UPDATE_USER_FAILED,
     payload,
   };
 };

@@ -133,7 +133,7 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
               p="8px 12px"
               m="10px 0"
               bg="blue1"
-              borderRadius="15px"
+              borderRadius="5px"
               borderWidth="1px"
               borderColor={theme.color.primaryLight}
               opacity={activeIcon ? 0.8 : 1}>

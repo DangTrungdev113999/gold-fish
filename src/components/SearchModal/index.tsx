@@ -44,13 +44,9 @@ const SearchModal = ({ productTarget }: PropsType) => {
 
   const inputRef = useRef();
 
-  const shoePrefixes = useSelector(shoePrefixesSelector).map(
-    (item) => item.name,
-  );
-  const slipperPrefixes = useSelector(slipperPrefixesSelector).map(
-    (item) => item.name,
-  );
-  const colorCodes = useSelector(colorCodesSelector).map((item) => item.name);
+  const shoePrefixes = useSelector(shoePrefixesSelector);
+  const slipperPrefixes = useSelector(slipperPrefixesSelector);
+  const colorCodes = useSelector(colorCodesSelector);
 
   const onReset = () => {
     setProductId('');
@@ -217,7 +213,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
                   <HideOption
                     style={{ flex: 1 }}
                     itemTarget={activeItem}
-                    items={shoePrefixes}
+                    items={shoePrefixes.map((item) => item.name)}
                     setString={setPrefixProductId}
                   />
                   <Touchable
@@ -244,7 +240,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
                   <HideOption
                     style={{ flex: 1 }}
                     itemTarget={activeItem}
-                    items={slipperPrefixes}
+                    items={slipperPrefixes.map((item) => item.name)}
                     setString={setPrefixProductId}
                   />
                   <Touchable
@@ -268,7 +264,7 @@ const SearchModal = ({ productTarget }: PropsType) => {
             <Block row>
               <HideOption
                 style={{ flex: 1 }}
-                items={colorCodes}
+                items={colorCodes.map((item) => item.name)}
                 itemTarget={activeItem}
                 setString={setColorCodeProductId}
               />

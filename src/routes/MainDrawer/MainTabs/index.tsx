@@ -41,22 +41,6 @@ export default function () {
         },
       }}>
       <Tab.Screen
-        name="user_tab"
-        component={UserStack}
-        options={({ route }) => ({
-          tabBarLabel: 'Cá nhân',
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              name="user-circle"
-              type="fontAwesome"
-              color={focused ? theme.color.secondary : theme.color.white}
-              size={22}
-            />
-          ),
-          tabBarVisible: getTabBarVisible(route),
-        })}
-      />
-      <Tab.Screen
         name="shoes_stack"
         component={ShoesStack}
         options={({ route }) => ({
@@ -81,6 +65,22 @@ export default function () {
             <Icon
               name="beach-slipper"
               type="fontisto"
+              color={focused ? theme.color.secondary : theme.color.white}
+              size={22}
+            />
+          ),
+          tabBarVisible: getTabBarVisible(route),
+        })}
+      />
+      <Tab.Screen
+        name="user_tab"
+        component={UserStack}
+        options={({ route }) => ({
+          tabBarLabel: 'Cá nhân',
+          tabBarIcon: ({ focused }) => (
+            <Icon
+              name="user-circle"
+              type="fontAwesome"
               color={focused ? theme.color.secondary : theme.color.white}
               size={22}
             />

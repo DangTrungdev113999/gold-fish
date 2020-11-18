@@ -67,7 +67,6 @@ const User = ({ navigation }) => {
     <Body flex={1} keybordAvoid overlay loading={loading}>
       <ScrollBody>
         <Block h="1px" block bg={theme.color.primaryLight} />
-
         <Touchable
           row
           middle
@@ -124,7 +123,6 @@ const User = ({ navigation }) => {
             color={theme.color.grayLight}
           />
         </Touchable>
-
         <Block h="1px" block bg={theme.color.primaryLight} />
         <Touchable
           row

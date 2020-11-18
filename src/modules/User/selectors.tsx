@@ -37,3 +37,33 @@ export const fetchSuggestionLoadingSelector = createSelector(
   userSelector,
   (userReducer) => userReducer.fetchSuggestionLoading,
 );
+
+export const fetchUserLoadingSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.fetchUserLoading,
+);
+
+export const addNewUserLoadingSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.addNewUserLoading,
+);
+
+export const updateUserLoadingSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.updateUserLoading,
+);
+
+export const ruleUserSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.rule,
+);
+
+export const favouriteShoesSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.favouriteShoes,
+);
+
+export const favouriteSlippersSelector = createSelector(
+  userSelector,
+  (userReducer) => userReducer.favouriteSlippers,
+);

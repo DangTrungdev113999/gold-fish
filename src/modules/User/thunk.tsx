@@ -1,4 +1,3 @@
-import { rootReducerTypes } from '~/@types';
 import {
   fetchSuggestion,
   fetchSuggestionSucceeded,
@@ -9,11 +8,23 @@ import {
   updateSuggestion,
   updateSuggestionSucceeded,
   updateSuggestionFailed,
+  fetchUser,
+  fetchUserSucceeded,
+  fetchUserFailed,
+  addNewUser,
+  addNewUserSucceeded,
+  addNewUserFailed,
+  updateUser,
+  updateUserSucceeded,
+  updateUserFailed,
 } from './actions';
 import {
   addSuggestionApi,
   updateSuggestionApi,
   fetchSuggestionApi,
+  fetchUserApi,
+  addNewUserApi,
+  updateUserApi,
 } from './apis';
 
 export const fetchSuggestionCreator = () => async (
@@ -57,5 +68,42 @@ export const updateSuggestionCreator = (payload: any = {}) => async (
       payload.onError(e.message);
     }
     dispatch(updateSuggestionFailed(e.message));
+  }
+};
+
+export const fetchUserCreator = () => async (dispatch: any, getState: any) => {
+  dispatch(fetchUser());
+  try {
+    const userId = getState().user.profile.phoneNumber;
+    const response = await fetchUserApi(userId);
+    dispatch(fetchUserSucceeded(response));
+  } catch (e) {
+    dispatch(fetchUserFailed(e.message));
+  }
+};
+
+export const addNewUserCreator = (padyload: any = {}) => async (
+  dispatch: any,
+) => {
+  dispatch(addNewUser());
+  try {
+    const response = await addNewUserApi(padyload.user);
+    dispatch(addNewUserSucceeded(response));
+  } catch (e) {
+    dispatch(addNewUserFailed(e.message));
+  }
+};
+
+export const udpateUserCreator = (padyload: any = {}) => async (
+  dispatch: any,
+  getState: any,
+) => {
+  dispatch(updateUser());
+  try {
+    const userId = getState().user.profile.phoneNumber;
+    const response = await updateUserApi(userId, padyload.data);
+    dispatch(updateUserSucceeded(response));
+  } catch (e) {
+    dispatch(updateUserFailed(e.message));
   }
 };

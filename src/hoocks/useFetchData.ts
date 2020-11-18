@@ -1,4 +1,7 @@
-import { addSuggestionLoadingSelector } from './../modules/User/selectors';
+import {
+  fetchUserLoadingSelector,
+  addNewUserLoadingSelector,
+} from './../modules/User/selectors';
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
 import { useEffect } from 'react';
@@ -17,6 +20,12 @@ import {
   addSuggestionCreator,
   fetchSuggestionCreator,
 } from '~/modules/User/thunk';
+import { fetchUserCreator, addNewUserCreator } from '~/modules/User/thunk';
+import {
+  addSuggestionLoadingSelector,
+  ruleUserSelector,
+} from '~/modules/User/selectors';
+import { defaultSuggestion, defaultUserInfo } from '~/utils/models';
 
 const useFetchData = () => {
   const dispatch = useDispatch();
@@ -26,6 +35,12 @@ const useFetchData = () => {
   const fetchSuggestionLoading = useSelector(fetchSuggestionLoadingSelector);
   const addSuggestionLoading = useSelector(addSuggestionLoadingSelector);
   const shoePrefixes = useSelector(shoePrefixesSelector);
+  const ruleUser = useSelector(ruleUserSelector);
+  const fetchUserLoading = useSelector(fetchUserLoadingSelector);
+  const addNewUserLoading = useSelector(addNewUserLoadingSelector);
+
+  console.log(ruleUser);
+  console.log(shoePrefixes);
 
   useEffect(() => {
     if (!shoeTypesTab.length) {
@@ -34,28 +49,40 @@ const useFetchData = () => {
   }, [shoeTypesTab]);
 
   useEffect(() => {
+    if (!ruleUser.length) {
+      dispatch(
+        addNewUserCreator({
+          user: {
+            ...defaultUserInfo,
+            profile,
+          },
+        }),
+      );
+    } else {
+      dispatch(fetchUserCreator());
+    }
+  }, []);
+
+  useEffect(() => {
     if (!shoePrefixes.length) {
       dispatch(
         addSuggestionCreator({
           user: profile,
-          data: {
-            shoePrefixes: [
-              { name: 'DSMH', description: 'Giầy street hunter ' },
-            ],
-            slipperPrefixes: [{ name: 'DEM', description: '' }],
-            colorCodes: [
-              { name: '-TRG', description: 'Màu trắng' },
-              { name: '-DEN', description: 'Màu đen' },
-            ],
-          },
+          data: defaultSuggestion,
         }),
       );
     } else {
       dispatch(fetchSuggestionCreator());
     }
-  }, []);
+  });
 
-  return fetchProductsLoading || fetchSuggestionLoading || addSuggestionLoading;
+  return (
+    fetchProductsLoading ||
+    fetchSuggestionLoading ||
+    addSuggestionLoading ||
+    fetchUserLoading ||
+    addNewUserLoading
+  );
 };
 
 export default useFetchData;
