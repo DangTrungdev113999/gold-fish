@@ -9,8 +9,6 @@ export const fetchSuggestionApi = async (user: any) => {
       .doc(user.phoneNumber)
       .get();
 
-    console.log(snapshot.data());
-
     return snapshot.data();
   } catch (e) {
     console.log('add suggestion error: ', e.message);

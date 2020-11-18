@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   root: { padding: 5, minHeight: 300 },
   title: { textAlign: 'center', fontSize: 30 },
   codeFiledRoot: {
-    marginTop: 15,
+    marginTop: 30,
     marginBottom: 15,
     width: 280,
     marginLeft: 'auto',

@@ -127,7 +127,6 @@ const SearchModal = ({ productTarget }: PropsType) => {
       params: { targetTab },
     });
   };
-  console.log(visible);
 
   return (
     <Block absolute right="20px" bottom="40px">

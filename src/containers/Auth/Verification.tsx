@@ -44,7 +44,8 @@ const Verification = ({ navigation, route }) => {
 
   useEffect(() => {
     if (user && user.phoneNumber === profile.phoneNumber) {
-      doAction();
+      const isNewUser = false;
+      doAction(isNewUser);
     }
   }, []);
 
@@ -61,7 +62,9 @@ const Verification = ({ navigation, route }) => {
         addSuggestionCreator({
           user: profile,
           data: {
-            shoePrefixes: [{ name: 'DSMH', description: 'Giầy hunter street' }],
+            shoePrefixes: [
+              { name: 'DSMH', description: 'Giầy street hunter ' },
+            ],
             slipperPrefixes: [{ name: 'DEM', description: '' }],
             colorCodes: [
               { name: '-TRG', description: 'Màu trắng' },

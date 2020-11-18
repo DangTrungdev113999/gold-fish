@@ -11,15 +11,14 @@ const Image = styled.Image.attrs({})`
   height: 200px;
 `;
 
-const styles = StyleSheet.create({
-  wrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+
+const styles = StyleSheet.create({
+  wrapper: {
+    marginTop: windowHeight / 3,
+  },
+});
 
 const Swipper = () => {
   return (
@@ -28,15 +27,15 @@ const Swipper = () => {
       showsButtons={false}
       width={windowWidth}
       height={windowHeight / 2}
-      loop
-      autoplay
-      autoplayDirection
+      // loop
+      // autoplay
+      // autoplayDirection
       autoplayTimeout={4}
       dotColor={theme.color.white}
       activeDotColor={theme.color.secondary}>
       <Block center middle>
         <Image source={require('@assets/images/search-1.png')} />
-        <Text h5 center color={theme.color.secondary2} m="10px 0 0">
+        <Text h5 center color={theme.color.secondary2} m="20px 0 0">
           Tra giày một cách nhanh chóng
         </Text>
         <Text center color={theme.color.secondary2} m="10px 0 0">
@@ -45,7 +44,7 @@ const Swipper = () => {
       </Block>
       <Block center middle>
         <Image source={require('@assets/images/shoe-1.png')} />
-        <Text h5 center color={theme.color.secondary2} m="10px 0 0">
+        <Text h5 center color={theme.color.secondary2} m="20px 0 0">
           Hõ trợ việc nhớ mã giầy
         </Text>
       </Block>
