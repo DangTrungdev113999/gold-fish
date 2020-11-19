@@ -3,11 +3,13 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import ShoesScreen from '~/containers/Shoes';
 import ActionShoe from '~/containers/Shoes/ActionShoe';
+import FavouriteShoes from '~/containers/Shoes/FavouriteShoes';
 import { Block, Icon, Touchable } from '~/components';
 import {
   AddProductIcon,
   DeleteProductIcon,
   MenuIcon,
+  FavouriteIcon,
 } from '~/components/Header';
 import { mainOptions } from '../../navigationOptions';
 
@@ -22,11 +24,18 @@ export default () => (
         title: 'NO LIMIT',
         headerLeft: () => <MenuIcon navigation={navigation} />,
         headerRight: () => (
-          <AddProductIcon
-            navigation={navigation}
-            route={route}
-            fromScreen="shoes"
-          />
+          <Block row middle>
+            <FavouriteIcon
+              navigation={navigation}
+              route={route}
+              fromScreen="shoes"
+            />
+            <AddProductIcon
+              navigation={navigation}
+              route={route}
+              fromScreen="shoes"
+            />
+          </Block>
         ),
       })}
     />
@@ -57,6 +66,24 @@ export default () => (
           ) : (
             <Block />
           ),
+      })}
+    />
+    <Stack.Screen
+      name="favourite_shoes_screen"
+      component={FavouriteShoes}
+      options={({ navigation }) => ({
+        title: 'NO LIMIT',
+        headerLeft: () => (
+          <Touchable m="0 0 0 10px" onPress={() => navigation.goBack()}>
+            <Icon
+              name="chevron-small-left"
+              type="entypo"
+              size={30}
+              color="#fff"
+            />
+          </Touchable>
+        ),
+        headerRight: () => <Block />,
       })}
     />
   </Stack.Navigator>

@@ -43,7 +43,7 @@ const Swipper = () => {
         </Text>
       </Block>
       <Block center middle>
-        <Image source={require('@assets/images/shoe-1.png')} />
+        <Image source={require('@assets/images/shoes.png')} />
         <Text h5 center color={theme.color.secondary2} m="20px 0 0">
           Hõ trợ việc nhớ mã giầy
         </Text>

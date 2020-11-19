@@ -1,18 +1,18 @@
 import React from 'react';
 import TouchableOpacity from '../Touchable';
-import Icon from '../Icon';
-import theme from '~/config/theme';
+import styled from 'styled-components';
+
+//@ts-ignore
+const Image = styled.Image`
+  width: 22px;
+  height: 22px;
+`;
 
 const MenuIcon = ({ navigation }: any) => {
   const openDrawer = () => navigation.openDrawer();
   return (
     <TouchableOpacity m="0 0 0 20px" onPress={openDrawer}>
-      <Icon
-        name="menu-outline"
-        type="ionicons"
-        size={30}
-        color={theme.color.secondary}
-      />
+      <Image source={require('@assets/images/menu.png')} />
     </TouchableOpacity>
   );
 };

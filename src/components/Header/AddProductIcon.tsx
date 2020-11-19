@@ -1,7 +1,12 @@
 import React from 'react';
 import TouchableOpacity from '../Touchable';
-import Icon from '../Icon';
-import theme from '~/config/theme';
+import styled from 'styled-components';
+
+//@ts-ignore
+const Image = styled.Image`
+  width: 30px;
+  height: 30px;
+`;
 
 const AddProductIcon = ({ navigation, fromScreen }: any) => {
   const goToAddProdct = () => {
@@ -13,12 +18,7 @@ const AddProductIcon = ({ navigation, fromScreen }: any) => {
   };
   return (
     <TouchableOpacity m="0 20px 0 0" onPress={goToAddProdct}>
-      <Icon
-        type="ionicons"
-        name="add-circle-outline"
-        size={30}
-        color={theme.color.secondary}
-      />
+      <Image source={require('@assets/images/add.png')} />
     </TouchableOpacity>
   );
 };

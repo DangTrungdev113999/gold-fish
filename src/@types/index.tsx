@@ -26,7 +26,10 @@ export type shoesReducerTypes = {
   updateShoeError: string;
   deleteShoeLoading: boolean;
   deleteShoeError: string;
-  lastShoe: any;
+  lastShoe: shoeTypes | null;
+  favouriteShoesList: shoeTypes[];
+  fetchFavouriteShoesLoaing: boolean;
+  fetchFavouriteShoesError: string;
 };
 
 export type slipperReducerTypes = {
@@ -41,7 +44,7 @@ export type slipperReducerTypes = {
   updateSlipperError: string;
   deleteSlipperLoading: boolean;
   deleteSlipperError: string;
-  lastSlipper: any;
+  lastSlipper: slipperType | null;
 };
 
 export type productTypes = {

@@ -67,7 +67,6 @@ const ActionShoe = ({ navigation, route }: any) => {
         shoeId: '',
         imageUri: '',
         type: 'Hunter',
-        like: false,
       });
     };
   }, [route.params?.shoeDetail?.shoeId]);

@@ -36,7 +36,6 @@ const ActionSlipper = ({ navigation, route }: any) => {
     usrId: profile.phoneNumber,
     imageUri: '',
     type: '',
-    like: false,
   });
 
   const [slipperIdIsValid, setSlipperIdIsValid] = useState(true);

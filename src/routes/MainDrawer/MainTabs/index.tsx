@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -5,54 +6,120 @@ import ShoesStack from './ShoesStack';
 import SlippersStack from './SlippersStack';
 import UserStack from './UserStack';
 
-import { Icon } from '~/components';
+import { Block, Text, Touchable, LinearGradient } from '~/components';
 import theme from '~/config/theme';
+import styled from 'styled-components';
 
-const Tab = createBottomTabNavigator();
+//@ts-ignore
+const Image = styled.Image`
+  width: 35px;
+  height: 35px;
+`;
 
-function getTabBarVisible(route: any) {
+const CusomTabBottom = ({ state, descriptors, navigation }) => {
+  return (
+    <LinearGradient row bg={theme.color.primary} p="0 0 10px">
+      {state.routes.map((route, index) => {
+        const isFocused = state.index === index;
+        const { options } = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          });
+        };
+
+        const getIcon = () => {
+          if (route.name === 'shoes_tab') {
+            return require('@assets/images/shoes.png');
+          }
+
+          if (route.name === 'slippers_tab') {
+            return require('@assets/images/slippers.png');
+          }
+
+          if (route.name === 'user_tab') {
+            return require('@assets/images/user.png');
+          }
+          return require('@assets/images/shoes.png');
+        };
+
+        return (
+          <Touchable
+            onPress={onPress}
+            onLongPress={onLongPress}
+            // block={isFocused}
+            flex={isFocused ? 1 : 0.4}
+            key={route.name}>
+            <Block
+              p="8px 20px"
+              m="14px"
+              row
+              middle
+              center
+              borderRadius="20px"
+              bg={isFocused ? theme.color.secondarylight2 : theme.color.blue3}>
+              <Image source={getIcon()} />
+              {isFocused && (
+                <Text color={theme.color.white} m="0 0 0 10px">
+                  {label}
+                </Text>
+              )}
+            </Block>
+          </Touchable>
+        );
+      })}
+    </LinearGradient>
+  );
+};
+
+const getTabBarVisible = (route: any) => {
+  // console.log(route);
   const routeName = route.state
     ? route.state.routes[route.state.index].name
-    : route.params?.screen || 'shoes_screen';
+    : route.params?.screen;
 
-  if (routeName === 'shoes_screen' || routeName === 'slippers_screen') {
+  // console.log(routeName);
+
+  if (
+    routeName === 'shoes_screen' ||
+    routeName === 'slippers_screen' ||
+    routeName === 'user_screen'
+  ) {
     return true;
   }
   return false;
-}
+};
+
+const Tab = createBottomTabNavigator();
 
 export default function () {
   return (
-    <Tab.Navigator
-      tabBarOptions={{
-        activeTintColor: theme.color.secondary,
-        inactiveTintColor: theme.color.light,
-        style: {
-          borderTopWidth: 0,
-          height: 60,
-        },
-        tabStyle: {
-          backgroundColor: theme.color.primary,
-          paddingVertical: 4,
-        },
-        labelStyle: {
-          fontSize: 12,
-          fontFamily: theme.font.primary,
-        },
-      }}>
+    <Tab.Navigator tabBar={(props) => <CusomTabBottom {...props} />}>
       <Tab.Screen
-        name="shoes_stack"
+        name="shoes_tab"
         component={ShoesStack}
         options={({ route }) => ({
-          tabBarLabel: 'giày',
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              name="shoe-formal"
-              type="materialCommunityIcons"
-              color={focused ? theme.color.secondary : theme.color.white}
-              size={22}
-            />
-          ),
+          tabBarLabel: 'Giày',
           tabBarVisible: getTabBarVisible(route),
         })}
       />
@@ -61,14 +128,6 @@ export default function () {
         component={SlippersStack}
         options={({ route }) => ({
           tabBarLabel: 'Dép',
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              name="beach-slipper"
-              type="fontisto"
-              color={focused ? theme.color.secondary : theme.color.white}
-              size={22}
-            />
-          ),
           tabBarVisible: getTabBarVisible(route),
         })}
       />
@@ -77,14 +136,6 @@ export default function () {
         component={UserStack}
         options={({ route }) => ({
           tabBarLabel: 'Cá nhân',
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              name="user-circle"
-              type="fontAwesome"
-              color={focused ? theme.color.secondary : theme.color.white}
-              size={22}
-            />
-          ),
           tabBarVisible: getTabBarVisible(route),
         })}
       />

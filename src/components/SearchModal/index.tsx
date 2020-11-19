@@ -26,8 +26,15 @@ import {
   shoePrefixesSelector,
   slipperPrefixesSelector,
 } from '~/modules/User/selectors';
+import styled from 'styled-components';
 
 const windowHeight = Dimensions.get('window').height;
+
+const Image = styled.Image`
+  width: 50px;
+  height: 50px;
+  opacity: 0.8;
+`;
 
 type PropsType = {
   productTarget: string;
@@ -130,12 +137,12 @@ const SearchModal = ({ productTarget }: PropsType) => {
         w="60px"
         h="60px"
         borderRadius="30px"
-        bg={theme.color.grayLight}
         center
         middle
+        bg={theme.color.standard}
         shadow
         onPress={onOpen}>
-        <Icon name="search" type="fontAwesome5" color={theme.color.secondary} />
+        <Image source={require('@assets/images/search-3.png')} />
       </Touchable>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}

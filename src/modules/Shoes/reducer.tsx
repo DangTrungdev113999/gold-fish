@@ -18,6 +18,9 @@ import {
   DELETE_SHOE_SUCCEEDED,
   DELETE_SHOE_FAILED,
   SET_LAST_SHOE,
+  FETCH_FAVOURITE_SHOES,
+  FETCH_FAVOURITE_SHOES_SUCCEEDED,
+  FETCH_FAVOURITE_SHOES_FAILED,
 } from './constants';
 
 import { shoeTypes } from '~/@types';
@@ -35,6 +38,9 @@ const initState: shoesReducerTypes = {
   deleteShoeLoading: false,
   deleteShoeError: '',
   lastShoe: null,
+  favouriteShoesList: [],
+  fetchFavouriteShoesLoaing: false,
+  fetchFavouriteShoesError: '',
 };
 const shoeReducer = produce((draft, action) => {
   switch (action.type) {
@@ -121,6 +127,20 @@ const shoeReducer = produce((draft, action) => {
 
     case SET_LAST_SHOE:
       draft.lastShoe = action.payload.lastShoe;
+      break;
+
+    case FETCH_FAVOURITE_SHOES:
+      draft.fetchFavouriteShoesLoaing = true;
+      draft.fetchFavouriteShoesError = '';
+      break;
+    case FETCH_FAVOURITE_SHOES_SUCCEEDED:
+      draft.fetchFavouriteShoesLoaing = false;
+      draft.fetchFavouriteShoesError = '';
+      draft.favouriteShoesList = action.payload.favouriteShoesList;
+      break;
+    case FETCH_FAVOURITE_SHOES_FAILED:
+      draft.fetchFavouriteShoesLoaing = false;
+      draft.fetchFavouriteShoesError = action.payload;
       break;
   }
 }, initState);

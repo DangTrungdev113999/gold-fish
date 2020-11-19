@@ -1,11 +1,12 @@
 import { Platform } from 'react-native';
-
 export default {
   color: {
     primary: '#212C3D',
     primaryLight: '#1A4253',
 
     secondary: '#11ECE5',
+    secondarylight1: '#rgba(17, 236, 229, 0.1)',
+    secondarylight2: '#rgba(17, 236, 229, 0.2)',
     secondary2: '#3BB1B7',
     bg: '#0F1724',
     grayLight: '#5E718C',

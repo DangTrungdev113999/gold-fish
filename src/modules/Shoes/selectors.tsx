@@ -32,7 +32,18 @@ export const deleteShoeLoadingSelector = createSelector(
   shoesSelector,
   (shoesReducer) => shoesReducer.deleteShoeLoading,
 );
+
 export const lastShoeSelector = createSelector(
   shoesSelector,
   (shoesReducer) => shoesReducer.lastShoe,
+);
+
+export const favouriteShoesListSelector = createSelector(
+  shoesSelector,
+  (shoesReducer) => shoesReducer.favouriteShoesList,
+);
+
+export const fetchFavouriteShoesListLoaingSelector = createSelector(
+  shoesSelector,
+  (shoesReducer) => shoesReducer.fetchFavouriteShoesLoaing,
 );

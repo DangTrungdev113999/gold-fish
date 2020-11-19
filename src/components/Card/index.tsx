@@ -55,8 +55,6 @@ const Card = ({ item, targetScreen }: CardPropsType) => {
     favouriteShoes.includes(item?.shoeId || item?.slipperId),
   );
 
-  console.log(favourite, favouriteShoes, item?.shoeId);
-
   const handleFavuorite = () => {
     let alphaData;
     let data;
