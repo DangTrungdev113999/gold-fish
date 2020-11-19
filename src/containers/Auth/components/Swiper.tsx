@@ -34,17 +34,17 @@ const Swipper = () => {
       dotColor={theme.color.white}
       activeDotColor={theme.color.secondary}>
       <Block center middle>
-        <Image source={require('@assets/images/search-1.png')} />
-        <Text h5 center color={theme.color.secondary2} m="20px 0 0">
+        <Image source={require('@assets/images/search.png')} />
+        <Text h5 center color={theme.color.white} m="20px 0 0">
           Tra giày một cách nhanh chóng
         </Text>
-        <Text center color={theme.color.secondary2} m="10px 0 0">
+        <Text center color={theme.color.white} m="10px 0 0">
           Hõ chợ cho việc chạy kho
         </Text>
       </Block>
       <Block center middle>
         <Image source={require('@assets/images/shoes.png')} />
-        <Text h5 center color={theme.color.secondary2} m="20px 0 0">
+        <Text h5 center color={theme.color.white} m="20px 0 0">
           Hõ trợ việc nhớ mã giầy
         </Text>
       </Block>

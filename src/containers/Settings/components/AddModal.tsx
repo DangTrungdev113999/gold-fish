@@ -5,6 +5,7 @@ import { Dimensions, Keyboard } from 'react-native';
 import Modal from 'react-native-modal';
 import Toast from 'react-native-simple-toast';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import {
   Block,
   Button,
@@ -21,6 +22,11 @@ import { updateProductTypesCreator } from '~/modules/Settings/thunk';
 import { profileSelector } from '~/modules/User/selectors';
 import { updateSuggestionCreator } from '~/modules/User/thunk';
 import { showAlert } from '~/utils';
+
+const Image = styled.Image`
+  width: 60px;
+  height: 60px;
+`;
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -127,17 +133,18 @@ const AddModal = ({ items, target }: PropsType) => {
         w="60px"
         h="60px"
         borderRadius="30px"
-        bg={theme.color.grayLight}
+        bg={theme.color.secondarylight1}
         center
         middle
         shadow
         onPress={onOpen}>
-        <Icon
+        {/* <Icon
           name="add"
           type="ionicons"
           size={30}
           color={theme.color.secondary}
-        />
+        /> */}
+        <Image source={require('@assets/images/add.png')} />
       </Touchable>
       <Modal
         isVisible={visible}

@@ -37,15 +37,15 @@ const FavouriteShoes = () => {
   }, [favouriteShoes]);
 
   return (
-    <Body flex={1} center>
+    <Body flex={1} center p="10px 0 0">
       <List
         items={favouriteShoesList}
         renderItem={({ item }) => (
           <Card item={item} targetScreen="action_shoe_screen" />
         )}
         keyExtractor={(item) => item.shoeId}
-        loading={fetchFavouriteShoes}
-        onRefresh={fetchFavouriteShoesListLoading}
+        loading={fetchFavouriteShoesListLoading}
+        onRefresh={fetchFavouriteShoes}
         horizontal={false}
         numColumns={2}
         initialNumToRender={8}

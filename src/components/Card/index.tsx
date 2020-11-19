@@ -30,6 +30,11 @@ const Image = styled.Image`
   height: 100%;
 `;
 
+const EditImage = styled.Image`
+  width: 20px;
+  height: 20px;
+`;
+
 const Wrapper = styled(Block)`
   margin: 6px;
   width: ${windowWidth / 2 - 20}px;
@@ -178,12 +183,13 @@ const Card = ({ item, targetScreen }: CardPropsType) => {
           middle
           bg={theme.color.blue1}
           onPress={onEdit}>
-          <Icon
+          <EditImage source={require('@assets/images/edit.png')} />
+          {/* <Icon
             type="antDesign"
             name="edit"
             size={20}
             color={theme.color.secondary}
-          />
+          /> */}
         </TouchableOpacity>
         <TouchableOpacity
           flex={1}

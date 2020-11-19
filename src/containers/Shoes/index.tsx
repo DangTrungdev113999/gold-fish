@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Dimensions } from 'react-native';
 import { TabBar, TabView } from 'react-native-tab-view';
 import { useSelector } from 'react-redux';
-import { Body, SearchModal } from '~/components';
+import { Body, Input, SearchModal } from '~/components';
 import theme from '~/config/theme';
 import { useAuthentication, useFetchData } from '~/hoocks';
 import { shoeTypesSelector } from '~/modules/Settings/selectors';

@@ -15,5 +15,6 @@ export const defaultUserInfo = {
   },
   favouriteShoes: [''],
   favouriteSlippers: [],
-  rule: 'staff',
+  rule: 'user',
 };
+// user, staff, leader, admin

@@ -31,9 +31,9 @@ import styled from 'styled-components';
 const windowHeight = Dimensions.get('window').height;
 
 const Image = styled.Image`
-  width: 50px;
-  height: 50px;
-  opacity: 0.8;
+  width: 60px;
+  height: 60px;
+  /* opacity: 0.8; */
 `;
 
 type PropsType = {
@@ -139,10 +139,9 @@ const SearchModal = ({ productTarget }: PropsType) => {
         borderRadius="30px"
         center
         middle
-        bg={theme.color.standard}
         shadow
         onPress={onOpen}>
-        <Image source={require('@assets/images/search-3.png')} />
+        <Image source={require('@assets/images/search.png')} />
       </Touchable>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
