@@ -13,7 +13,7 @@ export const defaultUserInfo = {
     username: '',
     photoURL: '',
   },
-  favouriteShoes: [],
+  favouriteShoes: [''],
   favouriteSlippers: [],
   rule: 'staff',
 };

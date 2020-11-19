@@ -46,7 +46,13 @@ export const addSuggestionCreator = (payload: any = {}) => async (
 ) => {
   dispatch(addSuggestion());
   try {
-    const response = await addSuggestionApi(payload.user, payload.data);
+    let response;
+    const result = await fetchSuggestionApi(payload.profile);
+    if (result?.profile?.phoneNumber === payload.profile.phoneNumber) {
+      response = result;
+    } else {
+      response = await addSuggestionApi(payload.profile, payload.data);
+    }
     dispatch(addSuggestionSucceeded(response));
   } catch (e) {
     dispatch(addSuggestionFailed(e.message));
@@ -82,28 +88,40 @@ export const fetchUserCreator = () => async (dispatch: any, getState: any) => {
   }
 };
 
-export const addNewUserCreator = (padyload: any = {}) => async (
+export const addNewUserCreator = (payload: any = {}) => async (
   dispatch: any,
 ) => {
   dispatch(addNewUser());
   try {
-    const response = await addNewUserApi(padyload.user);
+    let response;
+    const result = await fetchUserApi(payload.user.profile.phoneNumber);
+    if (result?.profile?.phoneNumber === payload.user.profile.phoneNumber) {
+      response = result;
+    } else {
+      response = await addNewUserApi(payload.user);
+    }
     dispatch(addNewUserSucceeded(response));
   } catch (e) {
     dispatch(addNewUserFailed(e.message));
   }
 };
 
-export const updateUserCreator = (padyload: any = {}) => async (
+export const updateUserCreator = (payload: any = {}) => async (
   dispatch: any,
   getState: any,
 ) => {
   dispatch(updateUser());
   try {
-    const userId = getState().user.profile.phoneNumber;
-    const response = await updateUserApi(userId, padyload.data);
+    const phoneNumber = getState().user.profile.phoneNumber;
+    const response = await updateUserApi(phoneNumber, payload.data);
     dispatch(updateUserSucceeded(response));
+    if (payload.onSuccess) {
+      payload.onSuccess(response);
+    }
   } catch (e) {
+    if (payload.onError) {
+      payload.onError(e.message);
+    }
     dispatch(updateUserFailed(e.message));
   }
 };

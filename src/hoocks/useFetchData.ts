@@ -64,7 +64,7 @@ const useFetchData = () => {
     if (!shoePrefixes.length) {
       dispatch(
         addSuggestionCreator({
-          user: profile,
+          profile,
           data: defaultSuggestion,
         }),
       );

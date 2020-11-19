@@ -63,12 +63,7 @@ const Verification = ({ navigation, route }) => {
         showAlert('Thông báo!', 'Lỗi kết nối hệ thống. Vui lòng thử lại.');
         throw new Error('Lỗi kết nối hệ thống. Vui lòng thử lại.');
       }
-      
-      if (currentUser.additionalUserInfo.isNewUser) {
-
-      } else {
-        doAction();
-      }
+      doAction();
     } catch (e) {
       showAlert('Thông báo', translateFirebaseMessage(e.message) || e.message);
     }

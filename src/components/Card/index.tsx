@@ -4,15 +4,22 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import Toast from 'react-native-simple-toast';
 
 import Block from '../Block';
 import TouchableOpacity from '../Touchable';
 import Text from '../Text';
 import Icon from '../Icon';
-
 import theme from '~/config/theme';
 import { shoeTypes, slipperType } from '~/@types';
-import { separatorCode } from '~/utils';
+import { separatorCode, showAlert } from '~/utils';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  favouriteShoesSelector,
+  favouriteSlippersSelector,
+  updateUserLoadingSelector,
+} from '~/modules/User/selectors';
+import { updateUserCreator } from '~/modules/User/thunk';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -38,10 +45,74 @@ type CardPropsType = {
 
 const Card = ({ item, targetScreen }: CardPropsType) => {
   const navigation = useNavigation();
-  const [favorite, setFavorite] = useState(false);
   const [side, setSide] = useState(true);
 
-  const handleFavorite = () => setFavorite(!favorite);
+  const dispatch = useDispatch();
+  const favouriteShoes = useSelector(favouriteShoesSelector);
+  const favouriteSlippers = useSelector(favouriteSlippersSelector);
+  const updateUserLoading = useSelector(updateUserLoadingSelector);
+  const [favourite, setFavourite] = useState(
+    favouriteShoes.includes(item?.shoeId || item?.slipperId),
+  );
+
+  console.log(favourite, favouriteShoes, item?.shoeId);
+
+  const handleFavuorite = () => {
+    let alphaData;
+    let data;
+    if (targetScreen === 'action_shoe_screen') {
+      alphaData = [...favouriteShoes];
+      if (!favourite) {
+        alphaData.unshift(item.shoeId);
+        setFavourite(true);
+      } else {
+        const index = favouriteShoes.indexOf(item.shoeId);
+        alphaData.splice(index, 1);
+        setFavourite(false);
+      }
+
+      data = {
+        favouriteShoes: alphaData,
+      };
+    } else {
+      alphaData = [...favouriteSlippers];
+      if (!favourite) {
+        alphaData.unshift(item.slipperId);
+        setFavourite(true);
+      } else {
+        const index = favouriteSlippers.indexOf(item.shoeId);
+        alphaData.splice(index, 1);
+        setFavourite(false);
+      }
+
+      data = {
+        favouriteSlippers: alphaData,
+      };
+    }
+    dispatch(
+      updateUserCreator({
+        data,
+        onSuccess: () => {
+          if (favourite) {
+            Toast.show(
+              `Đã xóa ${
+                item?.shoeId || item?.slipperId
+              } khỏi đanh sách yêu thích`,
+            );
+          } else {
+            Toast.show(
+              `Đã thêm ${
+                item?.shoeId || item?.slipperId
+              } vào đanh sách yêu thích`,
+            );
+          }
+        },
+        onError: (e) => {
+          showAlert('Thông báo', e);
+        },
+      }),
+    );
+  };
 
   const onEdit = () => {
     if (targetScreen === 'action_shoe_screen') {
@@ -121,10 +192,11 @@ const Card = ({ item, targetScreen }: CardPropsType) => {
           center
           middle
           bg={theme.color.blue2}
-          onPress={handleFavorite}>
+          disabled={updateUserLoading}
+          onPress={handleFavuorite}>
           <Icon
             type="materialIcons"
-            name={favorite ? 'favorite' : 'favorite-outline'}
+            name={favourite ? 'favorite' : 'favorite-outline'}
             size={20}
             color={theme.color.secondary}
           />

@@ -1,5 +1,5 @@
+import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
-
 export const fetchSuggestionApi = async (profile: any) => {
   try {
     const snapshot = await firestore()
@@ -17,6 +17,7 @@ export const fetchSuggestionApi = async (profile: any) => {
 };
 
 export const addSuggestionApi = async (user: any, data: any) => {
+  data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
   try {
     await firestore()
       .collection('Settings')
@@ -36,7 +37,7 @@ export const addSuggestionApi = async (user: any, data: any) => {
 };
 
 export const updateSuggestionApi = async (user: any, data: any) => {
-  console.log(user, data);
+  data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
   try {
     await firestore()
       .collection('Settings')
@@ -69,6 +70,7 @@ export const fetchUserApi = async (phoneNumber: any) => {
 };
 
 export const addNewUserApi = async (user: any) => {
+  user.createdAt = firebase.firestore.FieldValue.serverTimestamp();
   try {
     await firestore()
       .collection('Users')
@@ -84,11 +86,12 @@ export const addNewUserApi = async (user: any) => {
   }
 };
 
-export const updateUserApi = async (userId: string, data: any) => {
+export const updateUserApi = async (phoneNumber: string, data: any) => {
+  data.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
   try {
     await firestore()
       .collection('Users')
-      .doc(userId)
+      .doc(phoneNumber)
       .update({
         ...data,
       });
