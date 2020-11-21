@@ -6,10 +6,10 @@ import {
   Body,
   Button,
   Input,
-  ScrollBody,
   Text,
   Touchable,
   Icon,
+  LinearGradient,
 } from '~/components';
 import theme from '~/config/theme';
 import {
@@ -73,27 +73,29 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <Body center flex={1} keyboard overlay loading={loading}>
-      <Block block flex={1} center>
-        <Touchable m="20% 0 0" p="20px" onPress={() => navigation.goBack()}>
-          <Icon
-            name="long-arrow-left"
-            type="fontAwesome"
-            size={25}
-            color="#fff"
-          />
-        </Touchable>
+    <Body flex={1} overlay loading={loading}>
+      <LinearGradient flex={1} center block>
+        <Block>
+          <Touchable m="20% 0 0" p="20px" onPress={() => navigation.goBack()}>
+            <Icon
+              name="long-arrow-left"
+              type="fontAwesome"
+              size={25}
+              color="#fff"
+            />
+          </Touchable>
 
-        <Block m="20px 0 0" p="20px" row middle>
-          <Image source={require('@assets/images/logo.png')} />
-          <Text m="0 0 0 20px" h1 color={theme.color.secondary2}>
-            Đăng nhập
-          </Text>
+          <Block m="20px 0 0" p="20px" row middle>
+            <Image source={require('@assets/images/logo.png')} />
+            <Text m="0 0 0 20px" h1 color={theme.color.white}>
+              Đăng nhập
+            </Text>
+          </Block>
         </Block>
 
-        <ScrollBody center>
+        <Block flex={1}>
           <Input
-            m="20px 20px 0"
+            m="30px 20px 0"
             placeholder="Nhập số điện thoại"
             keyboardType="phone-pad"
             description={
@@ -109,9 +111,9 @@ const Login = ({ navigation }) => {
             maxLength={12}
             returnKeyType="next"
           />
-        </ScrollBody>
+        </Block>
         <Button
-          bg="primary"
+          bg={theme.color.blue1}
           m="20px 20px 40px"
           p="10px 0"
           center
@@ -125,7 +127,7 @@ const Login = ({ navigation }) => {
             Tiếp Tục
           </Text>
         </Button>
-      </Block>
+      </LinearGradient>
     </Body>
   );
 };

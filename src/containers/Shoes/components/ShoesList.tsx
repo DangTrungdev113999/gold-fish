@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Block, Body, Card, List, Loading } from '~/components';
+import { useFetchData } from '~/hoocks';
 import {
   fetchShoesLoadingSelector,
   lastShoeSelector,
@@ -21,6 +22,8 @@ const ShoesList = ({ type }: PropsType) => {
   const loadMoreShoesLoading = useSelector(loadMoreShoesLoadingSelector);
   const lastShoe = useSelector(lastShoeSelector);
   const dispatch = useDispatch();
+
+  // const loading = useFetchData();
 
   const fetchShoesList = () => {
     dispatch(fetchShoesCreator({ type }));

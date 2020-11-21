@@ -7,10 +7,10 @@ import {
   Block,
   Body,
   Button,
-  ScrollBody,
   Text,
   Touchable,
   Icon,
+  LinearGradient,
 } from '~/components';
 
 import { setToken } from '~/modules/Auth/actions';
@@ -88,29 +88,31 @@ const Verification = ({ navigation, route }) => {
   }, [verificationCode]);
 
   return (
-    <Body center flex={1} keybordAvoid overlay loading={loading}>
-      <Block block flex={1} center>
-        <Touchable m="20% 0 0" p="20px" onPress={() => navigation.goBack()}>
-          <Icon
-            name="long-arrow-left"
-            type="fontAwesome"
-            size={25}
-            color="#fff"
-          />
-        </Touchable>
+    <Body flex={1} overlay loading={loading}>
+      <LinearGradient flex={1} center block>
+        <Block>
+          <Touchable m="20% 0 0" p="20px" onPress={() => navigation.goBack()}>
+            <Icon
+              name="long-arrow-left"
+              type="fontAwesome"
+              size={25}
+              color="#fff"
+            />
+          </Touchable>
 
-        <Block m="20px 0 0" p="20px" row middle>
-          <Image source={require('@assets/images/logo.png')} />
-          <Text m="0 0 0 20px" h1 color={theme.color.secondary2}>
-            Xác thục OTP
-          </Text>
+          <Block m="20px 0 0" p="20px" row middle>
+            <Image source={require('@assets/images/logo.png')} />
+            <Text m="0 0 0 20px" h1 color={theme.color.white}>
+              Xác thục OTP
+            </Text>
+          </Block>
         </Block>
 
-        <ScrollBody center>
+        <Block center flex={1} justify="flex-start">
           <CodeInput value={verificationCode} onChangeText={setCode} />
-        </ScrollBody>
+        </Block>
         <Button
-          bg="primary"
+          bg={theme.color.blue1}
           m="20px 20px 40px"
           p="10px 0"
           center
@@ -126,7 +128,7 @@ const Verification = ({ navigation, route }) => {
             Tiếp Tục
           </Text>
         </Button>
-      </Block>
+      </LinearGradient>
     </Body>
   );
 };

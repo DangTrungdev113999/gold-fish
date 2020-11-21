@@ -7,7 +7,7 @@ import SlippersStack from './SlippersStack';
 import UserStack from './UserStack';
 import favouriteStack from './favouriteStack';
 
-import { Block, Text, Touchable, LinearGradient } from '~/components';
+import { Block, Touchable } from '~/components';
 import theme from '~/config/theme';
 import styled from 'styled-components';
 
@@ -22,7 +22,7 @@ const CusomTabBottom = ({ state, descriptors, navigation }) => {
   const isShowTabBar = descriptors[key].options.tabBarVisible;
   if (isShowTabBar) {
     return (
-      <LinearGradient row bg={theme.color.primary} p="0 0  0">
+      <Block row bg={theme.color.primary} p="0 0  0">
         {state.routes.map((route, index) => {
           const isFocused = state.index === index;
           const { options } = descriptors[route.key];
@@ -81,16 +81,16 @@ const CusomTabBottom = ({ state, descriptors, navigation }) => {
                 row
                 middle
                 center
-                borderRadius="10px"
+                borderRadius="0px"
                 bg={
-                  isFocused ? theme.color.secondarylight2 : theme.color.blue3
+                  isFocused ? theme.color.secondarylight2 : theme.color.primary
                 }>
                 <Image source={getIcon()} isFocused={isFocused} />
               </Block>
             </Touchable>
           );
         })}
-      </LinearGradient>
+      </Block>
     );
   } else {
     return null;

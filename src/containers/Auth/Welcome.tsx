@@ -1,6 +1,6 @@
 //@ts-nocheck
 import React from 'react';
-import { Block, Body, Button, Text } from '~/components';
+import { Block, Body, Button, Text, LinearGradient } from '~/components';
 import theme from '~/config/theme';
 import Swipper from './components/Swiper';
 
@@ -10,12 +10,12 @@ const Welcome = ({ navigation }) => {
   };
   return (
     <Body center flex={1}>
-      <Block flex={1} block justify="flex-end">
+      <LinearGradient flex={1} block justify="flex-end">
         <Block flex={1}>
           <Swipper />
         </Block>
         <Button
-          bg="primary"
+          bg={theme.color.blue1}
           m="20px 20px 40px"
           p="10px"
           center
@@ -25,7 +25,7 @@ const Welcome = ({ navigation }) => {
             Đăng nhập bằng số điện thoại
           </Text>
         </Button>
-      </Block>
+      </LinearGradient>
     </Body>
   );
 };

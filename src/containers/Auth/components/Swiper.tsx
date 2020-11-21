@@ -36,7 +36,7 @@ const Swipper = () => {
       <Block center middle>
         <Image source={require('@assets/images/search.png')} />
         <Text h5 center color={theme.color.white} m="20px 0 0">
-          Tra giày một cách nhanh chóng
+          Tra mã giày một cách nhanh chóng
         </Text>
         <Text center color={theme.color.white} m="10px 0 0">
           Hõ chợ cho việc chạy kho

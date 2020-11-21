@@ -24,11 +24,6 @@ const AppProvider = () => {
   return (
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <StatusBar
-          barStyle="light-content"
-          translucent
-          backgroundColor="transparent"
-        />
         <PersistGate persistor={configStore().persistor}>
           {(loading) => {
             return (
@@ -36,9 +31,14 @@ const AppProvider = () => {
                 translucent={true}
                 isLoaded={loading}
                 logoImage={require('../assets/images/logo.png')}
-                backgroundColor={theme.color.bg}
-                logoHeight={150}
-                logoWidth={150}>
+                backgroundColor={theme.color.blue1}
+                logoHeight={200}
+                logoWidth={200}>
+                <StatusBar
+                  barStyle="light-content"
+                  translucent
+                  backgroundColor="transparent"
+                />
                 <Navigation />
               </AnimatedSplash>
             );
