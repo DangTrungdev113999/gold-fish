@@ -4,8 +4,8 @@ import styled from 'styled-components';
 
 //@ts-ignore
 const Image = styled.Image`
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 `;
 
 const MenuIcon = ({ navigation }: any) => {

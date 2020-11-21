@@ -75,7 +75,7 @@ const User = ({ navigation }) => {
           // onPress={() => onGoToProductTypes('Loại dép')}
         >
           <Block row flex={1}>
-            <Image source={require('@assets/images/user.png')} />
+            <Image source={require('@assets/images/profile.png')} />
             <Block m="0 0 0 20px">
               <Text color={theme.color.white} s2>
                 Xin chào
@@ -93,37 +93,8 @@ const User = ({ navigation }) => {
             color={theme.color.grayLight}
           />
         </Touchable>
-        <Block h="1px" block bg={theme.color.primaryLight} />
 
-        <Block h="1px" m="10px 0 0" block bg={theme.color.primaryLight} />
-        <Touchable
-          row
-          middle
-          bg="blue1"
-          p="12px 10px"
-          // onPress={() => onGoToProductTypes('Loại dép')}
-        >
-          <Block row flex={1}>
-            <Icon
-              m="0 20px 0 0"
-              name="microsoft-xbox-controller-menu"
-              type="materialCommunityIcons"
-              size={25}
-              color={theme.color.grayLight}
-            />
-            <Text color={theme.color.white} s2>
-              Danh sách yêu thích
-            </Text>
-          </Block>
-          <Icon
-            m="0 20px 0 0"
-            name="chevron-small-right"
-            type="entypo"
-            size={25}
-            color={theme.color.grayLight}
-          />
-        </Touchable>
-        <Block h="1px" block bg={theme.color.primaryLight} />
+        <Block h="1px" block bg={theme.color.primaryLight} m="10px 0 0" />
         <Touchable
           row
           middle

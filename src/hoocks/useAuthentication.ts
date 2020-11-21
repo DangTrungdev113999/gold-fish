@@ -1,3 +1,5 @@
+import { profileSelector } from '~/modules/User/selectors';
+import { useSelector } from 'react-redux';
 // import { useRef } from 'react';
 /* eslint-disable react-hooks/exhaustive-deps */
 import { showAlert } from '~/utils';
@@ -10,6 +12,7 @@ const useAuthencation = () => {
   const [currentUser, setCurrentUser] = useState<null | any>(null);
   // const isCheck = useRef(true);
   const dispatch = useDispatch();
+  const profile = useSelector(profileSelector);
 
   const logOut = () => {
     dispatch(
@@ -40,6 +43,12 @@ const useAuthencation = () => {
       showAlert('Thông báo', 'Lỗi kết nối vui lòng thử lại!');
     }
     // }
+  }, []);
+
+  useEffect(() => {
+    if (!profile.phoneNumber) {
+      logOut();
+    }
   }, []);
 
   return [currentUser, setCurrentUser];

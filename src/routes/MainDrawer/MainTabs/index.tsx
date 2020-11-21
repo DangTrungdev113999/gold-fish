@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ShoesStack from './ShoesStack';
 import SlippersStack from './SlippersStack';
 import UserStack from './UserStack';
+import favouriteStack from './favouriteStack';
 
 import { Block, Text, Touchable, LinearGradient } from '~/components';
 import theme from '~/config/theme';
@@ -14,7 +15,6 @@ import styled from 'styled-components';
 const Image = styled.Image`
   width: ${({ isFocused }) => (isFocused ? '40px' : ' 35px')};
   height: ${({ isFocused }) => (isFocused ? '40px' : ' 35px')};
-  elevation: 3;
 `;
 
 const CusomTabBottom = ({ state, descriptors, navigation }) => {
@@ -60,9 +60,12 @@ const CusomTabBottom = ({ state, descriptors, navigation }) => {
             if (route.name === 'slippers_tab') {
               return require('@assets/images/slippers.png');
             }
+            if (route.name === 'favourite_tab') {
+              return require('@assets/images/favourite.png');
+            }
 
             if (route.name === 'user_tab') {
-              return require('@assets/images/user.png');
+              return require('@assets/images/user-3.png');
             }
             return require('@assets/images/shoes.png');
           };
@@ -71,12 +74,10 @@ const CusomTabBottom = ({ state, descriptors, navigation }) => {
             <Touchable
               onPress={onPress}
               onLongPress={onLongPress}
-              // flex={isFocused ? 1 : 0.4}
               flex={1}
               key={route.name}>
               <Block
                 p="8px 20px"
-                // m="14px"
                 row
                 middle
                 center
@@ -85,11 +86,6 @@ const CusomTabBottom = ({ state, descriptors, navigation }) => {
                   isFocused ? theme.color.secondarylight2 : theme.color.blue3
                 }>
                 <Image source={getIcon()} isFocused={isFocused} />
-                {/* {isFocused && (
-                  <Text color={theme.color.white} m="0 0 0 10px">
-                    {label}
-                  </Text>
-                )} */}
               </Block>
             </Touchable>
           );
@@ -109,6 +105,7 @@ const getTabBarVisible = (route: any) => {
   if (
     routeName === 'shoes_screen' ||
     routeName === 'slippers_screen' ||
+    routeName === 'favourite_tab' ||
     routeName === 'user_screen'
   ) {
     return true;
@@ -125,7 +122,6 @@ export default function () {
         name="shoes_tab"
         component={ShoesStack}
         options={({ route }) => ({
-          tabBarLabel: 'Giày',
           tabBarVisible: getTabBarVisible(route),
         })}
       />
@@ -133,7 +129,13 @@ export default function () {
         name="slippers_tab"
         component={SlippersStack}
         options={({ route }) => ({
-          tabBarLabel: 'Dép',
+          tabBarVisible: getTabBarVisible(route),
+        })}
+      />
+      <Tab.Screen
+        name="favourite_tab"
+        component={favouriteStack}
+        options={({ route }) => ({
           tabBarVisible: getTabBarVisible(route),
         })}
       />
@@ -141,7 +143,6 @@ export default function () {
         name="user_tab"
         component={UserStack}
         options={({ route }) => ({
-          tabBarLabel: 'Cá nhân',
           tabBarVisible: getTabBarVisible(route),
         })}
       />

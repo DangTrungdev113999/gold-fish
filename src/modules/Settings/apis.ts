@@ -17,14 +17,8 @@ export const fetchProductTypesApi = async () => {
   }
 };
 
-const permission = false;
-
 export const udpateProductTypesApi = async (data: any, target: string) => {
   try {
-    if (permission === false) {
-      throw new Error('Bạn chưa được cấp quyền để thực hiện');
-    }
-
     if (data[0].name !== 'Tất cả') {
       throw new Error('Không được di chuyển mục "Tất cả"');
     } else {

@@ -1,18 +1,29 @@
 import React from 'react';
 import TouchableOpacity from '../Touchable';
 import Toast from 'react-native-simple-toast';
-import Icon from '../Icon';
-import { useDispatch } from 'react-redux';
-import theme from '~/config/theme';
+import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from 'react-native';
 import { showAlert } from '~/utils';
 import { deleteShoeCreator } from '~/modules/Shoes/thunk';
 import { deleteSlipperCreator } from '~/modules/Slippers/thunk';
+import styled from 'styled-components';
+import { ruleUserSelector } from '~/modules/User/selectors';
+
+//@ts-ignore
+const Image = styled.Image`
+  width: 25px;
+  height: 25px;
+`;
 
 const DeleteProductIcon = ({ navigation, route, fromScreen }: any) => {
   const dispatch = useDispatch();
+  const rule = useSelector(ruleUserSelector);
 
   const onPress = async () => {
+    if (!['admin'].includes(rule)) {
+      showAlert('Thông báo', 'Xin lỗi, bạn chưa được cấp quyền xóa sản phẩm!');
+      return;
+    }
     Alert.alert(
       `#${
         route.params?.shoeDetail?.shoeId ||
@@ -64,12 +75,7 @@ const DeleteProductIcon = ({ navigation, route, fromScreen }: any) => {
   };
   return (
     <TouchableOpacity m="0 20px 0 0" onPress={onPress}>
-      <Icon
-        type="antDesign"
-        name="delete"
-        size={25}
-        color={theme.color.danger}
-      />
+      <Image source={require('@assets/images/trash.png')} />
     </TouchableOpacity>
   );
 };

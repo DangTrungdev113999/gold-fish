@@ -10,15 +10,22 @@ import theme from '~/config/theme';
 import { updateProductTypesCreator } from '~/modules/Settings/thunk';
 import { showAlert } from '~/utils';
 import { updateSuggestionCreator } from '~/modules/User/thunk';
-import { profileSelector } from '~/modules/User/selectors';
+import { profileSelector, ruleUserSelector } from '~/modules/User/selectors';
+import styled from 'styled-components';
 
 const windowWidth = Dimensions.get('window').width;
+//@ts-ignore
+const Image = styled.Image`
+  width: 25px;
+  height: 25px;
+`;
 
 const ListItem = ({ items = [], target = 'Loại giày' }) => {
   const [alphaData, setAlphaData] = useState(items);
   const [activeIcon, setActiveIcon] = useState(false);
   const dispatch = useDispatch();
   const profile = useSelector(profileSelector);
+  const rule = useSelector(ruleUserSelector);
   const isDelete = useRef(false);
 
   useEffect(() => {
@@ -27,6 +34,10 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
 
   const onUpdateIndex = (data: any) => {
     if (['Loại giày', 'Loại dép'].includes(target)) {
+      if (!['admin', 'leader'].includes(rule)) {
+        showAlert('Thông báo', 'Xin lỗi, bạn chưa được cấp quyền!');
+        return;
+      }
       dispatch(
         updateProductTypesCreator({
           data,
@@ -154,12 +165,7 @@ const ListItem = ({ items = [], target = 'Loại giày' }) => {
               </Block>
               <Touchable m="0 0 0 20px" onPress={() => onDelete(index)}>
                 {item?.name !== 'Tất cả' && (
-                  <Icon
-                    type="antDesign"
-                    name="delete"
-                    size={25}
-                    color={theme.color.danger}
-                  />
+                  <Image source={require('@assets/images/trash.png')} />
                 )}
               </Touchable>
             </Block>

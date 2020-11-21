@@ -20,15 +20,27 @@ import {
 
 import { checkAndRequestPermission, showAlert } from '~/utils';
 import { deleteImageUri, uploadShoeImageApi } from '~/modules/Shoes/apis';
+import { useSelector } from 'react-redux';
 
 import theme from '~/config/theme';
 import { uploadSlipperImageApi } from '~/modules/Slippers/apis';
+import { ruleUserSelector } from '~/modules/User/selectors';
 
 const windowHeight = Dimensions.get('window').height;
 
 const ImagePickerWrapper = styled(Touchable)`
   height: ${windowHeight / 3}px;
   background-color: #1d2636;
+`;
+
+const Camera = styled.Image`
+  width: 90px;
+  height: 90px;
+`;
+
+const Photo = styled.Image`
+  width: 50px;
+  height: 50px;
 `;
 
 let options: any = {
@@ -44,8 +56,12 @@ const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
   const [visible, setVisible] = useState(false);
   const [percent, setPercent] = useState(0);
   const [loading, setLoading] = useState(false);
-
+  const rule = useSelector(ruleUserSelector);
   const onOpen = async () => {
+    if (!['admin', 'leader', 'staff'].includes(rule)) {
+      showAlert('Thông báo', `Bạn chưa được cấp quyền!`);
+      return;
+    }
     setVisible(true);
   };
 
@@ -147,13 +163,8 @@ const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
     <Body h={`${windowHeight / 3}px`}>
       {!imageUri ? (
         <ImagePickerWrapper center middle onPress={onOpen} disabled={loading}>
-          <Icon
-            name="image"
-            type="fontAwesome5"
-            size={50}
-            color={theme.color.secondary}
-          />
-          <Text s2 color={theme.color.secondary}>
+          <Photo source={require('@assets/images/photo-1.png')} />
+          <Text s2 color={theme.color.secondary} m="15px 0 0">
             Upload ảnh {loading ? `${Math.floor(percent)}%` : ''}
           </Text>
         </ImagePickerWrapper>
@@ -162,7 +173,7 @@ const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
           <ImagePreview imageUri={imageUri} />
           {imageUri && (
             <Touchable
-              bg="rgba(255, 255, 255, 0.8)"
+              // bg={theme.color.blue2}
               w="90px"
               h="90px"
               center
@@ -178,7 +189,7 @@ const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
                   {Math.floor(percent)}%
                 </Text>
               ) : (
-                <Icon name="camera" type="fontAwesome" color="#000" size={50} />
+                <Camera source={require('@assets/images/camera.png')} />
               )}
             </Touchable>
           )}

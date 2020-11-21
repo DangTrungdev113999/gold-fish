@@ -2,18 +2,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 //@ts-nocheck
 import React, { useState } from 'react';
-import { Dimensions } from 'react-native';
-import { TabBar, TabView } from 'react-native-tab-view';
 import { useDispatch, useSelector } from 'react-redux';
-import { Block, Body, Card, List, Loading, SearchModal } from '~/components';
-import theme from '~/config/theme';
-import { useAuthentication, useFetchData } from '~/hoocks';
-import { shoeTypesSelector } from '~/modules/Settings/selectors';
+import { Block, Body, Card, List, Loading } from '~/components';
 import {
   favouriteShoesListSelector,
   fetchFavouriteShoesListLoaingSelector,
-} from '~/modules/Shoes/selectors';
-import { fetchFavouriteShoesListCreator } from '~/modules/Shoes/thunk';
+} from '~/modules/Favourite/selectors';
+import { fetchFavouriteShoesListCreator } from '~/modules/Favourite/thunk';
 import { favouriteShoesSelector } from '~/modules/User/selectors';
 
 const FavouriteShoes = () => {

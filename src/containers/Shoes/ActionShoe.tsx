@@ -26,7 +26,7 @@ import {
 import { isShoeId, showAlert } from '~/utils';
 import { deleteShoeLoadingSelector } from '~/modules/Shoes/selectors';
 import { shoeTypesSelector } from '~/modules/Settings/selectors';
-import { profileSelector } from '~/modules/User/selectors';
+import { profileSelector, ruleUserSelector } from '~/modules/User/selectors';
 const ActionShoe = ({ navigation, route }: any) => {
   const profile = useSelector(profileSelector);
   const [data, setData] = useSetObjectState({
@@ -44,6 +44,7 @@ const ActionShoe = ({ navigation, route }: any) => {
   const addShoesLoading = useSelector(addShoeLoadingSelector);
   const deleteShoesLoading = useSelector(deleteShoeLoadingSelector);
   const shoeTypes = useSelector(shoeTypesSelector);
+  const rule = useSelector(ruleUserSelector);
   const scrollViewRef = useRef(null);
 
   useEffect(() => {
@@ -72,6 +73,15 @@ const ActionShoe = ({ navigation, route }: any) => {
   }, [route.params?.shoeDetail?.shoeId]);
 
   const onActionShoe = async () => {
+    if (!['admin', 'leader', 'staff'].includes(rule)) {
+      showAlert(
+        'Thông báo',
+        `Bạn chưa được cấp quyền để ${
+          route.params.type === 'add' ? 'thêm' : 'xóa'
+        } sản phẩm `,
+      );
+      return;
+    }
     if (route.params.type === 'add') {
       dispatch(
         addShoeCreator({

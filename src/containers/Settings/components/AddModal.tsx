@@ -19,7 +19,7 @@ import theme from '~/config/theme';
 import { useSetObjectState } from '~/hoocks';
 import { updateProductTypesLoadingSelector } from '~/modules/Settings/selectors';
 import { updateProductTypesCreator } from '~/modules/Settings/thunk';
-import { profileSelector } from '~/modules/User/selectors';
+import { profileSelector, ruleUserSelector } from '~/modules/User/selectors';
 import { updateSuggestionCreator } from '~/modules/User/thunk';
 import { showAlert } from '~/utils';
 
@@ -46,6 +46,7 @@ const AddModal = ({ items, target }: PropsType) => {
   const updateProductTypesLoading = useSelector(
     updateProductTypesLoadingSelector,
   );
+  const rule = useSelector(ruleUserSelector);
 
   const profile = useSelector(profileSelector);
   const inputRef = useRef();
@@ -79,6 +80,14 @@ const AddModal = ({ items, target }: PropsType) => {
       alphaData.push(data);
 
       if (['Loại giày', 'Loại dép'].includes(target)) {
+        if (!['admin', 'leader'].includes(rule)) {
+          onReset();
+          showAlert(
+            'Thông báo',
+            'Xin lỗi, bạn chưa được cấp quyền xóa sản phẩm!',
+          );
+          return;
+        }
         dispatch(
           updateProductTypesCreator({
             data: alphaData,

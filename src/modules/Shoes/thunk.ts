@@ -15,9 +15,6 @@ import {
   deleteShoeSucceeded,
   deleteShoeFailed,
   setlastShoe,
-  fetchFavoriteShoesList,
-  fetchFavoriteShoesListSucceeded,
-  fetchFavoriteShoesListFailed,
 } from './actions';
 import {
   fetchShoesApi,
@@ -25,7 +22,6 @@ import {
   addShoesApi,
   deleteShoesApi,
   fetchMoreShoesApi,
-  fetchFavouriteShoesListApi,
 } from './apis';
 
 export const fetchShoesCreator = (payload: any = {}) => async (
@@ -105,23 +101,5 @@ export const deleteShoeCreator = (payload: any = {}) => async (
       payload.onError(e.message);
     }
     dispatch(deleteShoeFailed(e.message));
-  }
-};
-
-export const fetchFavouriteShoesListCreator = (payload: any = {}) => async (
-  dispatch: any,
-) => {
-  dispatch(fetchFavoriteShoesList());
-  try {
-    const response = await fetchFavouriteShoesListApi(payload.favouriteShoes);
-    if (payload.onSuccess) {
-      payload.onSuccess(response);
-    }
-    dispatch(fetchFavoriteShoesListSucceeded(response));
-  } catch (e) {
-    if (payload.onError) {
-      payload.onError(e.message);
-    }
-    dispatch(fetchFavoriteShoesListFailed(e.message));
   }
 };

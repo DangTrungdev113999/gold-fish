@@ -27,9 +27,6 @@ export type shoesReducerTypes = {
   deleteShoeLoading: boolean;
   deleteShoeError: string;
   lastShoe: shoeTypes | null;
-  favouriteShoesList: shoeTypes[];
-  fetchFavouriteShoesLoaing: boolean;
-  fetchFavouriteShoesError: string;
 };
 
 export type slipperReducerTypes = {
@@ -93,10 +90,17 @@ export type userReducerTypes = {
   updateUserError: string;
 };
 
+export type favouriteReducerTypes = {
+  favouriteShoesList: shoeTypes[];
+  fetchFavouriteShoesLoaing: boolean;
+  fetchFavouriteShoesError: string;
+};
+
 export type rootReducerTypes = {
   auth: authReducerTypes;
   user: userReducerTypes;
   shoes: shoesReducerTypes;
   slippers: slipperReducerTypes;
+  favourite: favouriteReducerTypes;
   settings: settingsReducerTypes;
 };

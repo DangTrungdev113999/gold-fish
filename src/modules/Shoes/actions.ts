@@ -15,9 +15,6 @@ import {
   DELETE_SHOE_SUCCEEDED,
   DELETE_SHOE_FAILED,
   SET_LAST_SHOE,
-  FETCH_FAVOURITE_SHOES,
-  FETCH_FAVOURITE_SHOES_SUCCEEDED,
-  FETCH_FAVOURITE_SHOES_FAILED,
 } from './constants';
 
 export const fetchShoes = () => {
@@ -124,26 +121,6 @@ export const deleteShoeFailed = (payload = {}) => {
 export const setlastShoe = (payload = {}) => {
   return {
     type: SET_LAST_SHOE,
-    payload,
-  };
-};
-
-export const fetchFavoriteShoesList = () => {
-  return {
-    type: FETCH_FAVOURITE_SHOES,
-  };
-};
-
-export const fetchFavoriteShoesListSucceeded = (payload = {}) => {
-  return {
-    type: FETCH_FAVOURITE_SHOES_SUCCEEDED,
-    payload,
-  };
-};
-
-export const fetchFavoriteShoesListFailed = (payload = {}) => {
-  return {
-    type: FETCH_FAVOURITE_SHOES_FAILED,
     payload,
   };
 };
