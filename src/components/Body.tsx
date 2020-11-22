@@ -67,10 +67,7 @@ const Body = ({
     return (
       <Fragment>
         {view}
-        <LoadingOverlay
-          loading={!!loading}
-          title={loadingLabel ? loadingLabel : 'Loading...'}
-        />
+        <LoadingOverlay loading={!!loading} />
       </Fragment>
     );
   }

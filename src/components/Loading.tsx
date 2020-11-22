@@ -10,3 +10,4 @@ const Loading = styled.ActivityIndicator.attrs(({ color, ...rest }) => ({
 `;
 
 export default Loading;
+1;

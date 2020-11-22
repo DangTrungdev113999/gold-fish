@@ -39,8 +39,8 @@ const FavouriteShoes = () => {
           <Card item={item} targetScreen="action_shoe_screen" />
         )}
         keyExtractor={(item) => item.shoeId}
-        loading={fetchFavouriteShoesListLoading}
-        onRefresh={fetchFavouriteShoes}
+        // loading={fetchFavouriteShoesListLoading}
+        // onRefresh={fetchFavouriteShoes}
         horizontal={false}
         numColumns={2}
         initialNumToRender={8}

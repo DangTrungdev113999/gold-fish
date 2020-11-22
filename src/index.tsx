@@ -34,12 +34,14 @@ const AppProvider = () => {
                 backgroundColor={theme.color.blue1}
                 logoHeight={200}
                 logoWidth={200}>
-                <StatusBar
-                  barStyle="light-content"
-                  translucent
-                  backgroundColor="transparent"
-                />
-                <Navigation />
+                <>
+                  <StatusBar
+                    barStyle="light-content"
+                    translucent
+                    backgroundColor="transparent"
+                  />
+                  <Navigation />
+                </>
               </AnimatedSplash>
             );
           }}

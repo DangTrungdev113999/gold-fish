@@ -3,11 +3,7 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import SlippersScreen from '~/containers/Slippers';
 import { Block, Touchable, Icon } from '~/components';
-import {
-  AddProductIcon,
-  DeleteProductIcon,
-  MenuIcon,
-} from '~/components/Header';
+import { AddProductIcon, DeleteProductIcon } from '~/components/Header';
 import ActionSlipper from '~/containers/Slippers/ActionSlipper';
 import { mainOptions } from '../../navigationOptions';
 
@@ -20,7 +16,7 @@ export default () => (
       component={SlippersScreen}
       options={({ navigation, route }) => ({
         title: 'CHẦY CỐI',
-        headerLeft: () => <MenuIcon navigation={navigation} />,
+        headerLeft: () => <Block />,
         headerRight: () => (
           <AddProductIcon
             navigation={navigation}

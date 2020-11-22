@@ -18,7 +18,7 @@ const LoadingOverlay = ({ loading, title, ...rest }) => (
   <Modal animationType="fade" transparent visible={loading} {...rest}>
     <Wrapper>
       <Loading />
-      <Text color={theme.color.secondary} h5>
+      <Text color={theme.color.secondary2} h5>
         {title}
       </Text>
     </Wrapper>

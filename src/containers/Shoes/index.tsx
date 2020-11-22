@@ -12,7 +12,7 @@ import ShoesList from './components/ShoesList';
 
 const Shoes = () => {
   useAuthentication();
-  const loading = useFetchData();
+  const { loading } = useFetchData();
   const [index, setIndex] = useState(0);
 
   const shoeTypesTab = useSelector(shoeTypesSelector);

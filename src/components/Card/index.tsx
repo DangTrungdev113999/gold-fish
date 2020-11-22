@@ -1,6 +1,6 @@
 /* eslint-disable no-sparse-arrays */
 //@ts-nocheck
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +20,7 @@ import {
   updateUserLoadingSelector,
 } from '~/modules/User/selectors';
 import { updateUserCreator } from '~/modules/User/thunk';
+import { fetchFavouriteShoesListCreator } from '~/modules/Favourite/thunk';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -59,6 +60,10 @@ const Card = ({ item, targetScreen }: CardPropsType) => {
   const [favourite, setFavourite] = useState(
     favouriteShoes.includes(item?.shoeId || item?.slipperId),
   );
+
+  useEffect(() => {
+    setFavourite(favouriteShoes.includes(item?.shoeId || item?.slipperId));
+  }, [favouriteShoes]);
 
   const handleFavuorite = () => {
     let alphaData;
@@ -107,6 +112,13 @@ const Card = ({ item, targetScreen }: CardPropsType) => {
               `Đã thêm ${
                 item?.shoeId || item?.slipperId
               } vào đanh sách yêu thích`,
+            );
+          }
+          if (targetScreen === 'action_shoe_screen') {
+            dispatch(
+              fetchFavouriteShoesListCreator({
+                favouriteShoes: alphaData,
+              }),
             );
           }
         },

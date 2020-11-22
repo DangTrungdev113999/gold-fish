@@ -27,7 +27,7 @@ import {
 } from '~/modules/User/selectors';
 import { defaultSuggestion, defaultUserInfo } from '~/utils/models';
 
-const useFetchData = () => {
+const useFetchData = ({ manual = false } = {}) => {
   const dispatch = useDispatch();
   const profile = useSelector(profileSelector);
   const shoeTypesTab = useSelector(shoeTypesSelector);
@@ -38,48 +38,59 @@ const useFetchData = () => {
   const ruleUser = useSelector(ruleUserSelector);
   const fetchUserLoading = useSelector(fetchUserLoadingSelector);
   const addNewUserLoading = useSelector(addNewUserLoadingSelector);
-
   useEffect(() => {
-    if (!shoeTypesTab.length) {
+    if (!shoeTypesTab.length && !manual) {
       dispatch(fetchProductTypesCreator());
     }
-  }, [shoeTypesTab]);
+  }, [shoeTypesTab, manual]);
 
   useEffect(() => {
-    if (!ruleUser.length) {
-      dispatch(
-        addNewUserCreator({
-          user: {
-            ...defaultUserInfo,
+    if (!manual) {
+      if (!ruleUser.length) {
+        dispatch(
+          addNewUserCreator({
+            user: {
+              ...defaultUserInfo,
+              profile,
+            },
+          }),
+        );
+      } else {
+        dispatch(fetchUserCreator());
+      }
+    }
+  }, [manual]);
+
+  useEffect(() => {
+    if (!manual) {
+      if (!shoePrefixes.length) {
+        dispatch(
+          addSuggestionCreator({
             profile,
-          },
-        }),
-      );
-    } else {
-      dispatch(fetchUserCreator());
+            data: defaultSuggestion,
+          }),
+        );
+      } else {
+        dispatch(fetchSuggestionCreator());
+      }
     }
-  }, []);
+  }, [manual]);
 
-  useEffect(() => {
-    if (!shoePrefixes.length) {
-      dispatch(
-        addSuggestionCreator({
-          profile,
-          data: defaultSuggestion,
-        }),
-      );
-    } else {
-      dispatch(fetchSuggestionCreator());
-    }
-  }, []);
+  const fetchData = () => {
+    dispatch(fetchProductTypesCreator());
+    dispatch(fetchUserCreator());
+    dispatch(fetchSuggestionCreator());
+  };
 
-  return (
-    fetchProductsLoading ||
-    fetchSuggestionLoading ||
-    addSuggestionLoading ||
-    fetchUserLoading ||
-    addNewUserLoading
-  );
+  return {
+    loading:
+      fetchProductsLoading ||
+      fetchSuggestionLoading ||
+      addSuggestionLoading ||
+      fetchUserLoading ||
+      addNewUserLoading,
+    fetchData,
+  };
 };
 
 export default useFetchData;

@@ -17,13 +17,12 @@ type PropsType = {
 };
 
 const ShoesList = ({ type }: PropsType) => {
+  const { fetchData } = useFetchData({ manual: true });
   const shoesList = useSelector(shoesListSelector);
   const fetchShoesLoading = useSelector(fetchShoesLoadingSelector);
   const loadMoreShoesLoading = useSelector(loadMoreShoesLoadingSelector);
   const lastShoe = useSelector(lastShoeSelector);
   const dispatch = useDispatch();
-
-  // const loading = useFetchData();
 
   const fetchShoesList = () => {
     dispatch(fetchShoesCreator({ type }));
@@ -46,7 +45,7 @@ const ShoesList = ({ type }: PropsType) => {
         )}
         keyExtractor={(item) => item.shoeId}
         loading={fetchShoesLoading}
-        onRefresh={fetchShoesList}
+        onRefresh={fetchData}
         horizontal={false}
         numColumns={2}
         initialNumToRender={8}
