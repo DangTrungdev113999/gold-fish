@@ -34,8 +34,11 @@ const SlippersList = ({ type }: PropsType) => {
   }, [type]);
 
   const loadMoreSlippersList = () => {
+    console.log('object');
     dispatch(loadMoreSlippersCreator());
   };
+
+  console.log(lastSlipper?.slipperId, loadMoreSlippersLoading, type);
 
   return (
     <Body flex={1} center p="10px 0 0">
@@ -65,7 +68,7 @@ const SlippersList = ({ type }: PropsType) => {
           if (
             lastSlipper?.slipperId &&
             !loadMoreSlippersLoading &&
-            type === 'All'
+            type === 'Tất cả'
           ) {
             loadMoreSlippersList();
           }

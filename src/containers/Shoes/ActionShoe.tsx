@@ -142,6 +142,7 @@ const ActionShoe = ({ navigation, route }: any) => {
           imageUri={data.imageUri}
           setData={setData}
           fromScreen="action_shoe"
+          type={route.params.type}
         />
         <Block p="30px 20px 20px" flex={1}>
           <Input

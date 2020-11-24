@@ -102,8 +102,7 @@ export function separatorCode(code: string) {
 
 export function isShoeId(shoeId: string): any {
   return !!(
-    shoeId &&
-    shoeId.match(/^([A-Z]{4}|[A-Z]{3})\d{5}(\-([A-Z]{3}|[A-Z]{2}))?$/g)
+    shoeId && shoeId.match(/^([A-Z]{4}|[A-Z]{3})\d{5,6}(\-([A-Z]{2,3}))?$/g)
   );
 }
 

@@ -18,6 +18,7 @@ import { setToken } from '~/modules/Auth/actions';
 import theme from '~/config/theme';
 import {
   confirmFirebasePhoneAuthToGetToken,
+  getFirebasePhoneAuthVerificationCode,
   getIdToken,
 } from '~/modules/Auth/apis';
 import { showAlert } from '~/utils';
@@ -25,6 +26,7 @@ import { translateFirebaseMessage } from '~/utils/translate';
 import CodeInput from './components/CodeInput';
 import useAuthencation from '~/hoocks/useAuthentication';
 import { profileSelector } from '~/modules/User/selectors';
+import { useTimeout } from '~/hoocks';
 
 const Image = styled.Image.attrs({})`
   width: 80px;
@@ -35,22 +37,29 @@ const Verification = ({ navigation, route }) => {
   const [user] = useAuthencation();
   const [verificationCode, setCode] = useState('');
   const [confirmResult, setConfirmResult] = useState('');
+  const [resendTime, setResendTime] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const profile = useSelector(profileSelector);
 
-  useEffect(() => {
-    if (user && user.phoneNumber === profile.phoneNumber) {
-      doAction();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (user && user.phoneNumber === profile.phoneNumber) {
+  //     doAction();
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (route.params?.confirmResult) {
       setConfirmResult(route.params?.confirmResult);
     }
   }, [route.params?.confirmResult]);
+
+  useEffect(() => {
+    if (verificationCode.length === 6) {
+      onConfirmCode();
+    }
+  }, [verificationCode]);
 
   const onConfirmCode = async () => {
     setLoading(true);
@@ -81,11 +90,50 @@ const Verification = ({ navigation, route }) => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    if (verificationCode.length === 6) {
-      onConfirmCode();
+  const reSendOTP = async () => {
+    setLoading(true);
+    try {
+      const response = await getFirebasePhoneAuthVerificationCode(
+        profile.phoneNumber,
+      );
+      if (response) {
+        setResendTime(120);
+
+        setConfirmResult(response);
+      } else {
+        showAlert('Thông báo!', response.toString());
+      }
+    } catch (e) {
+      showAlert('Thông báo', translateFirebaseMessage(e.message) || e.message);
     }
-  }, [verificationCode]);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    let countDown;
+    if (resendTime === 120) {
+      countDown = setInterval(() => {
+        setResendTime((time) => (time > 0 ? time - 1 : 0));
+        if (resendTime === 0) {
+          clearInterval(countDown);
+        }
+      }, 1000);
+    }
+
+    return () => {
+      if (countDown) {
+        clearInterval(countDown);
+      }
+    };
+  }, [resendTime]);
+
+  // useEffect(() => {
+  //   if (resendTime > 0) {
+  //     setTimeout(() => setResendTime(resendTime - 1), 1000);
+  //   } else {
+  //     setResendTime(0);
+  //   }
+  // });
 
   return (
     <Body flex={1} overlay loading={loading}>
@@ -109,7 +157,26 @@ const Verification = ({ navigation, route }) => {
         </Block>
 
         <Block center flex={1} justify="flex-start">
-          <CodeInput value={verificationCode} onChangeText={setCode} />
+          <CodeInput
+            value={verificationCode}
+            onChangeText={setCode}
+            // autoFocus
+          />
+          {resendTime ? (
+            <Text center m="20px 0 0" color={theme.color.white}>
+              {`Mã sẽ được gửi đến sau:  `}
+              <Text color={theme.color.secondary}> {`${resendTime}s`}</Text>
+            </Text>
+          ) : (
+            <Block row center middle m="20px 0 0">
+              <Text center color={theme.color.white}>
+                Không nhận được mã xác nhận ?{' '}
+              </Text>
+              <Touchable onPress={reSendOTP}>
+                <Text color={theme.color.secondary}>Gửi lại</Text>
+              </Touchable>
+            </Block>
+          )}
         </Block>
         <Button
           bg={theme.color.blue1}

@@ -12,7 +12,6 @@ import {
   Block,
   Text,
   Touchable,
-  Icon,
   ImagePreview,
   Body,
   Button,
@@ -52,7 +51,7 @@ let options: any = {
   mediaType: 'photo',
 };
 
-const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
+const ImagePicker = ({ imageUri, setData, fromScreen, type }: any) => {
   const [visible, setVisible] = useState(false);
   const [percent, setPercent] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -98,11 +97,11 @@ const ImagePicker = ({ imageUri, setData, fromScreen }: any) => {
           setPercent(p);
         },
         onSuccess: async (uri: string) => {
-          if (imageUri) {
+          if (type === 'update' && imageUri) {
             await deleteImageUri(imageUri);
           }
-
           setData({ imageUri: uri });
+
           setLoading(false);
         },
         onErorr: (e: string) => {

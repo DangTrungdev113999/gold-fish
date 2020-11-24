@@ -193,7 +193,11 @@ const AddModal = ({ items, target }: PropsType) => {
               label={`Nhập ${target}`}
               m="20px 20px 0"
               placeholder={`Nhập ${target}`}
-              autoCapitalize="characters"
+              autoCapitalize={
+                ['Loại giày', 'Loại dép'].includes(target)
+                  ? 'words'
+                  : 'characters'
+              }
               value={data.name}
               onChangeText={(val: string) => setData({ name: val })}
             />

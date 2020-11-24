@@ -21,6 +21,7 @@ import {
   fetchSuggestionCreator,
 } from '~/modules/User/thunk';
 import { fetchUserCreator, addNewUserCreator } from '~/modules/User/thunk';
+import { fetchShoesCreator } from '~/modules/Shoes/thunk';
 import {
   addSuggestionLoadingSelector,
   ruleUserSelector,
@@ -77,18 +78,18 @@ const useFetchData = ({ manual = false } = {}) => {
   }, [manual]);
 
   const fetchData = () => {
-    dispatch(fetchProductTypesCreator());
     dispatch(fetchUserCreator());
     dispatch(fetchSuggestionCreator());
+    dispatch(fetchShoesCreator({ type: 'Tất cả' }));
   };
 
   return {
     loading:
-      fetchProductsLoading ||
       fetchSuggestionLoading ||
       addSuggestionLoading ||
       fetchUserLoading ||
       addNewUserLoading,
+    fetchProductsLoading,
     fetchData,
   };
 };
