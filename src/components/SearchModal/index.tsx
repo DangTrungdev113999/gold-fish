@@ -2,13 +2,12 @@
 //@ts-nocheck
 import React, { useEffect, useState, useRef } from 'react';
 import Modal from 'react-native-modal';
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native-gesture-handler';
 import { Touchable, Icon, Block, Input, Loading, Text } from '~/components';
 import { useNavigation } from '@react-navigation/native';
 
 import Option from './Option';
 import { searchShoesApi } from '~/modules/Shoes/apis';
-import { SHOE_PREFIX } from '~/config/constants';
 import { shoeTypes } from '~/@types';
 
 import theme from '~/config/theme';
@@ -22,13 +21,16 @@ import {
   slipperPrefixesSelector,
 } from '~/modules/User/selectors';
 import styled from 'styled-components';
+import {
+  shoeTypesSelector,
+  slipperTypesSelector,
+} from '~/modules/Settings/selectors';
 
 const windowHeight = Dimensions.get('window').height;
 
 const Image = styled.Image`
   width: 60px;
   height: 60px;
-  /* opacity: 0.8; */
 `;
 
 type PropsType = {
@@ -42,6 +44,8 @@ const SearchModal = ({ productTarget }: PropsType) => {
   const [productId, setProductId] = useState('');
   const [keyboardType, setKeyboardType] = useState('default');
   const [activeItem, setActiveItem] = useState('');
+  const shoeTypes = useSelector(shoeTypesSelector);
+  const slipperTypes = useSelector(slipperTypesSelector);
   const navigation = useNavigation();
 
   const inputRef = useRef();
@@ -74,8 +78,8 @@ const SearchModal = ({ productTarget }: PropsType) => {
       clearTimeout(flag);
       const searchProductApi =
         productTarget === 'shoe' ? searchShoesApi : searchSlippersApi;
-      const productsList = await searchProductApi(productId);
-      setProductsMatch(productsList as shoeTypes[]);
+      const productsList = await searchProductApi(productId.toUpperCase());
+      setProductsMatch(productsList);
       setLoading(false);
     }, 300);
   };
@@ -96,9 +100,15 @@ const SearchModal = ({ productTarget }: PropsType) => {
 
   const setPrefixProductId = (prefix: string) => {
     setActiveItem(prefix);
-    if (SHOE_PREFIX.indexOf(productId.slice(0, 4)) !== -1) {
+    if (
+      shoeTypes.indexOf(productId.slice(0, 4)) !== -1 ||
+      slipperTypes.indexOf(productId.slice(0, 4)) !== -1
+    ) {
       setProductId(`${prefix}${productId.slice(4)}`);
-    } else if (SHOE_PREFIX.indexOf(productId.slice(0, 3)) !== -1) {
+    } else if (
+      shoeTypes.indexOf(productId.slice(0, 3)) !== -1 ||
+      slipperTypes.indexOf(productId.slice(0, 3)) !== -1
+    ) {
       setProductId(`${prefix}${productId.slice(3)}`);
     } else {
       setProductId(`${prefix}${productId}`);

@@ -89,7 +89,6 @@ const ImagePicker = ({ imageUri, setData, fromScreen, type }: any) => {
     setPercent(2);
     const uploadImageApi =
       fromScreen === 'action_shoe' ? uploadShoeImageApi : uploadSlipperImageApi;
-
     if (fromScreen) {
       await uploadImageApi({
         imageUri: imgUri,

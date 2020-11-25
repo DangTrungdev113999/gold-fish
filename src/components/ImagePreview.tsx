@@ -8,7 +8,6 @@ const windowHeight = Dimensions.get('window').height;
 const Image = styled.Image.attrs({
   resizeMode: 'cover',
 })`
-  /* flex: 1; */
   height: ${windowHeight / 3}px;
   background-color: rgba(0, 0, 0, 0.8);
 `;

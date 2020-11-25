@@ -124,7 +124,7 @@ const ActionShoe = ({ navigation, route }: any) => {
     if (shoeId.length > 12) {
       Keyboard.dismiss();
     }
-    setData({ shoeId });
+    setData({ shoeId: shoeId.toUpperCase() });
   };
 
   const formIsValid = () => {

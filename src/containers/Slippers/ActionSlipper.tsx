@@ -116,7 +116,7 @@ const ActionSlipper = ({ navigation, route }: any) => {
     if (slipperId.length > 12) {
       Keyboard.dismiss();
     }
-    setData({ slipperId });
+    setData({ slipperId: slipperId.toUpperCase() });
   };
 
   const formIsValid = () => {

@@ -1,7 +1,8 @@
+//@ts-nocheck
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import styled from 'styled-components';
-import { shoeTypes } from '~/@types';
+import { shoeTypes, slipperType } from '~/@types';
 import { Text, Touchable } from '~/components';
 import theme from '~/config/theme';
 import { separatorCode } from '~/utils';
@@ -26,7 +27,7 @@ const Image = styled.Image.attrs({
 `;
 
 type PropsType = {
-  item: shoeTypes;
+  item: shoeTypes | slipperType;
   onClose: Function;
   productTarget: string;
 };
@@ -48,7 +49,7 @@ const Option = ({ item, onClose, productTarget }: PropsType) => {
     }
   };
 
-  const separatorResult = separatorCode(item.shoeId);
+  const separatorResult = separatorCode(item?.shoeId || item?.slipperId);
 
   return (
     <Container block h="100px" row middle onPress={goToDetail}>
