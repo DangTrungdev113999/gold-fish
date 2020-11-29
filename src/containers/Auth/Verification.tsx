@@ -97,9 +97,19 @@ const Verification = ({ navigation, route }) => {
         profile.phoneNumber,
       );
       if (response) {
-        setResendTime(120);
-
         setConfirmResult(response);
+        setResendTime(120);
+        const countDown = setInterval(() => {
+          console.log('object');
+          setResendTime((time) => {
+            if (time > 0) {
+              return time - 1;
+            } else {
+              clearInterval(countDown);
+              return 0;
+            }
+          });
+        }, 1000);
       } else {
         showAlert('Thông báo!', response.toString());
       }
@@ -108,33 +118,6 @@ const Verification = ({ navigation, route }) => {
     }
     setLoading(false);
   };
-
-  useEffect(() => {
-    let countDown;
-    if (resendTime === 120) {
-      countDown = setInterval(() => {
-        setResendTime((time) => (time > 0 ? time - 1 : 0));
-        if (resendTime === 0) {
-          clearInterval(countDown);
-        }
-      }, 1000);
-    }
-
-    return () => {
-      if (countDown) {
-        clearInterval(countDown);
-      }
-    };
-  }, [resendTime]);
-
-  // useEffect(() => {
-  //   if (resendTime > 0) {
-  //     setTimeout(() => setResendTime(resendTime - 1), 1000);
-  //   } else {
-  //     setResendTime(0);
-  //   }
-  // });
-
   return (
     <Body flex={1} overlay loading={loading}>
       <LinearGradient flex={1} center block>

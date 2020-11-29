@@ -15,7 +15,6 @@ import {
 import theme from '~/config/theme';
 import { useSetObjectState } from '~/hoocks';
 
-import { SLIPPER_TYPES } from '~/config/constants';
 import {
   updateSlipperCreator,
   addSlipperCreator,
